@@ -1,0 +1,5 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "BU79100G-LATR") (type "KiCad") (uri "${KIPRJMOD}/lib/BU79100G-LATR.kicad_sym") (options "") (descr ""))
+	(lib (name "DRV8316C") (type "KiCad") (uri "${KIPRJMOD}/lib/DRV8316C.kicad_sym") (options "") (descr ""))
+)
