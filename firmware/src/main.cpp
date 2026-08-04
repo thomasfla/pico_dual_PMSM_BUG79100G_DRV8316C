@@ -6,231 +6,30 @@
 #include <SPI.h>
 #include <SimpleFOC.h>
 #include <SimpleFOCDrivers.h>
+#include <math.h>
 #include <stdint.h>
 #include "hardware/clocks.h"
 #include "hardware/gpio.h"
 #include "hardware/pwm.h"
 #include "hardware/spi.h"
+#include "board_config.h"
 #include "BU79100QuadReader.h"
 #include "drivers/drv8316/drv8316.h"
-
-#define GPIO_M0_PWM_A 0
-#define GPIO_M0_PWM_B 1
-#define GPIO_M0_PWM_C 2
-
-#define GPIO_M1_PWM_A 3
-#define GPIO_M1_PWM_B 4
-#define GPIO_M1_PWM_C 5
-
-// BU79100G ADC interface. GPIO6/7 drive both motor ADC banks through series resistors.
-#define GPIO_ADC_SCK 6
-#define GPIO_ADC_CSB 7
-
-#define GPIO_M0_ADC_DATA_A 8
-#define GPIO_M0_ADC_DATA_C 9
-#define GPIO_M1_ADC_DATA_A 10
-#define GPIO_M1_ADC_DATA_C 11
-
-#define GPIO_M0_ENC_CS 12
-#define GPIO_M1_ENC_CS 13
-
-#define GPIO_M0_DRV_CS 14
-#define GPIO_M1_DRV_CS 15
-
-#define GPIO_SPI0_MISO 16
-#define GPIO_DRV_Mx_nFAULT 17
-#define GPIO_SPI0_CLK 18
-#define GPIO_SPI0_MOSI 19
-
-#define GPIO_VBUS_SENSE 26
-
-// Pin used later by the PIO current-sense state machine trigger.
-#define GPIO_ADC_SYNC_PWM 27
-
-#ifndef CURRENT_CONTROL_BANDWIDTH_HZ
-#define CURRENT_CONTROL_BANDWIDTH_HZ 200.0f
-#endif
-
-#ifndef TIMING_PROFILE_ENABLED
-#define TIMING_PROFILE_ENABLED 1
-#endif
-
-#ifndef BINARY_TELEMETRY_ENABLED
-#define BINARY_TELEMETRY_ENABLED 1
-#endif
-
-#ifndef M0_SENSOR_DIRECTION_SIGN
-#define M0_SENSOR_DIRECTION_SIGN 0
-#endif
-
-#ifndef M1_SENSOR_DIRECTION_SIGN
-#define M1_SENSOR_DIRECTION_SIGN 0
-#endif
-
-#ifndef M0_ZERO_ELECTRIC_ANGLE
-#define M0_ZERO_ELECTRIC_ANGLE NOT_SET
-#endif
-
-#ifndef M1_ZERO_ELECTRIC_ANGLE
-#define M1_ZERO_ELECTRIC_ANGLE NOT_SET
-#endif
-
-static constexpr int GM3506_POLE_PAIRS = 11;
-static constexpr float GM3506_PHASE_RESISTANCE_OHM = 5.50f / 2.0f;  // Wye motor: phase-to-phase / 2.
-// Starting value for 3506-class gimbal motors; measure your exact winding if you need precise bandwidth.
-static constexpr float GM3506_PHASE_INDUCTANCE_H = 0.00108f;
-static constexpr float SUPPLY_VOLTAGE_FALLBACK = 10.0f;
-static constexpr float CURRENT_FOC_VOLTAGE_LIMIT = 10.0f;
-static constexpr float POSITION_SENSOR_ALIGN_VOLTAGE = 1.0f;
-static constexpr float DRIVER_VOLTAGE_LIMIT = 10.0f;
-static constexpr float DRIVER_VOLTAGE_LIMIT_BUS_FRACTION = 0.95f;
-static constexpr float GM3506_CONTINUOUS_CURRENT_A = 1.0f;
-static constexpr float GM3506_PEAK_CURRENT_A = 3.0f;
-static constexpr float M0_POSITION_IQ_LIMIT_A = GM3506_PEAK_CURRENT_A;
-static constexpr float M1_POSITION_IQ_LIMIT_A = GM3506_PEAK_CURRENT_A;
-static constexpr float M0_POSITION_PD_KP_A_PER_RAD = 0.65f;
-static constexpr float M0_POSITION_PD_KD_A_PER_RAD_PER_S = 0.0f;
-static constexpr float M1_POSITION_PD_KP_A_PER_RAD = 0.65f;
-static constexpr float M1_POSITION_PD_KD_A_PER_RAD_PER_S = 0.0f;
-static constexpr float POSITION_VELOCITY_FILTER_TF = 0.04f;
-static constexpr float CURRENT_CONTROL_BANDWIDTH_RAD_PER_S =
-  6.28318530718f * CURRENT_CONTROL_BANDWIDTH_HZ;
-static constexpr float CURRENT_CONTROL_P =
-  GM3506_PHASE_INDUCTANCE_H * CURRENT_CONTROL_BANDWIDTH_RAD_PER_S;
-static constexpr float CURRENT_CONTROL_I =
-  GM3506_PHASE_RESISTANCE_OHM * CURRENT_CONTROL_BANDWIDTH_RAD_PER_S;
-static constexpr float CURRENT_CONTROL_D = 0.0f;
-static constexpr float CURRENT_CONTROL_RAMP = 0.0f;
-static constexpr float CURRENT_CONTROL_FILTER_TF = 0.0002f;
-static constexpr uint32_t ENCODER_SPI_HZ = 10000000;
-static constexpr uint8_t ENCODER_STARTUP_READ_ATTEMPTS = 4;
-static constexpr uint16_t ENCODER_CPR = 16384;
-static constexpr uint16_t ENCODER_MAG_MIN = 1000;
-static constexpr uint16_t ENCODER_MAG_MAX = 14000;
-static constexpr long PWM_FREQUENCY = 20000;
-static constexpr float ADC_SCK_HZ = 20000000.0f;
-static constexpr float ADC_TRIGGER_DUTY = 1.0f - 0.045f;
-static constexpr float CURRENT_SENSE_VREF = 3.3f;  // Pico 3V3 feeds DRV VREF/ILIM and the BU79100 ADCs.
-static constexpr float ADC_FULL_SCALE_COUNTS = 4096.0f;
-static constexpr float ADC_ZERO_CURRENT_COUNTS = ADC_FULL_SCALE_COUNTS * 0.5f;
-static constexpr float DRV_CSA_GAIN_V_PER_A = 0.375f;  // DRV8316_CSAGain::Gain_0V375.
-static constexpr float ADC_COUNT_TO_PHASE_CURRENT_A =
-  CURRENT_SENSE_VREF / ADC_FULL_SCALE_COUNTS / DRV_CSA_GAIN_V_PER_A;
-static constexpr uint8_t VBUS_ADC_BITS = 12;
-static constexpr float VBUS_ADC_MAX_COUNTS = (1u << VBUS_ADC_BITS) - 1u;
-static constexpr float VBUS_DIVIDER_HIGH_OHM = 100000.0f;
-static constexpr float VBUS_DIVIDER_LOW_OHM = 10000.0f;
-static constexpr float VBUS_DIVIDER_RATIO =
-  (VBUS_DIVIDER_HIGH_OHM + VBUS_DIVIDER_LOW_OHM) / VBUS_DIVIDER_LOW_OHM;
-static constexpr uint16_t VBUS_STARTUP_SAMPLES = 16;
-static constexpr uint32_t SERIAL_STARTUP_WAIT_MS = 250;
-static constexpr uint32_t STARTUP_TARGET_SETTLE_MS = 50;
-static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLES = 128;
-static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLE_US = 50;
-static constexpr uint32_t TELEMETRY_FRAME_INTERVAL_US = 200;
-static constexpr uint32_t TIMING_PROFILE_PRINT_INTERVAL_MS = 1000;
-static constexpr uint8_t TELEMETRY_MAGIC0 = 0xA5;
-static constexpr uint8_t TELEMETRY_MAGIC1 = 0x5A;
-static constexpr uint8_t TELEMETRY_VERSION = 1;
-static constexpr float TELEMETRY_CURRENT_SCALE_MA = 1000.0f;
-static constexpr float TELEMETRY_POSITION_SCALE_URAD = 1000000.0f;
-static constexpr float TELEMETRY_VELOCITY_SCALE_MRAD_S = 1000.0f;
-static constexpr uint8_t TELEMETRY_FLAG_M0_READY = 1u << 0;
-static constexpr uint8_t TELEMETRY_FLAG_M1_READY = 1u << 1;
 
 static PhaseCurrent_s readMotor0Currents();
 static PhaseCurrent_s readMotor1Currents();
 
-#if TIMING_PROFILE_ENABLED
-struct TimingStats {
-  uint32_t count = 0;
-  uint64_t totalUs = 0;
-  uint32_t minUs = UINT32_MAX;
-  uint32_t maxUs = 0;
-};
+bool core1_disable_systick = true;
+bool core1_separate_stack = true;
 
-struct TimingProfile {
-  TimingStats adcRead;
-  TimingStats encoderRead;
-  TimingStats foc;
-  TimingStats positionControl;
-  TimingStats twoMotorControl;
-};
-
-static TimingProfile timingProfile;
-static uint32_t lastTimingProfilePrintMs = 0;
-
-static void addTimingSample(TimingStats &stats, uint32_t elapsedUs) {
-  stats.count++;
-  stats.totalUs += elapsedUs;
-  if (elapsedUs < stats.minUs) {
-    stats.minUs = elapsedUs;
-  }
-  if (elapsedUs > stats.maxUs) {
-    stats.maxUs = elapsedUs;
-  }
-}
-
-static void resetTimingStats(TimingStats &stats) {
-  stats.count = 0;
-  stats.totalUs = 0;
-  stats.minUs = UINT32_MAX;
-  stats.maxUs = 0;
-}
-
-static void resetTimingProfile() {
-  resetTimingStats(timingProfile.adcRead);
-  resetTimingStats(timingProfile.encoderRead);
-  resetTimingStats(timingProfile.foc);
-  resetTimingStats(timingProfile.positionControl);
-  resetTimingStats(timingProfile.twoMotorControl);
-}
-
-static void printTimingStats(const char *label, const TimingStats &stats) {
-  Serial.print(' ');
-  Serial.print(label);
-  Serial.print("_n=");
-  Serial.print(stats.count);
-  Serial.print(" avg=");
-  if (stats.count > 0) {
-    Serial.print((float)stats.totalUs / (float)stats.count, 2);
-    Serial.print(" min=");
-    Serial.print(stats.minUs);
-    Serial.print(" max=");
-    Serial.print(stats.maxUs);
-  } else {
-    Serial.print("nan min=0 max=0");
-  }
-}
-
-static void printTimingProfile() {
-  Serial.print("TIMING us");
-  printTimingStats("adc", timingProfile.adcRead);
-  printTimingStats("enc", timingProfile.encoderRead);
-  printTimingStats("foc", timingProfile.foc);
-  printTimingStats("posvel", timingProfile.positionControl);
-  printTimingStats("ctrl2", timingProfile.twoMotorControl);
-  Serial.println();
-  resetTimingProfile();
-}
-#endif
+static constexpr uint8_t CONTROL_REFERENCE_FLAG_M0 = 1u << 0;
+static constexpr uint8_t CONTROL_REFERENCE_FLAG_M1 = 1u << 1;
 
 struct PositionHoldState {
-  float holdAngle = 0.0f;
+  float targetPosition = 0.0f;
+  float targetVelocity = 0.0f;
+  float feedforwardCurrent = 0.0f;
   float iqCommand = 0.0f;
-};
-
-struct PositionHoldConfig {
-  float iqLimit;
-  float kp;
-  float kd;
-  int8_t sensorDirectionSign;
-  float zeroElectricAngle;
-};
-
-struct BusVoltageReading {
-  float voltage = 0.0f;
-  float rawCounts = 0.0f;
 };
 
 struct EncoderRegisterDiagnostics {
@@ -240,6 +39,63 @@ struct EncoderRegisterDiagnostics {
   bool diagnosticsOk = false;
 };
 
+enum class ControlStatus : uint8_t {
+  waiting = 0,
+  starting = 1,
+  running = 2,
+  failed = 3,
+};
+
+struct RuntimeMotorState {
+  float position = 0.0f;
+  float velocity = 0.0f;
+  float iq = 0.0f;
+  float iqTarget = 0.0f;
+  float targetPosition = 0.0f;
+  float targetVelocity = 0.0f;
+  float feedforwardCurrent = 0.0f;
+  float kp = 0.0f;
+  float kd = 0.0f;
+  bool ready = false;
+};
+
+struct ControlStateSnapshot {
+  ControlStatus status = ControlStatus::waiting;
+  float busVoltage = 0.0f;
+  float setupElapsedMs = 0.0f;
+  bool m0EncoderAngleOk = false;
+  bool m1EncoderAngleOk = false;
+  bool m0EncoderHealthy = false;
+  bool m1EncoderHealthy = false;
+  bool m0CurrentSenseOk = false;
+  bool m1CurrentSenseOk = false;
+  bool m0MotorReady = false;
+  bool m1MotorReady = false;
+};
+
+struct RuntimeControlState {
+  uint32_t tUs = 0;
+  float controlLoopUs = 0.0f;
+  uint8_t flags = 0;
+  RuntimeMotorState m0;
+  RuntimeMotorState m1;
+};
+
+struct MotorReferenceCommand {
+  float targetPosition = 0.0f;
+  float targetVelocity = 0.0f;
+  float feedforwardCurrent = 0.0f;
+  float kp = 0.0f;
+  float kd = 0.0f;
+};
+
+struct ControlReferenceCommand {
+  uint32_t tUs = 0;
+  uint8_t flags = 0;
+  MotorReferenceCommand m0;
+  MotorReferenceCommand m1;
+};
+
 struct __attribute__((packed)) TelemetryFrame {
   uint8_t magic0;
   uint8_t magic1;
@@ -247,46 +103,58 @@ struct __attribute__((packed)) TelemetryFrame {
   uint8_t length;
   uint16_t sequence;
   uint32_t t_us;
-  int16_t m0_phase_a_mA;
-  int16_t m0_phase_b_mA;
-  int16_t m0_phase_c_mA;
-  int16_t m0_id_mA;
-  int16_t m0_iq_mA;
-  int16_t m0_iq_target_mA;
-  int16_t m1_phase_a_mA;
-  int16_t m1_phase_b_mA;
-  int16_t m1_phase_c_mA;
-  int16_t m1_id_mA;
-  int16_t m1_iq_mA;
-  int16_t m1_iq_target_mA;
-  int32_t m0_position_urad;
-  int32_t m0_velocity_mrad_s;
-  int32_t m1_position_urad;
-  int32_t m1_velocity_mrad_s;
+  float control_loop_us;
+  float m0_position;
+  float m0_velocity;
+  float m0_iq;
+  float m0_iq_target;
+  float m0_target_position;
+  float m0_target_velocity;
+  float m0_feedforward_current;
+  float m0_kp;
+  float m0_kd;
+  float m1_position;
+  float m1_velocity;
+  float m1_iq;
+  float m1_iq_target;
+  float m1_target_position;
+  float m1_target_velocity;
+  float m1_feedforward_current;
+  float m1_kp;
+  float m1_kd;
   uint8_t flags;
   uint8_t checksum;
 };
 
-static_assert(sizeof(TelemetryFrame) == 52, "Unexpected telemetry frame size");
+static_assert(sizeof(TelemetryFrame) == 88, "Unexpected telemetry frame size");
 
 class CheckedAS5048ASensor : public Sensor {
 public:
   explicit CheckedAS5048ASensor(uint8_t csPin)
     : csPin_(csPin), settings_(ENCODER_SPI_HZ, MSBFIRST, SPI_MODE1) {}
 
-  void init(SPIClass *spi = &SPI) {
+  void init(SPIClass *spi = &SPI, spi_inst_t *spiHw = nullptr) {
     spi_ = spi;
+    spiHw_ = spiHw;
+    angleOk_ = false;
     pinMode(csPin_, OUTPUT);
     digitalWrite(csPin_, HIGH);
-    spi_->begin();
+    if (spiHw_ != nullptr) {
+      configureHardwareSpi();
+      fastRuntimeSpi_ = true;
+    } else {
+      spi_->begin();
+      fastRuntimeSpi_ = false;
+    }
 
     transfer16(makeReadCommand(AS5048A_ANGLE_REG));
     delayMicroseconds(5);
+    clearErrorFlag();
 
     uint16_t raw = 0;
     for (uint8_t i = 0; i < ENCODER_STARTUP_READ_ATTEMPTS; i++) {
       if (readRawChecked(raw)) {
-        acceptRaw(raw);
+        angleOk_ = true;
         const float angle = rawToAngle(raw);
         angle_prev = angle;
         vel_angle_prev = angle;
@@ -312,35 +180,22 @@ public:
       return;
     }
 
-    spi_->beginTransaction(settings_);
-    spi_->endTransaction();
     spiHw_ = spiHw;
-    spi_set_baudrate(spiHw_, ENCODER_SPI_HZ);
-    spi_set_format(spiHw_, 16, SPI_CPOL_0, SPI_CPHA_1, SPI_MSB_FIRST);
+    configureHardwareSpi();
     fastRuntimeSpi_ = true;
   }
 
   float getSensorAngle() override {
     uint16_t raw = 0;
-#if TIMING_PROFILE_ENABLED
-    const uint32_t startUs = micros();
-#endif
     if (!readRawChecked(raw)) {
-#if TIMING_PROFILE_ENABLED
-      addTimingSample(timingProfile.encoderRead, micros() - startUs);
-#endif
       return -1.0f;
     }
-#if TIMING_PROFILE_ENABLED
-    addTimingSample(timingProfile.encoderRead, micros() - startUs);
-#endif
 
-    acceptRaw(raw);
     return rawToAngle(raw);
   }
 
-  uint16_t raw() const {
-    return lastRaw_;
+  bool angleOk() const {
+    return angleOk_;
   }
 
   EncoderRegisterDiagnostics readRegisterDiagnostics() {
@@ -352,12 +207,21 @@ public:
 
 private:
   static constexpr uint16_t AS5048A_ANGLE_REG = 0x3FFF;
+  static constexpr uint16_t AS5048A_CLEAR_ERROR_REG = 0x0001;
   static constexpr uint16_t AS5048A_MAGNITUDE_REG = 0x3FFE;
   static constexpr uint16_t AS5048A_DIAGNOSTICS_REG = 0x3FFD;
   static constexpr uint16_t AS5048A_RESULT_MASK = 0x3FFF;
   static constexpr uint16_t AS5048A_READ_BIT = 0x4000;
   static constexpr uint16_t AS5048A_PARITY_BIT = 0x8000;
   static constexpr uint16_t AS5048A_ERROR_FLAG = 0x4000;
+
+  void configureHardwareSpi() {
+    if (spiHw_ != nullptr) {
+      spi_init(spiHw_, ENCODER_SPI_HZ);
+      spi_set_baudrate(spiHw_, ENCODER_SPI_HZ);
+      spi_set_format(spiHw_, 16, SPI_CPOL_0, SPI_CPHA_1, SPI_MSB_FIRST);
+    }
+  }
 
   static bool hasEvenParity(uint16_t value) {
     value ^= value >> 8;
@@ -397,6 +261,13 @@ private:
     return in;
   }
 
+  void clearErrorFlag() {
+    transfer16(makeReadCommand(AS5048A_CLEAR_ERROR_REG));
+    delayMicroseconds(2);
+    transfer16(makeReadCommand(AS5048A_ANGLE_REG));
+    delayMicroseconds(2);
+  }
+
   bool frameToData(uint16_t frame, uint16_t &data) const {
     if (!hasEvenParity(frame)) {
       return false;
@@ -421,6 +292,7 @@ private:
       return false;
     }
     if ((frame & AS5048A_ERROR_FLAG) != 0) {
+      clearErrorFlag();
       return false;
     }
 
@@ -429,16 +301,12 @@ private:
     return true;
   }
 
-  void acceptRaw(uint16_t raw) {
-    lastRaw_ = raw;
-  }
-
   uint8_t csPin_;
   SPIClass *spi_ = &SPI;
   spi_inst_t *spiHw_ = nullptr;
   SPISettings settings_;
-  uint16_t lastRaw_ = 0;
   bool fastRuntimeSpi_ = false;
+  bool angleOk_ = false;
 };
 
 class FastCallbackCurrentSense : public CurrentSense {
@@ -473,13 +341,7 @@ public:
   }
 
   PhaseCurrent_s getPhaseCurrents() override {
-#if TIMING_PROFILE_ENABLED
-    const uint32_t startUs = micros();
-#endif
     PhaseCurrent_s current = readCallback_();
-#if TIMING_PROFILE_ENABLED
-    addTimingSample(timingProfile.adcRead, micros() - startUs);
-#endif
     current.a -= offset_ia;
     current.b -= offset_ib;
     current.c -= offset_ic;
@@ -500,22 +362,6 @@ public:
 private:
   PhaseCurrent_s (*readCallback_)() = nullptr;
   PhaseCurrent_s lastCurrent_ = {0.0f, 0.0f, 0.0f};
-};
-
-static constexpr PositionHoldConfig motor0Config = {
-  M0_POSITION_IQ_LIMIT_A,
-  M0_POSITION_PD_KP_A_PER_RAD,
-  M0_POSITION_PD_KD_A_PER_RAD_PER_S,
-  M0_SENSOR_DIRECTION_SIGN,
-  M0_ZERO_ELECTRIC_ANGLE,
-};
-
-static constexpr PositionHoldConfig motor1Config = {
-  M1_POSITION_IQ_LIMIT_A,
-  M1_POSITION_PD_KP_A_PER_RAD,
-  M1_POSITION_PD_KD_A_PER_RAD_PER_S,
-  M1_SENSOR_DIRECTION_SIGN,
-  M1_ZERO_ELECTRIC_ANGLE,
 };
 
 DRV8316Driver3PWM driver0(
@@ -546,12 +392,130 @@ BU79100QuadReader currentAdc(pio0, GPIO_ADC_SCK, GPIO_ADC_CSB, GPIO_M0_ADC_DATA_
 FastCallbackCurrentSense currentSense0(readMotor0Currents);
 FastCallbackCurrentSense currentSense1(readMotor1Currents);
 
-static uint32_t lastTelemetryFrameUs = 0;
+static uint32_t lastRuntimePublishUs = 0;
 static uint16_t telemetrySequence = 0;
 static PositionHoldState control0;
 static PositionHoldState control1;
+static PositionHoldConfig runtimeConfig0 = MOTOR0_CONFIG;
+static PositionHoldConfig runtimeConfig1 = MOTOR1_CONFIG;
 static bool motor0Ready = false;
 static bool motor1Ready = false;
+static bool currentFeedback0Ready = false;
+static bool currentFeedback1Ready = false;
+static uint32_t controlLoopCounter = 0;
+static uint32_t lastRuntimePublishLoopCounter = 0;
+static float lastControlLoopUs = 0.0f;
+static ControlStateSnapshot startupState;
+
+static volatile bool interfaceCoreReady = false;
+// Latest-value mailboxes use an odd/even sequence counter so readers never see torn structs.
+static volatile uint32_t startupStateSequence = 0;
+static ControlStateSnapshot sharedStartupState;
+static volatile uint32_t runtimeStateSequence = 0;
+static RuntimeControlState sharedRuntimeState;
+static volatile uint32_t controlReferenceSequence = 0;
+static ControlReferenceCommand sharedControlReference;
+
+static void sharedMemoryBarrier() {
+  __asm__ volatile("dmb sy" ::: "memory");
+}
+
+static void publishStartupState(const ControlStateSnapshot &state) {
+  uint32_t sequence = startupStateSequence;
+  if ((sequence & 1u) != 0) {
+    sequence++;
+  }
+
+  startupStateSequence = sequence + 1u;
+  sharedMemoryBarrier();
+  sharedStartupState = state;
+  sharedMemoryBarrier();
+  startupStateSequence = sequence + 2u;
+}
+
+static bool readLatestStartupState(ControlStateSnapshot &state) {
+  uint32_t sequenceBefore;
+  uint32_t sequenceAfter;
+
+  do {
+    sequenceBefore = startupStateSequence;
+    if (sequenceBefore == 0 || (sequenceBefore & 1u) != 0) {
+      return false;
+    }
+    sharedMemoryBarrier();
+    state = sharedStartupState;
+    sharedMemoryBarrier();
+    sequenceAfter = startupStateSequence;
+  } while (sequenceBefore != sequenceAfter || (sequenceAfter & 1u) != 0);
+
+  return true;
+}
+
+static void publishRuntimeControlState(const RuntimeControlState &state) {
+  uint32_t sequence = runtimeStateSequence;
+  if ((sequence & 1u) != 0) {
+    sequence++;
+  }
+
+  runtimeStateSequence = sequence + 1u;
+  sharedMemoryBarrier();
+  sharedRuntimeState = state;
+  sharedMemoryBarrier();
+  runtimeStateSequence = sequence + 2u;
+}
+
+static bool readLatestRuntimeControlState(RuntimeControlState &state) {
+  uint32_t sequenceBefore;
+  uint32_t sequenceAfter;
+
+  do {
+    sequenceBefore = runtimeStateSequence;
+    if (sequenceBefore == 0 || (sequenceBefore & 1u) != 0) {
+      return false;
+    }
+    sharedMemoryBarrier();
+    state = sharedRuntimeState;
+    sharedMemoryBarrier();
+    sequenceAfter = runtimeStateSequence;
+  } while (sequenceBefore != sequenceAfter || (sequenceAfter & 1u) != 0);
+
+  return true;
+}
+
+static void publishControlReferenceCommand(const ControlReferenceCommand &command) {
+  uint32_t sequence = controlReferenceSequence;
+  if ((sequence & 1u) != 0) {
+    sequence++;
+  }
+
+  controlReferenceSequence = sequence + 1u;
+  sharedMemoryBarrier();
+  sharedControlReference = command;
+  sharedMemoryBarrier();
+  controlReferenceSequence = sequence + 2u;
+}
+
+static bool readLatestControlReferenceCommand(
+  ControlReferenceCommand &command,
+  uint32_t &sequence
+) {
+  uint32_t sequenceBefore;
+  uint32_t sequenceAfter;
+
+  do {
+    sequenceBefore = controlReferenceSequence;
+    if (sequenceBefore == 0 || (sequenceBefore & 1u) != 0) {
+      return false;
+    }
+    sharedMemoryBarrier();
+    command = sharedControlReference;
+    sharedMemoryBarrier();
+    sequenceAfter = controlReferenceSequence;
+  } while (sequenceBefore != sequenceAfter || (sequenceAfter & 1u) != 0);
+
+  sequence = sequenceAfter;
+  return true;
+}
 
 static void deselectSpiSlaves() {
   const uint8_t csPins[] = {
@@ -571,6 +535,9 @@ static void configureSpiPins() {
   SPI.setRX(GPIO_SPI0_MISO);
   SPI.setSCK(GPIO_SPI0_CLK);
   SPI.setTX(GPIO_SPI0_MOSI);
+  gpio_set_function(GPIO_SPI0_MISO, GPIO_FUNC_SPI);
+  gpio_set_function(GPIO_SPI0_CLK, GPIO_FUNC_SPI);
+  gpio_set_function(GPIO_SPI0_MOSI, GPIO_FUNC_SPI);
   gpio_pull_up(GPIO_SPI0_MISO);
 }
 
@@ -602,7 +569,7 @@ static void syncAllPwmSlices() {
   pwm_set_mask_enabled((1u << NUM_PWM_SLICES) - 1u);
 }
 
-static BusVoltageReading readBusVoltage() {
+static float readBusVoltage() {
   uint32_t sum = 0;
 
   analogReadResolution(VBUS_ADC_BITS);
@@ -616,10 +583,7 @@ static BusVoltageReading readBusVoltage() {
 
   const float rawCounts = (float)sum / VBUS_STARTUP_SAMPLES;
   const float adcVoltage = rawCounts * CURRENT_SENSE_VREF / VBUS_ADC_MAX_COUNTS;
-  return {
-    adcVoltage * VBUS_DIVIDER_RATIO,
-    rawCounts,
-  };
+  return adcVoltage * VBUS_DIVIDER_RATIO;
 }
 
 static Direction directionFromSign(int8_t sign) {
@@ -630,17 +594,6 @@ static Direction directionFromSign(int8_t sign) {
     return Direction::CCW;
   }
   return Direction::UNKNOWN;
-}
-
-static const char *directionName(Direction direction) {
-  switch (direction) {
-    case Direction::CW:
-      return "CW";
-    case Direction::CCW:
-      return "CCW";
-    default:
-      return "UNKNOWN";
-  }
 }
 
 static float usableSupplyVoltage(float measuredVoltage) {
@@ -747,10 +700,6 @@ static PhaseCurrent_s readMotor1Currents() {
   return decoupleDRV8316Currents(sample.raw[2], sample.raw[3]);
 }
 
-static uint8_t encoderAgc(uint16_t diagnostics) {
-  return diagnostics & 0x00FF;
-}
-
 static bool encoderOcf(uint16_t diagnostics) {
   return ((diagnostics >> 8) & 0x1) != 0;
 }
@@ -848,25 +797,17 @@ static bool configureMotor(
   return fastInitMotor(motor);
 }
 
-static bool startClosedLoopMotor(BLDCMotor &motor, PositionHoldState &control, const char *name) {
+static bool startClosedLoopMotor(BLDCMotor &motor, PositionHoldState &control) {
   const int focOk = motor.initFOC();
   if (focOk) {
-    control.holdAngle = motor.shaft_angle;
+    control.targetPosition = motor.shaft_angle;
+    control.targetVelocity = 0.0f;
+    control.feedforwardCurrent = 0.0f;
     control.iqCommand = 0.0f;
     motor.target = 0.0f;
     motor.current_sp = 0.0f;
-    Serial.print(name);
-    Serial.print(" current-FOC hold ready, angle=");
-    Serial.println(control.holdAngle, 5);
-    Serial.print(name);
-    Serial.print(" alignment dir=");
-    Serial.print(directionName(motor.sensor_direction));
-    Serial.print(" zero_electric_angle=");
-    Serial.println(motor.zero_electric_angle, 6);
     return true;
   } else {
-    Serial.print(name);
-    Serial.println(" initFOC failed");
     motor.disable();
     return false;
   }
@@ -877,6 +818,66 @@ static void setIqTarget(BLDCMotor &motor, float iq) {
   motor.current_sp = iq;
 }
 
+static float constrainFinite(float value, float minValue, float maxValue, float fallback) {
+  if (!isfinite(value)) {
+    return fallback;
+  }
+  return _constrain(value, minValue, maxValue);
+}
+
+static void applyMotorReferenceCommand(
+  const MotorReferenceCommand &command,
+  PositionHoldState &control,
+  PositionHoldConfig &config
+) {
+  if (isfinite(command.targetPosition)) {
+    control.targetPosition = command.targetPosition;
+  }
+  control.targetVelocity = constrainFinite(
+    command.targetVelocity,
+    -POSITION_TARGET_VELOCITY_LIMIT_RAD_S,
+    POSITION_TARGET_VELOCITY_LIMIT_RAD_S,
+    control.targetVelocity
+  );
+  control.feedforwardCurrent = constrainFinite(
+    command.feedforwardCurrent,
+    -config.iqLimit,
+    config.iqLimit,
+    control.feedforwardCurrent
+  );
+  config.kp = constrainFinite(
+    command.kp,
+    POSITION_PD_KP_MIN_A_PER_RAD,
+    POSITION_PD_KP_MAX_A_PER_RAD,
+    config.kp
+  );
+  config.kd = constrainFinite(
+    command.kd,
+    POSITION_PD_KD_MIN_A_PER_RAD_PER_S,
+    POSITION_PD_KD_MAX_A_PER_RAD_PER_S,
+    config.kd
+  );
+}
+
+static void applyControlReferenceCommandIfAvailable() {
+  static uint32_t lastAppliedSequence = 0;
+  ControlReferenceCommand command;
+  uint32_t sequence;
+
+  if (!readLatestControlReferenceCommand(command, sequence) ||
+      sequence == lastAppliedSequence) {
+    return;
+  }
+  lastAppliedSequence = sequence;
+
+  if ((command.flags & CONTROL_REFERENCE_FLAG_M0) != 0) {
+    applyMotorReferenceCommand(command.m0, control0, runtimeConfig0);
+  }
+  if ((command.flags & CONTROL_REFERENCE_FLAG_M1) != 0) {
+    applyMotorReferenceCommand(command.m1, control1, runtimeConfig1);
+  }
+}
+
 static float runPositionHoldPd(
   BLDCMotor &motor,
   PositionHoldState &control,
@@ -884,8 +885,11 @@ static float runPositionHoldPd(
 ) {
   const float angle = motor.shaftAngle();
   const float velocity = motor.shaftVelocity();
-  const float angleError = control.holdAngle - angle;
-  const float iq = config.kp * angleError - config.kd * velocity;
+  const float angleError = control.targetPosition - angle;
+  const float velocityError = control.targetVelocity - velocity;
+  const float iq = config.kp * angleError +
+    config.kd * velocityError +
+    control.feedforwardCurrent;
 
   motor.shaft_angle = angle;
   motor.shaft_velocity = velocity;
@@ -912,35 +916,17 @@ static void settleStartupTargets(uint32_t settleMs) {
   }
 
   if (motor0Ready) {
-    control0.holdAngle = motor0.shaftAngle();
+    control0.targetPosition = motor0.shaftAngle();
+    control0.targetVelocity = 0.0f;
+    control0.feedforwardCurrent = 0.0f;
     control0.iqCommand = 0.0f;
   }
   if (motor1Ready) {
-    control1.holdAngle = motor1.shaftAngle();
+    control1.targetPosition = motor1.shaftAngle();
+    control1.targetVelocity = 0.0f;
+    control1.feedforwardCurrent = 0.0f;
     control1.iqCommand = 0.0f;
   }
-}
-
-static int32_t scaleToI32(float value, float scale) {
-  const float scaled = value * scale;
-  if (scaled > (float)INT32_MAX) {
-    return INT32_MAX;
-  }
-  if (scaled < (float)INT32_MIN) {
-    return INT32_MIN;
-  }
-  return (int32_t)(scaled >= 0.0f ? scaled + 0.5f : scaled - 0.5f);
-}
-
-static int16_t scaleToI16(float value, float scale) {
-  const int32_t scaled = scaleToI32(value, scale);
-  if (scaled > INT16_MAX) {
-    return INT16_MAX;
-  }
-  if (scaled < INT16_MIN) {
-    return INT16_MIN;
-  }
-  return (int16_t)scaled;
 }
 
 static uint8_t telemetryChecksum(const TelemetryFrame &frame) {
@@ -952,118 +938,362 @@ static uint8_t telemetryChecksum(const TelemetryFrame &frame) {
   return checksum;
 }
 
-static void writeTelemetryFrame() {
-  if (!Serial || Serial.availableForWrite() < (int)sizeof(TelemetryFrame)) {
-    return;
-  }
-
-  const PhaseCurrent_s m0 = currentSense0.lastPhaseCurrents();
-  const PhaseCurrent_s m1 = currentSense1.lastPhaseCurrents();
-
+static TelemetryFrame makeTelemetryFrame(const RuntimeControlState &state) {
   TelemetryFrame frame = {};
   frame.magic0 = TELEMETRY_MAGIC0;
   frame.magic1 = TELEMETRY_MAGIC1;
   frame.version = TELEMETRY_VERSION;
   frame.length = sizeof(TelemetryFrame);
   frame.sequence = telemetrySequence++;
-  frame.t_us = micros();
+  frame.t_us = state.tUs;
+  frame.control_loop_us = state.controlLoopUs;
 
-  frame.m0_phase_a_mA = scaleToI16(m0.a, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m0_phase_b_mA = scaleToI16(m0.b, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m0_phase_c_mA = scaleToI16(m0.c, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m0_id_mA = scaleToI16(motor0.current.d, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m0_iq_mA = scaleToI16(motor0.current.q, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m0_iq_target_mA = scaleToI16(control0.iqCommand, TELEMETRY_CURRENT_SCALE_MA);
+  frame.m0_position = state.m0.position;
+  frame.m0_velocity = state.m0.velocity;
+  frame.m0_iq = state.m0.iq;
+  frame.m0_iq_target = state.m0.iqTarget;
+  frame.m0_target_position = state.m0.targetPosition;
+  frame.m0_target_velocity = state.m0.targetVelocity;
+  frame.m0_feedforward_current = state.m0.feedforwardCurrent;
+  frame.m0_kp = state.m0.kp;
+  frame.m0_kd = state.m0.kd;
 
-  frame.m1_phase_a_mA = scaleToI16(m1.a, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m1_phase_b_mA = scaleToI16(m1.b, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m1_phase_c_mA = scaleToI16(m1.c, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m1_id_mA = scaleToI16(motor1.current.d, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m1_iq_mA = scaleToI16(motor1.current.q, TELEMETRY_CURRENT_SCALE_MA);
-  frame.m1_iq_target_mA = scaleToI16(control1.iqCommand, TELEMETRY_CURRENT_SCALE_MA);
+  frame.m1_position = state.m1.position;
+  frame.m1_velocity = state.m1.velocity;
+  frame.m1_iq = state.m1.iq;
+  frame.m1_iq_target = state.m1.iqTarget;
+  frame.m1_target_position = state.m1.targetPosition;
+  frame.m1_target_velocity = state.m1.targetVelocity;
+  frame.m1_feedforward_current = state.m1.feedforwardCurrent;
+  frame.m1_kp = state.m1.kp;
+  frame.m1_kd = state.m1.kd;
 
-  frame.m0_position_urad = scaleToI32(motor0Ready ? motor0.shaft_angle : 0.0f, TELEMETRY_POSITION_SCALE_URAD);
-  frame.m0_velocity_mrad_s = scaleToI32(motor0Ready ? motor0.shaft_velocity : 0.0f, TELEMETRY_VELOCITY_SCALE_MRAD_S);
-  frame.m1_position_urad = scaleToI32(motor1Ready ? motor1.shaft_angle : 0.0f, TELEMETRY_POSITION_SCALE_URAD);
-  frame.m1_velocity_mrad_s = scaleToI32(motor1Ready ? motor1.shaft_velocity : 0.0f, TELEMETRY_VELOCITY_SCALE_MRAD_S);
-  frame.flags = (motor0Ready ? TELEMETRY_FLAG_M0_READY : 0) |
-    (motor1Ready ? TELEMETRY_FLAG_M1_READY : 0);
+  frame.flags = state.flags;
   frame.checksum = telemetryChecksum(frame);
 
-  Serial.write((const uint8_t *)&frame, sizeof(frame));
+  return frame;
 }
 
-static bool printStartupEncoderHealth(const char *name, CheckedAS5048ASensor &encoder) {
-  const EncoderRegisterDiagnostics regs = encoder.readRegisterDiagnostics();
-  const bool healthy = encoderDiagnosticsHealthy(regs);
+static RuntimeMotorState makeRuntimeMotorState(
+  BLDCMotor &motor,
+  const PositionHoldState &control,
+  const PositionHoldConfig &config,
+  bool ready
+) {
+  RuntimeMotorState state;
+  state.position = ready ? motor.shaft_angle : 0.0f;
+  state.velocity = ready ? motor.shaft_velocity : 0.0f;
+  state.iq = ready ? motor.current.q : 0.0f;
+  state.iqTarget = ready ? control.iqCommand : 0.0f;
+  state.targetPosition = ready ? control.targetPosition : 0.0f;
+  state.targetVelocity = ready ? control.targetVelocity : 0.0f;
+  state.feedforwardCurrent = ready ? control.feedforwardCurrent : 0.0f;
+  state.kp = config.kp;
+  state.kd = config.kd;
+  state.ready = ready;
+  return state;
+}
 
-  Serial.print(name);
-  Serial.print(" encoder health=");
-  Serial.print(healthy ? "ok" : "fail");
-  Serial.print(" raw=");
-  Serial.print(encoder.raw());
-  Serial.print(" mag=");
-  if (regs.magnitudeOk) {
-    Serial.print(regs.magnitude);
-  } else {
-    Serial.print("bad");
+static RuntimeControlState makeRuntimeControlState() {
+  RuntimeControlState state;
+  state.tUs = micros();
+  state.controlLoopUs = lastControlLoopUs;
+  state.flags = (motor0Ready ? TELEMETRY_FLAG_M0_READY : 0) |
+    (motor1Ready ? TELEMETRY_FLAG_M1_READY : 0);
+  state.m0 = makeRuntimeMotorState(motor0, control0, runtimeConfig0, motor0Ready);
+  state.m1 = makeRuntimeMotorState(motor1, control1, runtimeConfig1, motor1Ready);
+  return state;
+}
+
+static void publishRuntimeState() {
+  publishRuntimeControlState(makeRuntimeControlState());
+}
+
+static bool checkStartupEncoderHealth(
+  CheckedAS5048ASensor &encoder,
+  EncoderRegisterDiagnostics &regs
+) {
+  for (uint8_t attempt = 0; attempt < ENCODER_HEALTH_READ_ATTEMPTS; attempt++) {
+    regs = encoder.readRegisterDiagnostics();
+    if (encoderDiagnosticsHealthy(regs)) {
+      return true;
+    }
+    delayMicroseconds(ENCODER_HEALTH_RETRY_US);
   }
-  Serial.print(" diag=");
-  if (regs.diagnosticsOk) {
-    Serial.print("0x");
-    Serial.print(regs.diagnostics, HEX);
-    Serial.print(" agc=");
-    Serial.print(encoderAgc(regs.diagnostics));
-    Serial.print(" ocf=");
-    Serial.print(encoderOcf(regs.diagnostics));
-    Serial.print(" cof=");
-    Serial.print(encoderCof(regs.diagnostics));
-    Serial.print(" low=");
-    Serial.print(encoderCompLow(regs.diagnostics));
-    Serial.print(" high=");
-    Serial.print(encoderCompHigh(regs.diagnostics));
+  return false;
+}
+
+static void updateStartupEncoderState(
+  uint8_t motorIndex,
+  CheckedAS5048ASensor &encoder,
+  bool healthy
+) {
+  if (motorIndex == 0) {
+    startupState.m0EncoderAngleOk = encoder.angleOk();
+    startupState.m0EncoderHealthy = healthy;
   } else {
-    Serial.print("bad");
+    startupState.m1EncoderAngleOk = encoder.angleOk();
+    startupState.m1EncoderHealthy = healthy;
   }
+}
+
+static bool tryStartMotor(
+  uint8_t motorIndex,
+  BLDCMotor &motor,
+  DRV8316Driver3PWM &driver,
+  CurrentSense &currentSense,
+  CheckedAS5048ASensor &encoder,
+  PositionHoldState &control,
+  PositionHoldConfig &config,
+  bool currentFeedbackReady,
+  bool &motorReady
+) {
+  if (motorReady || !currentFeedbackReady) {
+    return motorReady;
+  }
+
+  encoder.init(&SPI, spi0);
+  EncoderRegisterDiagnostics regs;
+  const bool encoderHealthy = checkStartupEncoderHealth(encoder, regs);
+  updateStartupEncoderState(motorIndex, encoder, encoderHealthy);
+
+  const bool encoderAllowed =
+    encoder.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoderHealthy);
+  if (!encoderAllowed) {
+    driver.disable();
+    return false;
+  }
+
+  if (configureMotor(motor, driver, currentSense, encoder, config)) {
+    motorReady = startClosedLoopMotor(motor, control);
+  } else {
+    motorReady = false;
+  }
+
+  if (!motorReady) {
+    driver.disable();
+    return false;
+  }
+
+  if (motorIndex == 0) {
+    startupState.m0MotorReady = true;
+  } else {
+    startupState.m1MotorReady = true;
+  }
+
+  startupState.status = (motor0Ready || motor1Ready) ? ControlStatus::running : ControlStatus::failed;
+  publishStartupState(startupState);
+  publishRuntimeState();
+  return true;
+}
+
+static void retrySkippedMotorsIfDue() {
+  static uint32_t lastRetryMs = 0;
+  if (motor0Ready && motor1Ready) {
+    return;
+  }
+
+  const uint32_t nowMs = millis();
+  if ((nowMs - lastRetryMs) < MOTOR_START_RETRY_INTERVAL_MS) {
+    return;
+  }
+  lastRetryMs = nowMs;
+
+  if (!motor0Ready) {
+    tryStartMotor(
+      0,
+      motor0,
+      driver0,
+      currentSense0,
+      encoder0,
+      control0,
+      runtimeConfig0,
+      currentFeedback0Ready,
+      motor0Ready
+    );
+  }
+  if (!motor1Ready) {
+    tryStartMotor(
+      1,
+      motor1,
+      driver1,
+      currentSense1,
+      encoder1,
+      control1,
+      runtimeConfig1,
+      currentFeedback1Ready,
+      motor1Ready
+    );
+  }
+
+  startupState.m0MotorReady = motor0Ready;
+  startupState.m1MotorReady = motor1Ready;
+  startupState.status = (motor0Ready || motor1Ready) ? ControlStatus::running : ControlStatus::failed;
+  publishStartupState(startupState);
+  publishRuntimeState();
+}
+
+static void printStartupSummary(const ControlStateSnapshot &state) {
+  Serial.print("STARTUP vbus=");
+  Serial.print(state.busVoltage, 2);
+  Serial.print(" setup_ms=");
+  Serial.print(state.setupElapsedMs, 1);
+  Serial.print(" tel_v=");
+  Serial.print(TELEMETRY_VERSION);
+  Serial.print(" tel_bytes=");
+  Serial.print(sizeof(TelemetryFrame));
+  Serial.print(" tel_us=");
+  Serial.print(TELEMETRY_FRAME_INTERVAL_US);
+  Serial.print(" m0enc=");
+  Serial.print(state.m0EncoderAngleOk ? 1 : 0);
+  Serial.print(" m0diag=");
+  Serial.print(state.m0EncoderHealthy ? 1 : 0);
+  Serial.print(" m0cs=");
+  Serial.print(state.m0CurrentSenseOk ? 1 : 0);
+  Serial.print(" m0ready=");
+  Serial.print(state.m0MotorReady ? 1 : 0);
+  Serial.print(" m1enc=");
+  Serial.print(state.m1EncoderAngleOk ? 1 : 0);
+  Serial.print(" m1diag=");
+  Serial.print(state.m1EncoderHealthy ? 1 : 0);
+  Serial.print(" m1cs=");
+  Serial.print(state.m1CurrentSenseOk ? 1 : 0);
+  Serial.print(" m1ready=");
+  Serial.print(state.m1MotorReady ? 1 : 0);
   Serial.println();
-  return healthy;
 }
 
-void setup() {
+static void writeTelemetryToUsbIfDue(const RuntimeControlState &state) {
+  static uint32_t lastTelemetryStateUs = 0;
+
+  if (!Serial) {
+    return;
+  }
+  if (state.tUs == lastTelemetryStateUs) {
+    return;
+  }
+  if (lastTelemetryStateUs != 0 &&
+      (state.tUs - lastTelemetryStateUs) < TELEMETRY_FRAME_INTERVAL_US) {
+    return;
+  }
+  if (Serial.availableForWrite() < (int)sizeof(TelemetryFrame)) {
+    lastTelemetryStateUs = state.tUs;
+    return;
+  }
+
+  const TelemetryFrame frame = makeTelemetryFrame(state);
+  Serial.write((const uint8_t *)&frame, sizeof(frame));
+  lastTelemetryStateUs = state.tUs;
+}
+
+static MotorReferenceCommand makeSineReferenceCommand(
+  float center,
+  float elapsedS,
+  float phaseOffset
+) {
+  static constexpr float twoPi = 6.28318530718f;
+  const float omega = twoPi * CORE0_SINE_REFERENCE_FREQUENCY_HZ;
+  const float phase = omega * elapsedS + phaseOffset;
+
+  MotorReferenceCommand command;
+  command.targetPosition = center + CORE0_SINE_REFERENCE_AMPLITUDE_RAD * sinf(phase);
+  command.targetVelocity = CORE0_SINE_REFERENCE_AMPLITUDE_RAD * omega * cosf(phase);
+  command.feedforwardCurrent = CORE0_SINE_REFERENCE_FEEDFORWARD_A;
+  command.kp = CORE0_SINE_REFERENCE_KP_A_PER_RAD;
+  command.kd = CORE0_SINE_REFERENCE_KD_A_PER_RAD_PER_S;
+  return command;
+}
+
+static void updateCore0SineReference(const RuntimeControlState &state) {
+  static bool m0CenterSet = false;
+  static bool m1CenterSet = false;
+  static float m0Center = 0.0f;
+  static float m1Center = 0.0f;
+  static uint32_t startUs = 0;
+  static uint32_t lastUpdateUs = 0;
+
+  if (!CORE0_SINE_REFERENCE_ENABLED) {
+    return;
+  }
+  if (!state.m0.ready && !state.m1.ready) {
+    return;
+  }
+
+  const uint32_t nowUs = micros();
+  if (lastUpdateUs != 0 &&
+      (nowUs - lastUpdateUs) < CONTROL_REFERENCE_INTERVAL_US) {
+    return;
+  }
+
+  if (startUs == 0) {
+    startUs = nowUs;
+  }
+
+  ControlReferenceCommand command;
+  command.tUs = nowUs;
+
+  const float elapsedS = (nowUs - startUs) * 1e-6f;
+  if (state.m0.ready) {
+    if (!m0CenterSet) {
+      m0Center = state.m0.position;
+      m0CenterSet = true;
+    }
+    command.flags |= CONTROL_REFERENCE_FLAG_M0;
+    command.m0 = makeSineReferenceCommand(m0Center, elapsedS, 0.0f);
+  }
+
+  if (state.m1.ready) {
+    if (!m1CenterSet) {
+      m1Center = state.m1.position;
+      m1CenterSet = true;
+    }
+    command.flags |= CONTROL_REFERENCE_FLAG_M1;
+    command.m1 = makeSineReferenceCommand(
+      m1Center,
+      elapsedS,
+      CORE0_SINE_REFERENCE_M1_PHASE_RAD
+    );
+  }
+
+  if (command.flags != 0) {
+    publishControlReferenceCommand(command);
+    lastUpdateUs = nowUs;
+  }
+}
+
+static void controlSetup() {
   const uint32_t setupStartUs = micros();
-  // USB CDC ignores this as a transport limit; the host still expects a line coding value.
-  Serial.begin(115200);
-  const uint32_t serialStartMs = millis();
-  while (!Serial && (millis() - serialStartMs) < SERIAL_STARTUP_WAIT_MS) {}
+  startupState = ControlStateSnapshot();
+  startupState.status = ControlStatus::starting;
+  publishStartupState(startupState);
 
   deselectSpiSlaves();
   pinMode(GPIO_DRV_Mx_nFAULT, INPUT_PULLUP);
   configureSpiPins();
 
-  const BusVoltageReading busVoltage = readBusVoltage();
-  Serial.print("VBUS=");
-  Serial.print(busVoltage.voltage, 2);
-  Serial.print(" V raw=");
-  Serial.println(busVoltage.rawCounts, 1);
+  const float busVoltage = readBusVoltage();
+  startupState.busVoltage = busVoltage;
 
-  encoder0.init(&SPI);
-  Serial.println("M0 AS5048A encoder started");
-  encoder1.init(&SPI);
-  Serial.println("M1 AS5048A encoder started");
-  Serial.print("AS5048A SPI hz=");
-  Serial.println(ENCODER_SPI_HZ);
-  const bool encoder0Healthy = printStartupEncoderHealth("M0", encoder0);
-  const bool encoder1Healthy = printStartupEncoderHealth("M1", encoder1);
+  delay(ENCODER_POWERUP_DELAY_MS);
+  encoder0.init(&SPI, spi0);
+  encoder1.init(&SPI, spi0);
+  EncoderRegisterDiagnostics encoder0Regs;
+  EncoderRegisterDiagnostics encoder1Regs;
+  const bool encoder0Healthy = checkStartupEncoderHealth(encoder0, encoder0Regs);
+  const bool encoder1Healthy = checkStartupEncoderHealth(encoder1, encoder1Regs);
+  startupState.m0EncoderAngleOk = encoder0.angleOk();
+  startupState.m1EncoderAngleOk = encoder1.angleOk();
+  startupState.m0EncoderHealthy = encoder0Healthy;
+  startupState.m1EncoderHealthy = encoder1Healthy;
 
-  configureDriver(driver0, busVoltage.voltage);
-  configureDriver(driver1, busVoltage.voltage);
+  configureDriver(driver0, busVoltage);
+  configureDriver(driver1, busVoltage);
   encoder0.enableFastRuntimeSpi(spi0);
   encoder1.enableFastRuntimeSpi(spi0);
 
   configureAdcTriggerPwm();
   syncAllPwmSlices();
   const bool currentAdcOk = currentAdc.init(ADC_SCK_HZ);
-  Serial.println(currentAdcOk ? "BU79100 PIO ADC started" : "BU79100 PIO ADC init failed");
 
   currentSense0.linkDriver(&driver0);
   currentSense1.linkDriver(&driver1);
@@ -1073,136 +1303,120 @@ void setup() {
   const bool currentSense1Ok = currentSense1.init();
   const bool currentFeedback0Ok = currentAdcOk && currentSense0Ok;
   const bool currentFeedback1Ok = currentAdcOk && currentSense1Ok;
-  Serial.print("M0 current sense=");
-  Serial.println(currentFeedback0Ok ? "ok" : "fail");
-  Serial.print("M1 current sense=");
-  Serial.println(currentFeedback1Ok ? "ok" : "fail");
-  Serial.print("Current loop target=");
-  Serial.print(CURRENT_CONTROL_BANDWIDTH_HZ, 1);
-  Serial.print(" Hz P=");
-  Serial.print(CURRENT_CONTROL_P, 3);
-  Serial.print(" I=");
-  Serial.print(CURRENT_CONTROL_I, 1);
-  Serial.print(" LPF_Tf_us=");
-  Serial.print(CURRENT_CONTROL_FILTER_TF * 1000000.0f, 0);
-  Serial.print(" ramp=");
-  Serial.println(CURRENT_CONTROL_RAMP, 1);
-  Serial.print("Torque limits: continuous_current=");
-  Serial.print(GM3506_CONTINUOUS_CURRENT_A, 2);
-  Serial.print(" A peak_current=");
-  Serial.print(GM3506_PEAK_CURRENT_A, 2);
-  Serial.print(" A current_foc_v_limit=");
-  Serial.print(CURRENT_FOC_VOLTAGE_LIMIT, 2);
-  Serial.print(" V effective_vq_limit=");
-  Serial.print(driver0.voltage_limit, 2);
-  Serial.print(" V supply=");
-  Serial.print(driver0.voltage_power_supply, 2);
-  Serial.println(" V");
+  currentFeedback0Ready = currentFeedback0Ok;
+  currentFeedback1Ready = currentFeedback1Ok;
+  startupState.m0CurrentSenseOk = currentFeedback0Ok;
+  startupState.m1CurrentSenseOk = currentFeedback1Ok;
 
-  Serial.println("Torque mode=foc_current");
+  const bool encoder0Allowed =
+    encoder0.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoder0Healthy);
+  const bool encoder1Allowed =
+    encoder1.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoder1Healthy);
 
-  if (encoder0Healthy && currentFeedback0Ok) {
-    if (configureMotor(motor0, driver0, currentSense0, encoder0, motor0Config)) {
-      motor0Ready = startClosedLoopMotor(motor0, control0, "M0");
+  if (encoder0Allowed && currentFeedback0Ok) {
+    if (configureMotor(motor0, driver0, currentSense0, encoder0, runtimeConfig0)) {
+      motor0Ready = startClosedLoopMotor(motor0, control0);
     } else {
       driver0.disable();
-      Serial.println("M0 motor skipped: motor init failed");
     }
   } else {
     driver0.disable();
-    Serial.println(encoder0Healthy ?
-      "M0 motor skipped: current feedback unavailable" :
-      "M0 motor skipped: encoder unhealthy");
   }
 
-  if (encoder1Healthy && currentFeedback1Ok) {
-    if (configureMotor(motor1, driver1, currentSense1, encoder1, motor1Config)) {
-      motor1Ready = startClosedLoopMotor(motor1, control1, "M1");
+  if (encoder1Allowed && currentFeedback1Ok) {
+    if (configureMotor(motor1, driver1, currentSense1, encoder1, runtimeConfig1)) {
+      motor1Ready = startClosedLoopMotor(motor1, control1);
     } else {
       driver1.disable();
-      Serial.println("M1 motor skipped: motor init failed");
     }
   } else {
     driver1.disable();
-    Serial.println(encoder1Healthy ?
-      "M1 motor skipped: current feedback unavailable" :
-      "M1 motor skipped: encoder unhealthy");
   }
-  settleStartupTargets(STARTUP_TARGET_SETTLE_MS);
 
-  Serial.println("Current FOC position hold started");
-  Serial.print("Binary telemetry=");
-  Serial.print(BINARY_TELEMETRY_ENABLED ? "enabled" : "disabled");
-  Serial.print(" v");
-  Serial.print(TELEMETRY_VERSION);
-  Serial.print(" frame_size=");
-  Serial.print(sizeof(TelemetryFrame));
-  Serial.print(" interval_us=");
-  Serial.println(TELEMETRY_FRAME_INTERVAL_US);
-  Serial.print("Setup elapsed_ms=");
-  Serial.println((micros() - setupStartUs) * 0.001f, 1);
-#if TIMING_PROFILE_ENABLED
-  resetTimingProfile();
-  lastTimingProfilePrintMs = millis();
-#endif
+  settleStartupTargets(STARTUP_TARGET_SETTLE_MS);
+  startupState.m0MotorReady = motor0Ready;
+  startupState.m1MotorReady = motor1Ready;
+  startupState.status = (motor0Ready || motor1Ready) ? ControlStatus::running : ControlStatus::failed;
+  startupState.setupElapsedMs = (micros() - setupStartUs) * 0.001f;
+  publishStartupState(startupState);
+  publishRuntimeState();
 }
 
-void loop() {
-#if TIMING_PROFILE_ENABLED
-  const uint32_t controlStartUs = micros();
-#endif
+static void controlStep() {
+  retrySkippedMotorsIfDue();
+  applyControlReferenceCommandIfAvailable();
 
   if (motor0Ready) {
-#if TIMING_PROFILE_ENABLED
-    uint32_t startUs = micros();
-#endif
     motor0.loopFOC();
-#if TIMING_PROFILE_ENABLED
-    addTimingSample(timingProfile.foc, micros() - startUs);
-    startUs = micros();
-#endif
-    const float iq = runPositionHoldPd(motor0, control0, motor0Config);
+    const float iq = runPositionHoldPd(motor0, control0, runtimeConfig0);
     setIqTarget(motor0, iq);
-#if TIMING_PROFILE_ENABLED
-    addTimingSample(timingProfile.positionControl, micros() - startUs);
-#endif
   }
 
   if (motor1Ready) {
-#if TIMING_PROFILE_ENABLED
-    uint32_t startUs = micros();
-#endif
     motor1.loopFOC();
-#if TIMING_PROFILE_ENABLED
-    addTimingSample(timingProfile.foc, micros() - startUs);
-    startUs = micros();
-#endif
-    const float iq = runPositionHoldPd(motor1, control1, motor1Config);
+    const float iq = runPositionHoldPd(motor1, control1, runtimeConfig1);
     setIqTarget(motor1, iq);
-#if TIMING_PROFILE_ENABLED
-    addTimingSample(timingProfile.positionControl, micros() - startUs);
-#endif
   }
 
-#if TIMING_PROFILE_ENABLED
-  if (motor0Ready || motor1Ready) {
-    addTimingSample(timingProfile.twoMotorControl, micros() - controlStartUs);
-  }
-#endif
-
-#if BINARY_TELEMETRY_ENABLED
+  controlLoopCounter++;
   const uint32_t nowUs = micros();
-  if ((nowUs - lastTelemetryFrameUs) >= TELEMETRY_FRAME_INTERVAL_US) {
-    lastTelemetryFrameUs = nowUs;
-    writeTelemetryFrame();
+  if ((nowUs - lastRuntimePublishUs) >= RUNTIME_STATE_PUBLISH_INTERVAL_US) {
+    const uint32_t loopDelta = controlLoopCounter - lastRuntimePublishLoopCounter;
+    const uint32_t elapsedUs = lastRuntimePublishUs == 0 ? 0 : nowUs - lastRuntimePublishUs;
+    if (loopDelta > 0 && elapsedUs > 0) {
+      lastControlLoopUs = (float)elapsedUs / (float)loopDelta;
+    }
+    lastRuntimePublishLoopCounter = controlLoopCounter;
+    lastRuntimePublishUs = nowUs;
+    publishRuntimeState();
   }
-#endif
+}
 
-#if TIMING_PROFILE_ENABLED
-  const uint32_t nowMs = millis();
-  if ((nowMs - lastTimingProfilePrintMs) >= TIMING_PROFILE_PRINT_INTERVAL_MS) {
-    lastTimingProfilePrintMs = nowMs;
-    printTimingProfile();
+void setup() {
+  Serial.begin(115200);
+  const uint32_t serialStartMs = millis();
+  while (!Serial && (millis() - serialStartMs) < SERIAL_STARTUP_WAIT_MS) {}
+
+  deselectSpiSlaves();
+
+  sharedMemoryBarrier();
+  interfaceCoreReady = true;
+}
+
+void loop() {
+  static bool startupPrinted = false;
+
+  RuntimeControlState runtimeState;
+  const bool hasRuntimeState = readLatestRuntimeControlState(runtimeState);
+
+  if (!startupPrinted) {
+    ControlStateSnapshot startup;
+    if (readLatestStartupState(startup) &&
+        (startup.status == ControlStatus::running || startup.status == ControlStatus::failed)) {
+      printStartupSummary(startup);
+      startupPrinted = true;
+    }
   }
-#endif
+
+  if (hasRuntimeState) {
+    writeTelemetryToUsbIfDue(runtimeState);
+    updateCore0SineReference(runtimeState);
+  }
+
+  if (INTERFACE_IDLE_US > 0) {
+    delayMicroseconds(INTERFACE_IDLE_US);
+  }
+}
+
+void setup1() {
+  while (!interfaceCoreReady) {
+    delayMicroseconds(10);
+  }
+  controlSetup();
+}
+
+void loop1() {
+  while (true) {
+    controlStep();
+  }
 }
