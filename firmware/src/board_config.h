@@ -141,22 +141,15 @@ static constexpr uint16_t VBUS_STARTUP_SAMPLES = 16;
 
 static constexpr uint32_t SERIAL_STARTUP_WAIT_MS = 250;
 static constexpr uint32_t STARTUP_TARGET_SETTLE_MS = 50;
-static constexpr uint32_t CONTROL_REFERENCE_INTERVAL_US = 1000;
 static constexpr uint32_t RUNTIME_STATE_PUBLISH_INTERVAL_US = 1000;
-static constexpr uint32_t TELEMETRY_FRAME_INTERVAL_US = 1000;
+static constexpr uint32_t USB_STATE_FRAME_INTERVAL_US = 1000;
 static constexpr uint32_t MOTOR_START_RETRY_INTERVAL_MS = 500;
-static constexpr uint32_t INTERFACE_IDLE_US = 1000;
+static constexpr uint32_t INTERFACE_IDLE_US = 100;
 
-static constexpr bool CORE0_SINE_REFERENCE_ENABLED = true;
-static constexpr float CORE0_SINE_REFERENCE_AMPLITUDE_RAD = 0.30f;
-static constexpr float CORE0_SINE_REFERENCE_FREQUENCY_HZ = 0.30f;
-static constexpr float CORE0_SINE_REFERENCE_KP_A_PER_RAD = 4.0f;
-static constexpr float CORE0_SINE_REFERENCE_KD_A_PER_RAD_PER_S = 0.03f;
-static constexpr float CORE0_SINE_REFERENCE_FEEDFORWARD_A = 0.0f;
-static constexpr float CORE0_SINE_REFERENCE_M1_PHASE_RAD = 0.0f;
-
-static constexpr uint8_t TELEMETRY_MAGIC0 = 0xA5;
-static constexpr uint8_t TELEMETRY_MAGIC1 = 0x5A;
-static constexpr uint8_t TELEMETRY_VERSION = 3;
-static constexpr uint8_t TELEMETRY_FLAG_M0_READY = 1u << 0;
-static constexpr uint8_t TELEMETRY_FLAG_M1_READY = 1u << 1;
+static constexpr uint8_t USB_PACKET_MAGIC0 = 0xA5;
+static constexpr uint8_t USB_PACKET_MAGIC1 = 0x5A;
+static constexpr uint8_t USB_PACKET_VERSION = 1;
+static constexpr uint8_t USB_PACKET_TYPE_COMMAND = 0x43;  // 'C'
+static constexpr uint8_t USB_PACKET_TYPE_STATE = 0x53;    // 'S'
+static constexpr uint8_t USB_STATE_FLAG_M0_READY = 1u << 0;
+static constexpr uint8_t USB_STATE_FLAG_M1_READY = 1u << 1;
