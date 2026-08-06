@@ -6,8 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
 from motor_usb_client import MotorUsbController
 
-KP = 4.0
-KD = 0.03
+KP = 2.0
+KD = 0.1
 
 
 with MotorUsbController(timeout_ms=20) as robot:

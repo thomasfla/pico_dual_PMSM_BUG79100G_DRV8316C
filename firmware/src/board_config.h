@@ -48,6 +48,14 @@
 #define M1_ZERO_ELECTRIC_ANGLE NOT_SET
 #endif
 
+#ifndef M0_SENSOR_OFFSET
+#define M0_SENSOR_OFFSET 0.0f
+#endif
+
+#ifndef M1_SENSOR_OFFSET
+#define M1_SENSOR_OFFSET 0.0f
+#endif
+
 #ifndef REQUIRE_ENCODER_STARTUP_HEALTH
 #define REQUIRE_ENCODER_STARTUP_HEALTH 0
 #endif
@@ -58,6 +66,7 @@ struct PositionHoldConfig {
   float kd;
   int8_t sensorDirectionSign;
   float zeroElectricAngle;
+  float sensorOffset;
 };
 
 static constexpr int GM3506_POLE_PAIRS = 11;
@@ -101,6 +110,7 @@ static constexpr PositionHoldConfig MOTOR0_CONFIG = {
   M0_POSITION_PD_KD_A_PER_RAD_PER_S,
   M0_SENSOR_DIRECTION_SIGN,
   M0_ZERO_ELECTRIC_ANGLE,
+  M0_SENSOR_OFFSET,
 };
 
 static constexpr PositionHoldConfig MOTOR1_CONFIG = {
@@ -109,6 +119,7 @@ static constexpr PositionHoldConfig MOTOR1_CONFIG = {
   M1_POSITION_PD_KD_A_PER_RAD_PER_S,
   M1_SENSOR_DIRECTION_SIGN,
   M1_ZERO_ELECTRIC_ANGLE,
+  M1_SENSOR_OFFSET,
 };
 
 static constexpr uint32_t ENCODER_SPI_HZ = 10000000;
@@ -140,6 +151,8 @@ static constexpr float VBUS_DIVIDER_RATIO =
 static constexpr uint16_t VBUS_STARTUP_SAMPLES = 16;
 
 static constexpr uint32_t SERIAL_STARTUP_WAIT_MS = 250;
+static constexpr uint32_t CALIBRATION_ENTRY_WAIT_MS = 5000;
+static constexpr size_t CALIBRATION_EEPROM_BYTES = 256;
 static constexpr uint32_t STARTUP_TARGET_SETTLE_MS = 50;
 static constexpr uint32_t RUNTIME_STATE_PUBLISH_INTERVAL_US = 1000;
 static constexpr uint32_t USB_STATE_FRAME_INTERVAL_US = 1000;

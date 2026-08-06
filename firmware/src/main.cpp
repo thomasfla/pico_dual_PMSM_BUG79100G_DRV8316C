@@ -8,6 +8,7 @@
 #include <SimpleFOCDrivers.h>
 #include <math.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include "hardware/clocks.h"
 #include "hardware/gpio.h"
@@ -15,6 +16,7 @@
 #include "hardware/spi.h"
 #include "board_config.h"
 #include "BU79100QuadReader.h"
+#include "calibration_store.h"
 #include "drivers/drv8316/drv8316.h"
 
 static PhaseCurrent_s readMotor0Currents();
@@ -391,6 +393,7 @@ static PositionHoldState control0;
 static PositionHoldState control1;
 static PositionHoldConfig runtimeConfig0 = MOTOR0_CONFIG;
 static PositionHoldConfig runtimeConfig1 = MOTOR1_CONFIG;
+static CalibrationSettings activeCalibrationSettings;
 static bool motor0Ready = false;
 static bool motor1Ready = false;
 static bool currentFeedback0Ready = false;
@@ -404,8 +407,11 @@ static float lastControlLoopUs = 0.0f;
 static bool commandTorqueEnabled = false;
 static bool commandMotor0Enabled = false;
 static bool commandMotor1Enabled = false;
+static bool usbPendingByteValid = false;
+static uint8_t usbPendingByte = 0;
 
 static volatile bool interfaceCoreReady = false;
+static volatile bool calibrationModeActive = false;
 // Latest-value mailboxes use an odd/even sequence counter so readers never see torn structs.
 static volatile uint32_t runtimeStateSequence = 0;
 static RuntimeControlState sharedRuntimeState;
@@ -559,6 +565,41 @@ static Direction directionFromSign(int8_t sign) {
     return Direction::CCW;
   }
   return Direction::UNKNOWN;
+}
+
+static int8_t signFromDirection(Direction direction) {
+  if (direction == Direction::CW) {
+    return 1;
+  }
+  if (direction == Direction::CCW) {
+    return -1;
+  }
+  return 0;
+}
+
+static void applyMotorCalibration(
+  PositionHoldConfig &config,
+  const MotorCalibrationSettings &calibration
+) {
+  config.sensorDirectionSign = calibration.sensorDirectionSign;
+  config.zeroElectricAngle = calibration.zeroElectricAngle;
+  config.sensorOffset = calibration.sensorOffset;
+}
+
+static void applyCalibrationSettings(const CalibrationSettings &settings) {
+  runtimeConfig0 = MOTOR0_CONFIG;
+  runtimeConfig1 = MOTOR1_CONFIG;
+  applyMotorCalibration(runtimeConfig0, settings.motor[0]);
+  applyMotorCalibration(runtimeConfig1, settings.motor[1]);
+}
+
+static void loadOrCreateCalibrationSettings() {
+  beginCalibrationStore();
+  if (!loadCalibrationSettings(activeCalibrationSettings)) {
+    activeCalibrationSettings = makeDefaultCalibrationSettings();
+    saveCalibrationSettings(activeCalibrationSettings);
+  }
+  applyCalibrationSettings(activeCalibrationSettings);
 }
 
 static float usableSupplyVoltage(float measuredVoltage) {
@@ -740,6 +781,7 @@ static bool configureMotor(
   motor.phase_inductance = GM3506_PHASE_INDUCTANCE_H;
   motor.sensor_direction = directionFromSign(config.sensorDirectionSign);
   motor.zero_electric_angle = config.zeroElectricAngle;
+  motor.sensor_offset = config.sensorOffset;
   motor.KV_rating = NOT_SET;
   motor.voltage_limit = voltageLimit;
   motor.current_limit = config.iqLimit;
@@ -1016,6 +1058,59 @@ static bool checkStartupEncoderHealth(
   return false;
 }
 
+struct MotorHardwareStatus {
+  float busVoltage = 0.0f;
+  bool encoder0Allowed = false;
+  bool encoder1Allowed = false;
+  bool currentFeedback0Ok = false;
+  bool currentFeedback1Ok = false;
+};
+
+static MotorHardwareStatus initializeMotorHardware() {
+  MotorHardwareStatus status;
+
+  deselectSpiSlaves();
+  pinMode(GPIO_DRV_Mx_nFAULT, INPUT_PULLUP);
+  configureSpiPins();
+
+  status.busVoltage = readBusVoltage();
+
+  delay(ENCODER_POWERUP_DELAY_MS);
+  encoder0.init(&SPI, spi0);
+  encoder1.init(&SPI, spi0);
+  EncoderRegisterDiagnostics encoder0Regs;
+  EncoderRegisterDiagnostics encoder1Regs;
+  const bool encoder0Healthy = checkStartupEncoderHealth(encoder0, encoder0Regs);
+  const bool encoder1Healthy = checkStartupEncoderHealth(encoder1, encoder1Regs);
+
+  configureDriver(driver0, status.busVoltage);
+  configureDriver(driver1, status.busVoltage);
+  encoder0.enableFastRuntimeSpi(spi0);
+  encoder1.enableFastRuntimeSpi(spi0);
+
+  configureAdcTriggerPwm();
+  syncAllPwmSlices();
+  const bool currentAdcOk = currentAdc.init(ADC_SCK_HZ);
+
+  currentSense0.linkDriver(&driver0);
+  currentSense1.linkDriver(&driver1);
+  currentSense0.skip_align = true;
+  currentSense1.skip_align = true;
+  const bool currentSense0Ok = currentSense0.init();
+  const bool currentSense1Ok = currentSense1.init();
+
+  status.currentFeedback0Ok = currentAdcOk && currentSense0Ok;
+  status.currentFeedback1Ok = currentAdcOk && currentSense1Ok;
+  status.encoder0Allowed =
+    encoder0.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoder0Healthy);
+  status.encoder1Allowed =
+    encoder1.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoder1Healthy);
+
+  currentFeedback0Ready = status.currentFeedback0Ok;
+  currentFeedback1Ready = status.currentFeedback1Ok;
+  return status;
+}
+
 static bool tryStartMotor(
   BLDCMotor &motor,
   DRV8316Driver3PWM &driver,
@@ -1167,17 +1262,31 @@ static void publishUsbCommandPacket(const UsbCommandPacket &packet) {
   publishControlReferenceCommand(command);
 }
 
+static bool readNextUsbCommandByte(uint8_t &byte) {
+  if (usbPendingByteValid) {
+    byte = usbPendingByte;
+    usbPendingByteValid = false;
+    return true;
+  }
+
+  const int value = Serial.read();
+  if (value < 0) {
+    return false;
+  }
+
+  byte = (uint8_t)value;
+  return true;
+}
+
 static void readUsbCommandPackets() {
   static uint8_t rx[sizeof(UsbCommandPacket)];
   static uint8_t rxCount = 0;
 
-  while (Serial.available() > 0) {
-    const int value = Serial.read();
-    if (value < 0) {
+  while (usbPendingByteValid || Serial.available() > 0) {
+    uint8_t byte = 0;
+    if (!readNextUsbCommandByte(byte)) {
       return;
     }
-
-    const uint8_t byte = (uint8_t)value;
     if (rxCount == 0) {
       if (byte == USB_PACKET_MAGIC0) {
         rx[rxCount++] = byte;
@@ -1218,47 +1327,397 @@ static void readUsbCommandPackets() {
   }
 }
 
+static void clearSerialInput() {
+  delay(20);
+  while (Serial.available() > 0) {
+    Serial.read();
+  }
+}
+
+static size_t readSerialLine(char *buffer, size_t length) {
+  size_t count = 0;
+  if (length == 0) {
+    return 0;
+  }
+
+  while (true) {
+    while (Serial.available() > 0) {
+      const int value = Serial.read();
+      if (value < 0) {
+        continue;
+      }
+
+      const char c = (char)value;
+      if (c == '\r') {
+        continue;
+      }
+      if (c == '\n') {
+        buffer[count] = '\0';
+        return count;
+      }
+      if (count + 1 < length) {
+        buffer[count++] = c;
+      }
+    }
+    delay(1);
+  }
+}
+
+static char firstCommandChar(const char *line) {
+  while (*line == ' ' || *line == '\t') {
+    line++;
+  }
+  return *line;
+}
+
+static bool serialConfirm(const char *prompt, bool defaultYes) {
+  char line[16];
+  while (true) {
+    Serial.print(prompt);
+    Serial.print(defaultYes ? " [Y/n] " : " [y/N] ");
+    readSerialLine(line, sizeof(line));
+
+    const char c = firstCommandChar(line);
+    if (c == '\0') {
+      return defaultYes;
+    }
+    if (c == 'y' || c == 'Y') {
+      return true;
+    }
+    if (c == 'n' || c == 'N') {
+      return false;
+    }
+    Serial.println("Please answer y or n.");
+  }
+}
+
+static uint32_t readUint32WithDefault(const char *prompt, uint32_t currentValue) {
+  char line[24];
+  while (true) {
+    Serial.print(prompt);
+    Serial.print(" (Enter keeps ");
+    Serial.print(currentValue);
+    Serial.print("): ");
+    readSerialLine(line, sizeof(line));
+
+    const char *start = line;
+    while (*start == ' ' || *start == '\t') {
+      start++;
+    }
+    if (*start == '\0') {
+      return currentValue;
+    }
+
+    char *end = nullptr;
+    const unsigned long parsed = strtoul(start, &end, 10);
+    while (*end == ' ' || *end == '\t') {
+      end++;
+    }
+    if (*end == '\0') {
+      return (uint32_t)parsed;
+    }
+    Serial.println("Please enter a decimal number or an empty line.");
+  }
+}
+
+static void waitForEnter(const char *prompt) {
+  char line[8];
+  Serial.println(prompt);
+  readSerialLine(line, sizeof(line));
+}
+
+static void printAngleSetting(float value) {
+  if (value == NOT_SET) {
+    Serial.print("NOT_SET");
+  } else {
+    Serial.print(value, 6);
+  }
+}
+
+static void printMotorCalibration(const char *label, const MotorCalibrationSettings &calibration) {
+  Serial.print(label);
+  Serial.print(": dir=");
+  Serial.print(calibration.sensorDirectionSign);
+  Serial.print(" zero_elec=");
+  printAngleSetting(calibration.zeroElectricAngle);
+  Serial.print(" sensor_offset=");
+  Serial.println(calibration.sensorOffset, 6);
+}
+
+static void printCalibrationSettings(const CalibrationSettings &settings) {
+  Serial.print("serial=");
+  Serial.println(settings.serialNumber);
+  printMotorCalibration("M0", settings.motor[0]);
+  printMotorCalibration("M1", settings.motor[1]);
+}
+
+static bool serialBootCalibrationRequested() {
+  const uint32_t startMs = millis();
+  while ((millis() - startMs) < CALIBRATION_ENTRY_WAIT_MS) {
+    if (Serial.available() > 0) {
+      const int value = Serial.read();
+      if (value == '\r' || value == '\n') {
+        continue;
+      }
+      if (value == '!') {
+        return true;
+      }
+      if (value >= 0) {
+        usbPendingByte = (uint8_t)value;
+        usbPendingByteValid = true;
+      }
+      return false;
+    }
+    delay(1);
+  }
+  return false;
+}
+
+static bool prepareMotorForMechanicalCalibration(
+  BLDCMotor &motor,
+  DRV8316Driver3PWM &driver,
+  CurrentSense &currentSense,
+  Sensor &sensor,
+  PositionHoldConfig &config,
+  bool encoderAllowed,
+  bool currentFeedbackOk
+) {
+  if (motor.sensor != nullptr && motor.driver != nullptr) {
+    return true;
+  }
+  if (!encoderAllowed || !currentFeedbackOk || config.sensorDirectionSign == 0) {
+    return false;
+  }
+  if (!configureMotor(motor, driver, currentSense, sensor, config)) {
+    return false;
+  }
+  motor.disable();
+  return true;
+}
+
+static bool runElectricalCalibrationForMotor(
+  const char *label,
+  uint8_t motorIndex,
+  BLDCMotor &motor,
+  DRV8316Driver3PWM &driver,
+  CurrentSense &currentSense,
+  CheckedAS5048ASensor &encoder,
+  PositionHoldConfig &config,
+  bool encoderAllowed,
+  bool currentFeedbackOk,
+  CalibrationSettings &settings
+) {
+  if (!encoderAllowed) {
+    Serial.print(label);
+    Serial.println(": encoder not healthy, skipped.");
+    driver.disable();
+    return false;
+  }
+  if (!currentFeedbackOk) {
+    Serial.print(label);
+    Serial.println(": current feedback not ready, skipped.");
+    driver.disable();
+    return false;
+  }
+
+  PositionHoldConfig calibrationConfig = config;
+  calibrationConfig.sensorDirectionSign = 0;
+  calibrationConfig.zeroElectricAngle = NOT_SET;
+  calibrationConfig.sensorOffset = 0.0f;
+
+  Serial.print(label);
+  Serial.println(": running SimpleFOC electrical alignment.");
+  if (!configureMotor(motor, driver, currentSense, encoder, calibrationConfig)) {
+    Serial.print(label);
+    Serial.println(": motor init failed.");
+    driver.disable();
+    return false;
+  }
+
+  const bool focOk = motor.initFOC() != 0;
+  setIqTarget(motor, 0.0f);
+  motor.disable();
+  if (!focOk) {
+    Serial.print(label);
+    Serial.println(": electrical alignment failed.");
+    return false;
+  }
+
+  const int8_t directionSign = signFromDirection(motor.sensor_direction);
+  if (directionSign == 0 || motor.zero_electric_angle == NOT_SET) {
+    Serial.print(label);
+    Serial.println(": invalid alignment result.");
+    return false;
+  }
+
+  settings.motor[motorIndex].sensorDirectionSign = directionSign;
+  settings.motor[motorIndex].zeroElectricAngle = motor.zero_electric_angle;
+  settings.motor[motorIndex].sensorOffset = 0.0f;
+  applyMotorCalibration(config, settings.motor[motorIndex]);
+
+  Serial.print(label);
+  Serial.print(": electrical calibration ok, dir=");
+  Serial.print(directionSign);
+  Serial.print(" zero_elec=");
+  Serial.println(motor.zero_electric_angle, 6);
+  return true;
+}
+
+static bool captureMechanicalZeroForMotor(
+  const char *label,
+  uint8_t motorIndex,
+  BLDCMotor &motor,
+  PositionHoldConfig &config,
+  CalibrationSettings &settings
+) {
+  if (motor.sensor == nullptr || settings.motor[motorIndex].sensorDirectionSign == 0) {
+    Serial.print(label);
+    Serial.println(": not configured, mechanical zero skipped.");
+    return false;
+  }
+
+  motor.sensor_direction = directionFromSign(settings.motor[motorIndex].sensorDirectionSign);
+  motor.sensor_offset = 0.0f;
+  motor.sensor->update();
+  delay(5);
+  motor.sensor->update();
+
+  const float sensorAngle = motor.sensor->getAngle();
+  if (!isfinite(sensorAngle)) {
+    Serial.print(label);
+    Serial.println(": sensor read failed, mechanical zero skipped.");
+    return false;
+  }
+
+  const float sensorOffset = (float)motor.sensor_direction * sensorAngle;
+  settings.motor[motorIndex].sensorOffset = sensorOffset;
+  config.sensorOffset = sensorOffset;
+  motor.sensor_offset = sensorOffset;
+  motor.shaft_angle = motor.shaftAngle();
+
+  Serial.print(label);
+  Serial.print(": mechanical zero captured, sensor_offset=");
+  Serial.println(sensorOffset, 6);
+  return true;
+}
+
+static void runCalibrationWizard() {
+  clearSerialInput();
+
+  Serial.println();
+  Serial.println("Dual PMSM calibration wizard");
+  Serial.println("Binary protocol is disabled in this boot mode.");
+  Serial.println("Keep motors unloaded and able to move during electrical calibration.");
+  Serial.println();
+  Serial.println("Current stored calibration:");
+  printCalibrationSettings(activeCalibrationSettings);
+  Serial.println();
+
+  CalibrationSettings workingSettings = activeCalibrationSettings;
+  PositionHoldConfig workingConfig0 = runtimeConfig0;
+  PositionHoldConfig workingConfig1 = runtimeConfig1;
+
+  workingSettings.serialNumber =
+    readUint32WithDefault("Unit serial number", workingSettings.serialNumber);
+  const bool runElectrical = serialConfirm("Run electrical angle calibration?", true);
+  const bool runMechanical = serialConfirm("Run mechanical zero calibration?", true);
+
+  if (runElectrical || runMechanical) {
+    Serial.println("Initializing motor hardware...");
+    const MotorHardwareStatus hardware = initializeMotorHardware();
+    Serial.print("VBUS=");
+    Serial.print(hardware.busVoltage, 3);
+    Serial.println(" V");
+
+    if (runElectrical) {
+      waitForEnter("Press Enter to calibrate M0 electrical angle.");
+      runElectricalCalibrationForMotor(
+        "M0",
+        0,
+        motor0,
+        driver0,
+        currentSense0,
+        encoder0,
+        workingConfig0,
+        hardware.encoder0Allowed,
+        hardware.currentFeedback0Ok,
+        workingSettings
+      );
+
+      waitForEnter("Press Enter to calibrate M1 electrical angle.");
+      runElectricalCalibrationForMotor(
+        "M1",
+        1,
+        motor1,
+        driver1,
+        currentSense1,
+        encoder1,
+        workingConfig1,
+        hardware.encoder1Allowed,
+        hardware.currentFeedback1Ok,
+        workingSettings
+      );
+    } else {
+      prepareMotorForMechanicalCalibration(
+        motor0,
+        driver0,
+        currentSense0,
+        encoder0,
+        workingConfig0,
+        hardware.encoder0Allowed,
+        hardware.currentFeedback0Ok
+      );
+      prepareMotorForMechanicalCalibration(
+        motor1,
+        driver1,
+        currentSense1,
+        encoder1,
+        workingConfig1,
+        hardware.encoder1Allowed,
+        hardware.currentFeedback1Ok
+      );
+    }
+
+    if (runMechanical) {
+      waitForEnter("Move M0 to mechanical zero, then press Enter.");
+      captureMechanicalZeroForMotor("M0", 0, motor0, workingConfig0, workingSettings);
+
+      waitForEnter("Move M1 to mechanical zero, then press Enter.");
+      captureMechanicalZeroForMotor("M1", 1, motor1, workingConfig1, workingSettings);
+    }
+
+    setIqTarget(motor0, 0.0f);
+    setIqTarget(motor1, 0.0f);
+    motor0.disable();
+    motor1.disable();
+    driver0.disable();
+    driver1.disable();
+  }
+
+  Serial.println();
+  Serial.println("Candidate calibration:");
+  printCalibrationSettings(workingSettings);
+  Serial.println();
+
+  if (serialConfirm("Save candidate calibration to flash?", false)) {
+    if (saveCalibrationSettings(workingSettings)) {
+      activeCalibrationSettings = workingSettings;
+      applyCalibrationSettings(activeCalibrationSettings);
+      Serial.println("Calibration saved.");
+    } else {
+      Serial.println("Calibration save failed.");
+    }
+  } else {
+    Serial.println("Calibration not saved.");
+  }
+
+  Serial.println("Reset the board to start the binary control protocol.");
+}
+
 static void controlSetup() {
-  deselectSpiSlaves();
-  pinMode(GPIO_DRV_Mx_nFAULT, INPUT_PULLUP);
-  configureSpiPins();
+  const MotorHardwareStatus hardware = initializeMotorHardware();
 
-  const float busVoltage = readBusVoltage();
-
-  delay(ENCODER_POWERUP_DELAY_MS);
-  encoder0.init(&SPI, spi0);
-  encoder1.init(&SPI, spi0);
-  EncoderRegisterDiagnostics encoder0Regs;
-  EncoderRegisterDiagnostics encoder1Regs;
-  const bool encoder0Healthy = checkStartupEncoderHealth(encoder0, encoder0Regs);
-  const bool encoder1Healthy = checkStartupEncoderHealth(encoder1, encoder1Regs);
-
-  configureDriver(driver0, busVoltage);
-  configureDriver(driver1, busVoltage);
-  encoder0.enableFastRuntimeSpi(spi0);
-  encoder1.enableFastRuntimeSpi(spi0);
-
-  configureAdcTriggerPwm();
-  syncAllPwmSlices();
-  const bool currentAdcOk = currentAdc.init(ADC_SCK_HZ);
-
-  currentSense0.linkDriver(&driver0);
-  currentSense1.linkDriver(&driver1);
-  currentSense0.skip_align = true;
-  currentSense1.skip_align = true;
-  const bool currentSense0Ok = currentSense0.init();
-  const bool currentSense1Ok = currentSense1.init();
-  const bool currentFeedback0Ok = currentAdcOk && currentSense0Ok;
-  const bool currentFeedback1Ok = currentAdcOk && currentSense1Ok;
-  currentFeedback0Ready = currentFeedback0Ok;
-  currentFeedback1Ready = currentFeedback1Ok;
-
-  const bool encoder0Allowed =
-    encoder0.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoder0Healthy);
-  const bool encoder1Allowed =
-    encoder1.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoder1Healthy);
-
-  if (encoder0Allowed && currentFeedback0Ok) {
+  if (hardware.encoder0Allowed && hardware.currentFeedback0Ok) {
     if (configureMotor(motor0, driver0, currentSense0, encoder0, runtimeConfig0)) {
       motor0Ready = startClosedLoopMotor(motor0, control0);
     } else {
@@ -1268,7 +1727,7 @@ static void controlSetup() {
     driver0.disable();
   }
 
-  if (encoder1Allowed && currentFeedback1Ok) {
+  if (hardware.encoder1Allowed && hardware.currentFeedback1Ok) {
     if (configureMotor(motor1, driver1, currentSense1, encoder1, runtimeConfig1)) {
       motor1Ready = startClosedLoopMotor(motor1, control1);
     } else {
@@ -1326,10 +1785,21 @@ static void controlStep() {
 
 void setup() {
   Serial.begin(115200);
+  deselectSpiSlaves();
+
   const uint32_t serialStartMs = millis();
   while (!Serial && (millis() - serialStartMs) < SERIAL_STARTUP_WAIT_MS) {}
 
-  deselectSpiSlaves();
+  loadOrCreateCalibrationSettings();
+
+  if (serialBootCalibrationRequested()) {
+    calibrationModeActive = true;
+    sharedMemoryBarrier();
+    runCalibrationWizard();
+    while (true) {
+      delay(1000);
+    }
+  }
 
   sharedMemoryBarrier();
   interfaceCoreReady = true;
@@ -1352,6 +1822,11 @@ void loop() {
 
 void setup1() {
   while (!interfaceCoreReady) {
+    if (calibrationModeActive) {
+      while (true) {
+        delay(1000);
+      }
+    }
     delayMicroseconds(10);
   }
   controlSetup();

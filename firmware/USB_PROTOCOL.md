@@ -87,6 +87,14 @@ Format string used by the Python helper: `<BBBBBHIIf8fBB`.
 
 The included `../software/demo/sine_command_demo.py` implements this sequence.
 
+## Boot Calibration Mode
+
+If the first non-newline byte received on USB CDC during the boot entry window is `!`, the firmware does not start the binary protocol. Core1 remains idle and core0 runs a text-based calibration wizard. The entry window is configured by `CALIBRATION_ENTRY_WAIT_MS`.
+
+The wizard can run SimpleFOC electrical angle calibration, capture mechanical zero as SimpleFOC `sensor_offset`, and then saves the candidate calibration to EEPROM flash only after final confirmation. If no valid EEPROM calibration exists at boot, the firmware creates a default record from `board_config.h`.
+
+Normal sketch upload keeps the EEPROM flash sector intact.
+
 ## Python Client
 
 `../software/tools/motor_usb_client.py` wraps the packet protocol and runs a background RX thread:
