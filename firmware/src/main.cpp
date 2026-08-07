@@ -1348,15 +1348,39 @@ static size_t readSerialLine(char *buffer, size_t length) {
       }
 
       const char c = (char)value;
-      if (c == '\r') {
-        continue;
-      }
-      if (c == '\n') {
+      if (c == '\r' || c == '\n') {
         buffer[count] = '\0';
+        Serial.println();
+
+        const char pairedNewline = (c == '\r') ? '\n' : '\r';
+        const uint32_t pairStartMs = millis();
+        while ((millis() - pairStartMs) < 5) {
+          if (Serial.available() <= 0) {
+            delay(1);
+            continue;
+          }
+          if (Serial.peek() == pairedNewline) {
+            Serial.read();
+          }
+          break;
+        }
+
         return count;
       }
+
+      if (c == '\b' || c == 0x7F) {
+        if (count > 0) {
+          count--;
+          Serial.print("\b \b");
+        }
+        continue;
+      }
+
       if (count + 1 < length) {
         buffer[count++] = c;
+        if (c >= ' ' && c <= '~') {
+          Serial.print(c);
+        }
       }
     }
     delay(1);
