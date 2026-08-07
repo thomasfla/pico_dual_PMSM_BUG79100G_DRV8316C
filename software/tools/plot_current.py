@@ -104,7 +104,13 @@ def plot(times, data, port, save_path, motor, amplitude, frequency):
         axes[0, col].set_ylabel("Current [A]")
         axes[1, col].plot(times, data[f"{motor}_q"], label="q")
         axes[1, col].set_ylabel("Position [rad]")
-        axes[2, col].plot(times, data[f"{motor}_v"], label="v")
+        axes[2, col].plot(times, data[f"{motor}_v"], label="v filtered")
+        axes[2, col].plot(
+            times,
+            data[f"{motor}_v_highfrequency"],
+            label="v_highfrequency",
+            alpha=0.75,
+        )
         axes[2, col].set_ylabel("Speed [rad/s]")
         axes[3, col].plot(times, data["control_loop_us"], label="Control loop")
         axes[3, col].set_ylabel("Duration [us]")
@@ -130,7 +136,7 @@ def main():
     parser.add_argument("--startup-timeout", type=float, default=8.0)
     parser.add_argument("--motor", choices=("0", "1", "both"), default="both")
     parser.add_argument("--amplitude", type=float, default=0.2, help="Iq amplitude [A]")
-    parser.add_argument("--frequency", type=float, default=5.0, help="square-wave frequency [Hz]")
+    parser.add_argument("--frequency", type=float, default=2.0, help="square-wave frequency [Hz]")
     parser.add_argument("--rate", type=float, default=1000.0, help="USB command rate [Hz]")
     parser.add_argument("--timeout-ms", type=int, default=50)
     parser.add_argument("--save", help="optional output image path")

@@ -21,6 +21,7 @@ DEFAULT_MAX_COMMAND_RATE_HZ = 1000.0
 class Motor:
     q: float = 0.0
     v: float = 0.0
+    v_highfrequency: float = 0.0
     i: float = 0.0
     i_target: float = 0.0
     kp: float = 0.0
@@ -46,9 +47,10 @@ class Motor:
     def packet_values(self):
         return (self.kp, self.kd, self.iff, self.q_target, self.v_target)
 
-    def update_state(self, q, v, i, i_target):
+    def update_state(self, q, v, v_highfrequency, i, i_target):
         self.q = q
         self.v = v
+        self.v_highfrequency = v_highfrequency
         self.i = i
         self.i_target = i_target
 
@@ -206,12 +208,14 @@ class MotorUsbController:
                     self.m0.update_state(
                         state["m0_q"],
                         state["m0_v"],
+                        state["m0_v_highfrequency"],
                         state["m0_i"],
                         state["m0_i_target"],
                     )
                     self.m1.update_state(
                         state["m1_q"],
                         state["m1_v"],
+                        state["m1_v_highfrequency"],
                         state["m1_i"],
                         state["m1_i_target"],
                     )

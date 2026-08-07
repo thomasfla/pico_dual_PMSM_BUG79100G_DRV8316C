@@ -5,7 +5,7 @@ import struct
 MAGIC0 = 0xA5
 MAGIC1 = 0x5A
 MAGIC = bytes((MAGIC0, MAGIC1))
-VERSION = 1
+VERSION = 2
 PACKET_TYPE_COMMAND = 0x43
 PACKET_TYPE_STATE = 0x53
 
@@ -14,14 +14,16 @@ M1_READY = 1 << 1
 BOTH_MOTORS = M0_READY | M1_READY
 
 COMMAND_FRAME = struct.Struct("<BBBBBIBH10fB")
-STATE_FRAME = struct.Struct("<BBBBBHIIf8fBB")
+STATE_FRAME = struct.Struct("<BBBBBHIIf10fBB")
 STATE_VALUE_NAMES = (
     "m0_q",
     "m0_v",
+    "m0_v_highfrequency",
     "m0_i",
     "m0_i_target",
     "m1_q",
     "m1_v",
+    "m1_v_highfrequency",
     "m1_i",
     "m1_i_target",
 )
@@ -78,13 +80,13 @@ def decode_state(frame_bytes):
         return None
 
     unpacked = STATE_FRAME.unpack(frame_bytes)
-    values = dict(zip(STATE_VALUE_NAMES, unpacked[9:17]))
+    values = dict(zip(STATE_VALUE_NAMES, unpacked[9:19]))
     values.update(
         sequence=unpacked[5],
         t_us=unpacked[6],
         latest_command_index=unpacked[7],
         control_loop_us=unpacked[8],
-        flags=unpacked[17],
+        flags=unpacked[19],
     )
     return values
 

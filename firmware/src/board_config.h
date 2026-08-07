@@ -92,7 +92,10 @@ static constexpr float POSITION_PD_KP_MAX_A_PER_RAD = 100.0f;
 static constexpr float POSITION_PD_KD_MIN_A_PER_RAD_PER_S = 0.0f;
 static constexpr float POSITION_PD_KD_MAX_A_PER_RAD_PER_S = 10.0f;
 static constexpr float POSITION_TARGET_VELOCITY_LIMIT_RAD_S = 200.0f;
-static constexpr float POSITION_VELOCITY_FILTER_TF = 0.04f;
+static constexpr float POSITION_VELOCITY_FILTER_TF = 0.002f;
+static constexpr float TELEMETRY_VELOCITY_FILTER_HZ = 50.0f;
+static constexpr float TELEMETRY_VELOCITY_FILTER_TF =
+  1.0f / (6.28318530718f * TELEMETRY_VELOCITY_FILTER_HZ);
 
 static constexpr float CURRENT_CONTROL_BANDWIDTH_RAD_PER_S =
   6.28318530718f * CURRENT_CONTROL_BANDWIDTH_HZ;
@@ -128,6 +131,8 @@ static constexpr uint8_t ENCODER_STARTUP_READ_ATTEMPTS = 4;
 static constexpr uint8_t ENCODER_HEALTH_READ_ATTEMPTS = 8;
 static constexpr uint16_t ENCODER_HEALTH_RETRY_US = 200;
 static constexpr uint16_t ENCODER_CPR = 16384;
+static constexpr uint16_t ENCODER_VELOCITY_WINDOW_US = 1000;
+static constexpr uint8_t ENCODER_VELOCITY_HISTORY_SAMPLES = 32;
 static constexpr uint16_t ENCODER_MAG_MIN = 1000;
 static constexpr uint16_t ENCODER_MAG_MAX = 14000;
 
@@ -179,7 +184,7 @@ static constexpr uint32_t INTERFACE_IDLE_US = 100;
 
 static constexpr uint8_t USB_PACKET_MAGIC0 = 0xA5;
 static constexpr uint8_t USB_PACKET_MAGIC1 = 0x5A;
-static constexpr uint8_t USB_PACKET_VERSION = 1;
+static constexpr uint8_t USB_PACKET_VERSION = 2;
 static constexpr uint8_t USB_PACKET_TYPE_COMMAND = 0x43;  // 'C'
 static constexpr uint8_t USB_PACKET_TYPE_STATE = 0x53;    // 'S'
 static constexpr uint8_t USB_STATE_FLAG_M0_READY = 1u << 0;

@@ -46,9 +46,16 @@ struct EncoderRegisterDiagnostics {
 struct RuntimeMotorState {
   float position = 0.0f;
   float velocity = 0.0f;
+  float velocityHighFrequency = 0.0f;
   float iq = 0.0f;
   float iqTarget = 0.0f;
   bool ready = false;
+};
+
+struct TelemetryVelocityFilterState {
+  float value = 0.0f;
+  uint32_t tUs = 0;
+  bool initialized = false;
 };
 
 struct RuntimeControlState {
@@ -89,10 +96,12 @@ struct __attribute__((packed)) UsbStatePacket {
   float control_loop_us;
   float m0_q;
   float m0_v;
+  float m0_v_highfrequency;
   float m0_i;
   float m0_i_target;
   float m1_q;
   float m1_v;
+  float m1_v_highfrequency;
   float m1_i;
   float m1_i_target;
   uint8_t flags;
@@ -121,7 +130,7 @@ struct __attribute__((packed)) UsbCommandPacket {
   uint8_t checksum;
 };
 
-static_assert(sizeof(UsbStatePacket) == 53, "Unexpected USB state packet size");
+static_assert(sizeof(UsbStatePacket) == 61, "Unexpected USB state packet size");
 static_assert(sizeof(UsbCommandPacket) == 53, "Unexpected USB command packet size");
 
 class CheckedAS5048ASensor : public Sensor {
@@ -159,6 +168,10 @@ public:
         full_rotations = 0;
         vel_full_rotations = 0;
         velocity = 0.0f;
+        lastRaw_ = raw;
+        lastRawValid_ = true;
+        resetVelocityHistory();
+        pushVelocitySample(angle_prev_ts, raw);
         return;
       }
       delayMicroseconds(50);
@@ -168,6 +181,9 @@ public:
     vel_angle_prev = 0.0f;
     angle_prev_ts = micros();
     vel_angle_prev_ts = angle_prev_ts;
+    lastRaw_ = 0;
+    lastRawValid_ = false;
+    resetVelocityHistory();
   }
 
   void enableFastRuntimeSpi(spi_inst_t *spiHw) {
@@ -190,6 +206,66 @@ public:
     return rawToAngle(raw);
   }
 
+  void update() override {
+    uint16_t raw = 0;
+    if (!readRawChecked(raw)) {
+      return;
+    }
+
+    const uint32_t now = micros();
+    if (lastRawValid_) {
+      const int32_t rawDelta = (int32_t)raw - (int32_t)lastRaw_;
+      if (rawDelta > ENCODER_WRAP_THRESHOLD_COUNTS) {
+        full_rotations--;
+      } else if (rawDelta < -ENCODER_WRAP_THRESHOLD_COUNTS) {
+        full_rotations++;
+      }
+    } else {
+      full_rotations = 0;
+      resetVelocityHistory();
+    }
+
+    lastRaw_ = raw;
+    lastRawValid_ = true;
+    angle_prev = rawToAngle(raw);
+    angle_prev_ts = now;
+    pushVelocitySample(now, extendedRawCount(raw));
+  }
+
+  float getVelocity() override {
+    if (velocitySampleCount_ < 2) {
+      return velocity;
+    }
+
+    const uint8_t newest = newestVelocitySampleIndex();
+    uint8_t reference = newest;
+    uint32_t referenceAgeUs = 0;
+
+    for (uint8_t i = 1; i < velocitySampleCount_; i++) {
+      const uint8_t index =
+        (newest + ENCODER_VELOCITY_HISTORY_SAMPLES - i) %
+        ENCODER_VELOCITY_HISTORY_SAMPLES;
+      const uint32_t ageUs = velocitySampleTime_[newest] - velocitySampleTime_[index];
+      reference = index;
+      referenceAgeUs = ageUs;
+      if (ageUs >= ENCODER_VELOCITY_WINDOW_US) {
+        break;
+      }
+    }
+
+    if (reference == newest || referenceAgeUs == 0) {
+      return velocity;
+    }
+
+    const int64_t deltaCounts =
+      velocitySampleCountRaw_[newest] - velocitySampleCountRaw_[reference];
+    velocity =
+      (float)deltaCounts *
+      (_2PI / (float)ENCODER_CPR) /
+      ((float)referenceAgeUs * 1.0e-6f);
+    return velocity;
+  }
+
   bool angleOk() const {
     return angleOk_;
   }
@@ -210,6 +286,8 @@ private:
   static constexpr uint16_t AS5048A_READ_BIT = 0x4000;
   static constexpr uint16_t AS5048A_PARITY_BIT = 0x8000;
   static constexpr uint16_t AS5048A_ERROR_FLAG = 0x4000;
+  static constexpr int32_t ENCODER_WRAP_THRESHOLD_COUNTS =
+    (int32_t)((float)ENCODER_CPR * 0.8f);
 
   void configureHardwareSpi() {
     if (spiHw_ != nullptr) {
@@ -229,6 +307,10 @@ private:
 
   static float rawToAngle(uint16_t raw) {
     return ((float)raw / (float)ENCODER_CPR) * _2PI;
+  }
+
+  int64_t extendedRawCount(uint16_t raw) const {
+    return (int64_t)full_rotations * (int64_t)ENCODER_CPR + (int64_t)raw;
   }
 
   static uint16_t makeReadCommand(uint16_t reg) {
@@ -297,12 +379,39 @@ private:
     return true;
   }
 
+  void resetVelocityHistory() {
+    velocitySampleWrite_ = 0;
+    velocitySampleCount_ = 0;
+  }
+
+  void pushVelocitySample(uint32_t timestampUs, int64_t rawCount) {
+    velocitySampleTime_[velocitySampleWrite_] = timestampUs;
+    velocitySampleCountRaw_[velocitySampleWrite_] = rawCount;
+    velocitySampleWrite_ =
+      (velocitySampleWrite_ + 1) % ENCODER_VELOCITY_HISTORY_SAMPLES;
+    if (velocitySampleCount_ < ENCODER_VELOCITY_HISTORY_SAMPLES) {
+      velocitySampleCount_++;
+    }
+  }
+
+  uint8_t newestVelocitySampleIndex() const {
+    return
+      (velocitySampleWrite_ + ENCODER_VELOCITY_HISTORY_SAMPLES - 1) %
+      ENCODER_VELOCITY_HISTORY_SAMPLES;
+  }
+
   uint8_t csPin_;
   SPIClass *spi_ = &SPI;
   spi_inst_t *spiHw_ = nullptr;
   SPISettings settings_;
   bool fastRuntimeSpi_ = false;
   bool angleOk_ = false;
+  uint16_t lastRaw_ = 0;
+  bool lastRawValid_ = false;
+  uint8_t velocitySampleWrite_ = 0;
+  uint8_t velocitySampleCount_ = 0;
+  uint32_t velocitySampleTime_[ENCODER_VELOCITY_HISTORY_SAMPLES] = {};
+  int64_t velocitySampleCountRaw_[ENCODER_VELOCITY_HISTORY_SAMPLES] = {};
 };
 
 class FastCallbackCurrentSense : public CurrentSense {
@@ -410,6 +519,8 @@ static bool commandMotor0Enabled = false;
 static bool commandMotor1Enabled = false;
 static bool usbPendingByteValid = false;
 static uint8_t usbPendingByte = 0;
+static TelemetryVelocityFilterState telemetryVelocity0;
+static TelemetryVelocityFilterState telemetryVelocity1;
 
 static volatile bool interfaceCoreReady = false;
 static volatile bool calibrationModeActive = false;
@@ -826,6 +937,11 @@ static void setIqTarget(BLDCMotor &motor, float iq) {
   motor.current_sp = iq;
 }
 
+static void updateMotorKinematics(BLDCMotor &motor) {
+  motor.shaft_angle = motor.shaftAngle();
+  motor.shaft_velocity = motor.shaftVelocity();
+}
+
 static float constrainFinite(float value, float minValue, float maxValue, float fallback) {
   if (!isfinite(value)) {
     return fallback;
@@ -923,16 +1039,14 @@ static float runPositionHoldPd(
   PositionHoldState &control,
   const PositionHoldConfig &config
 ) {
-  const float angle = motor.shaftAngle();
-  const float velocity = motor.shaftVelocity();
+  const float angle = motor.shaft_angle;
+  const float velocity = motor.shaft_velocity;
   const float angleError = control.targetPosition - angle;
   const float velocityError = control.targetVelocity - velocity;
   const float iq = config.kp * angleError +
     config.kd * velocityError +
     control.feedforwardCurrent;
 
-  motor.shaft_angle = angle;
-  motor.shaft_velocity = velocity;
   control.iqCommand = _constrain(iq, -config.iqLimit, config.iqLimit);
   return control.iqCommand;
 }
@@ -1001,11 +1115,13 @@ static UsbStatePacket makeUsbStatePacket(const RuntimeControlState &state) {
 
   packet.m0_q = state.m0.position;
   packet.m0_v = state.m0.velocity;
+  packet.m0_v_highfrequency = state.m0.velocityHighFrequency;
   packet.m0_i = state.m0.iq;
   packet.m0_i_target = state.m0.iqTarget;
 
   packet.m1_q = state.m1.position;
   packet.m1_v = state.m1.velocity;
+  packet.m1_v_highfrequency = state.m1.velocityHighFrequency;
   packet.m1_i = state.m1.iq;
   packet.m1_i_target = state.m1.iqTarget;
 
@@ -1015,14 +1131,54 @@ static UsbStatePacket makeUsbStatePacket(const RuntimeControlState &state) {
   return packet;
 }
 
+static float updateTelemetryVelocityFilter(
+  TelemetryVelocityFilterState &filter,
+  float input,
+  bool ready,
+  uint32_t nowUs
+) {
+  if (!ready || !isfinite(input)) {
+    filter.initialized = false;
+    filter.value = 0.0f;
+    filter.tUs = nowUs;
+    return 0.0f;
+  }
+
+  if (!filter.initialized) {
+    filter.initialized = true;
+    filter.value = input;
+    filter.tUs = nowUs;
+    return filter.value;
+  }
+
+  const float dt = (float)(nowUs - filter.tUs) * 1.0e-6f;
+  filter.tUs = nowUs;
+  if (dt <= 0.0f) {
+    return filter.value;
+  }
+
+  const float alpha = dt / (TELEMETRY_VELOCITY_FILTER_TF + dt);
+  filter.value += alpha * (input - filter.value);
+  return filter.value;
+}
+
 static RuntimeMotorState makeRuntimeMotorState(
   BLDCMotor &motor,
   const PositionHoldState &control,
-  bool ready
+  bool ready,
+  TelemetryVelocityFilterState &velocityFilter,
+  uint32_t nowUs
 ) {
   RuntimeMotorState state;
+  const float highFrequencyVelocity = ready ? motor.shaft_velocity : 0.0f;
   state.position = ready ? motor.shaft_angle : 0.0f;
-  state.velocity = ready ? motor.shaft_velocity : 0.0f;
+  state.velocity = updateTelemetryVelocityFilter(
+    velocityFilter,
+    highFrequencyVelocity,
+    ready,
+    nowUs
+  );
+  state.velocityHighFrequency = highFrequencyVelocity;
   state.iq = ready ? motor.current.q : 0.0f;
   state.iqTarget = ready ? control.iqCommand : 0.0f;
   state.ready = ready;
@@ -1031,13 +1187,26 @@ static RuntimeMotorState makeRuntimeMotorState(
 
 static RuntimeControlState makeRuntimeControlState() {
   RuntimeControlState state;
-  state.tUs = micros();
+  const uint32_t nowUs = micros();
+  state.tUs = nowUs;
   state.latestCommandIndex = latestAppliedCommandIndex;
   state.controlLoopUs = lastControlLoopUs;
   state.flags = (motor0Ready ? USB_STATE_FLAG_M0_READY : 0) |
     (motor1Ready ? USB_STATE_FLAG_M1_READY : 0);
-  state.m0 = makeRuntimeMotorState(motor0, control0, motor0Ready);
-  state.m1 = makeRuntimeMotorState(motor1, control1, motor1Ready);
+  state.m0 = makeRuntimeMotorState(
+    motor0,
+    control0,
+    motor0Ready,
+    telemetryVelocity0,
+    nowUs
+  );
+  state.m1 = makeRuntimeMotorState(
+    motor1,
+    control1,
+    motor1Ready,
+    telemetryVelocity1,
+    nowUs
+  );
   return state;
 }
 
@@ -1872,6 +2041,7 @@ static void controlStep() {
 
   if (motor0Ready) {
     motor0.loopFOC();
+    updateMotorKinematics(motor0);
     if (torqueAllowed && commandMotor0Enabled) {
       const float iq = runPositionHoldPd(motor0, control0, runtimeConfig0);
       setIqTarget(motor0, iq);
@@ -1883,6 +2053,7 @@ static void controlStep() {
 
   if (motor1Ready) {
     motor1.loopFOC();
+    updateMotorKinematics(motor1);
     if (torqueAllowed && commandMotor1Enabled) {
       const float iq = runPositionHoldPd(motor1, control1, runtimeConfig1);
       setIqTarget(motor1, iq);

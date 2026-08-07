@@ -11,7 +11,7 @@ All multi-byte values are little-endian. Packets are packed with no padding. The
 | 0 | `uint8` | `magic0` | `0xA5` |
 | 1 | `uint8` | `magic1` | `0x5A` |
 | 2 | `uint8` | `type` | `'C'` command or `'S'` state |
-| 3 | `uint8` | `version` | `1` |
+| 3 | `uint8` | `version` | `2` |
 | 4 | `uint8` | `length` | packet length in bytes |
 
 ## Command Packet, PC To Board
@@ -50,9 +50,9 @@ At firmware startup, no command has been consumed, so torque is disabled even th
 
 ## State Packet, Board To PC
 
-Type `'S'`, length `53` bytes.
+Type `'S'`, length `61` bytes.
 
-Format string used by the Python helper: `<BBBBBHIIf8fBB`.
+Format string used by the Python helper: `<BBBBBHIIf10fBB`.
 
 | Offset | Type | Field | Unit |
 | ---: | --- | --- | --- |
@@ -60,21 +60,29 @@ Format string used by the Python helper: `<BBBBBHIIf8fBB`.
 | 1 | `uint8` | `magic1` | |
 | 2 | `uint8` | `type = 'S'` | |
 | 3 | `uint8` | `version` | |
-| 4 | `uint8` | `length = 53` | |
+| 4 | `uint8` | `length = 61` | |
 | 5 | `uint16` | `sequence` | board state sequence |
 | 7 | `uint32` | `t_us` | us |
 | 11 | `uint32` | `latest_command_index` | last command consumed by core1 |
 | 15 | `float32` | `control_loop_us` | us |
 | 19 | `float32` | `m0_q` | rad |
-| 23 | `float32` | `m0_v` | rad/s |
-| 27 | `float32` | `m0_i` | A |
-| 31 | `float32` | `m0_i_target` | A |
-| 35 | `float32` | `m1_q` | rad |
-| 39 | `float32` | `m1_v` | rad/s |
-| 43 | `float32` | `m1_i` | A |
-| 47 | `float32` | `m1_i_target` | A |
-| 51 | `uint8` | `flags` | bit0 M0 ready, bit1 M1 ready |
-| 52 | `uint8` | `checksum` | XOR |
+| 23 | `float32` | `m0_v` | rad/s, PC-facing filtered velocity |
+| 27 | `float32` | `m0_v_highfrequency` | rad/s, internal PD velocity |
+| 31 | `float32` | `m0_i` | A |
+| 35 | `float32` | `m0_i_target` | A |
+| 39 | `float32` | `m1_q` | rad |
+| 43 | `float32` | `m1_v` | rad/s, PC-facing filtered velocity |
+| 47 | `float32` | `m1_v_highfrequency` | rad/s, internal PD velocity |
+| 51 | `float32` | `m1_i` | A |
+| 55 | `float32` | `m1_i_target` | A |
+| 59 | `uint8` | `flags` | bit0 M0 ready, bit1 M1 ready |
+| 60 | `uint8` | `checksum` | XOR |
+
+`m*_v_highfrequency` is the velocity used by the onboard PD loop. `m*_v`
+is additionally low-pass filtered for external PC controllers. The firmware
+uses a 50 Hz telemetry velocity cutoff, chosen as one tenth of the minimum
+planned 500 Hz PC control rate. The equivalent first-order time constant is
+`1 / (2*pi*50) = 3.18 ms`.
 
 `latest_command_index` is copied only on core1 when the motor control loop consumes a command. The PC can measure command path latency by recording send time for a command index and waiting until a state packet echoes the same index.
 
@@ -100,7 +108,7 @@ Normal sketch upload keeps the EEPROM flash sector intact.
 `../software/tools/motor_usb_client.py` wraps the packet protocol and runs a background RX thread:
 
 - `MotorUsbController.initialize()` sends a zero-gain, zero-timeout command and waits for core1 to echo its command index.
-- `robot.m0.q`, `robot.m0.v`, `robot.m0.i`, and `robot.m0.i_target` are measured values updated by the background RX thread. `robot.m1` exposes the same fields.
+- `robot.m0.q`, `robot.m0.v`, `robot.m0.v_highfrequency`, `robot.m0.i`, and `robot.m0.i_target` are measured values updated by the background RX thread. `robot.m1` exposes the same fields.
 - `robot.m0.set(...)` and `robot.m1.set(...)` update the next command targets. The target fields are `q_target`, `v_target`, `kp`, `kd`, and `iff`.
 - `robot.update(block=False)` sends a command, rate-limited to 1 kHz by default. State packets continue to be parsed asynchronously.
 - `robot.update(wait_state=True)` sends the command and waits for the next state packet, without requiring command-index echo.

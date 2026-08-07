@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from motor_usb_client import MotorUsbController
 
 amplitude = 3.0
-frequency = 1.0
+frequency = 5
 with MotorUsbController(timeout_ms=20) as robot:
     robot.initialize()
     q0, q1 = robot.m0.q, robot.m1.q
