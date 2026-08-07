@@ -29,7 +29,7 @@
 #define GPIO_ADC_SYNC_PWM 27
 
 #ifndef CURRENT_CONTROL_BANDWIDTH_HZ
-#define CURRENT_CONTROL_BANDWIDTH_HZ 200.0f
+#define CURRENT_CONTROL_BANDWIDTH_HZ 300.0f
 #endif
 
 #ifndef M0_SENSOR_DIRECTION_SIGN
@@ -70,8 +70,8 @@ struct PositionHoldConfig {
 };
 
 static constexpr int GM3506_POLE_PAIRS = 11;
-static constexpr float GM3506_PHASE_RESISTANCE_OHM = 5.50f / 2.0f;
-static constexpr float GM3506_PHASE_INDUCTANCE_H = 0.00108f;
+static constexpr float GM3506_PHASE_RESISTANCE_OHM = 3.2f;
+static constexpr float GM3506_PHASE_INDUCTANCE_H = 0.0005f;
 static constexpr float GM3506_PEAK_CURRENT_A = 3.0f;
 
 static constexpr float SUPPLY_VOLTAGE_FALLBACK = 10.0f;
@@ -136,9 +136,11 @@ static constexpr float ADC_TRIGGER_DUTY = 1.0f - 0.045f;
 static constexpr float CURRENT_SENSE_VREF = 3.3f;
 static constexpr float ADC_FULL_SCALE_COUNTS = 4096.0f;
 static constexpr float ADC_ZERO_CURRENT_COUNTS = ADC_FULL_SCALE_COUNTS * 0.5f;
-static constexpr float DRV_CSA_GAIN_V_PER_A = 0.375f;
+// DRV8316C: CSA_GAIN=11b is 1.2 V/A. The Arduino-FOC-drivers enum name for
+// this raw value is inherited from another variant and is called Gain_0V375.
+static constexpr float DRV_CSA_GAIN_V_PER_A = 1.2f;
 static constexpr float ADC_COUNT_TO_PHASE_CURRENT_A =
-  CURRENT_SENSE_VREF / ADC_FULL_SCALE_COUNTS / DRV_CSA_GAIN_V_PER_A;
+    CURRENT_SENSE_VREF / ADC_FULL_SCALE_COUNTS / DRV_CSA_GAIN_V_PER_A;
 static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLES = 128;
 static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLE_US = 50;
 
@@ -149,6 +151,22 @@ static constexpr float VBUS_DIVIDER_LOW_OHM = 10000.0f;
 static constexpr float VBUS_DIVIDER_RATIO =
   (VBUS_DIVIDER_HIGH_OHM + VBUS_DIVIDER_LOW_OHM) / VBUS_DIVIDER_LOW_OHM;
 static constexpr uint16_t VBUS_STARTUP_SAMPLES = 16;
+
+static constexpr float IDENTIFICATION_TEST_VOLTAGE = 1.0f;
+static constexpr float IDENTIFICATION_SPIN_VOLTAGE = 2.0f;
+static constexpr uint16_t IDENTIFICATION_RESISTANCE_RAMP_STEPS = 80;
+static constexpr uint16_t IDENTIFICATION_RESISTANCE_RAMP_STEP_US = 2500;
+static constexpr uint16_t IDENTIFICATION_RESISTANCE_SETTLE_MS = 200;
+static constexpr uint16_t IDENTIFICATION_CURRENT_AVERAGE_SAMPLES = 128;
+static constexpr uint16_t IDENTIFICATION_CURRENT_AVERAGE_SAMPLE_US = 100;
+static constexpr uint16_t IDENTIFICATION_INDUCTANCE_SAMPLES = 32;
+static constexpr uint16_t IDENTIFICATION_INDUCTANCE_RISE_US = 200;
+static constexpr uint16_t IDENTIFICATION_INDUCTANCE_SETTLE_US = 5000;
+static constexpr uint16_t IDENTIFICATION_SPINUP_MS = 1200;
+static constexpr uint16_t IDENTIFICATION_SPIN_MEASURE_MS = 800;
+static constexpr uint16_t IDENTIFICATION_SPIN_LOOP_US = 250;
+static constexpr float IDENTIFICATION_MIN_CURRENT_A = 0.05f;
+static constexpr float IDENTIFICATION_MIN_SPEED_RAD_S = 3.0f;
 
 static constexpr uint32_t SERIAL_STARTUP_WAIT_MS = 250;
 static constexpr uint32_t CALIBRATION_ENTRY_WAIT_MS = 5000;

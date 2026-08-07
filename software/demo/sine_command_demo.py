@@ -18,6 +18,6 @@ with MotorUsbController(timeout_ms=20) as robot:
         t = time.monotonic() - t0
         q = amplitude * math.sin(2.0 * math.pi * frequency * t)
         v = amplitude * 2.0 * math.pi * frequency * math.cos(2.0 * math.pi * frequency * t)
-        robot.m0.set(q=q0 + q, v=v, kp=2.0, kd=0.03)
-        robot.m1.set(q=q1 + q, v=v, kp=2.0, kd=0.03)
+        robot.m0.set(q=q0 + q, v=v, kp=1.0, kd=0.03)
+        robot.m1.set(q=q1 + q, v=v, kp=1.0, kd=0.03)
         robot.update()

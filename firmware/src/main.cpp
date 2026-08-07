@@ -18,6 +18,7 @@
 #include "BU79100QuadReader.h"
 #include "calibration_store.h"
 #include "drivers/drv8316/drv8316.h"
+#include "motor_identification.h"
 
 static PhaseCurrent_s readMotor0Currents();
 static PhaseCurrent_s readMotor1Currents();
@@ -777,7 +778,7 @@ static bool configureMotor(
   motor.controller = MotionControlType::torque;
   motor.foc_modulation = FOCModulationType::SinePWM;
   const float voltageLimit = _constrain(CURRENT_FOC_VOLTAGE_LIMIT, 0.0f, driver.voltage_limit);
-  motor.phase_resistance = NOT_SET;
+  motor.phase_resistance = GM3506_PHASE_RESISTANCE_OHM;
   motor.phase_inductance = GM3506_PHASE_INDUCTANCE_H;
   motor.sensor_direction = directionFromSign(config.sensorDirectionSign);
   motor.zero_electric_angle = config.zeroElectricAngle;
@@ -1625,6 +1626,52 @@ static bool captureMechanicalZeroForMotor(
   return true;
 }
 
+static bool prepareMotorForIdentification(
+  const char *label,
+  BLDCMotor &motor,
+  DRV8316Driver3PWM &driver,
+  CurrentSense &currentSense,
+  CheckedAS5048ASensor &encoder,
+  PositionHoldConfig &config,
+  bool encoderAllowed,
+  bool currentFeedbackOk
+) {
+  if (!encoderAllowed) {
+    Serial.print(label);
+    Serial.println(": encoder not healthy, identification skipped.");
+    driver.disable();
+    return false;
+  }
+  if (!currentFeedbackOk) {
+    Serial.print(label);
+    Serial.println(": current feedback not ready, identification skipped.");
+    driver.disable();
+    return false;
+  }
+  if (config.sensorDirectionSign == 0 || config.zeroElectricAngle == NOT_SET) {
+    Serial.print(label);
+    Serial.println(": run electrical calibration before identification.");
+    driver.disable();
+    return false;
+  }
+  if (!configureMotor(motor, driver, currentSense, encoder, config)) {
+    Serial.print(label);
+    Serial.println(": motor init failed, identification skipped.");
+    driver.disable();
+    return false;
+  }
+  if (motor.initFOC() == 0) {
+    Serial.print(label);
+    Serial.println(": FOC init failed, identification skipped.");
+    motor.disable();
+    driver.disable();
+    return false;
+  }
+
+  setIqTarget(motor, 0.0f);
+  return true;
+}
+
 static void runCalibrationWizard() {
   clearSerialInput();
 
@@ -1645,8 +1692,9 @@ static void runCalibrationWizard() {
     readUint32WithDefault("Unit serial number", workingSettings.serialNumber);
   const bool runElectrical = serialConfirm("Run electrical angle calibration?", true);
   const bool runMechanical = serialConfirm("Run mechanical zero calibration?", true);
+  const bool runIdentification = serialConfirm("Run motor parameter identification?", false);
 
-  if (runElectrical || runMechanical) {
+  if (runElectrical || runMechanical || runIdentification) {
     Serial.println("Initializing motor hardware...");
     const MotorHardwareStatus hardware = initializeMotorHardware();
     Serial.print("VBUS=");
@@ -1708,6 +1756,58 @@ static void runCalibrationWizard() {
 
       waitForEnter("Move M1 to mechanical zero, then press Enter.");
       captureMechanicalZeroForMotor("M1", 1, motor1, workingConfig1, workingSettings);
+    }
+
+    if (runIdentification) {
+      MotorIdentificationConfig identificationConfig = defaultMotorIdentificationConfig();
+
+      Serial.println();
+      Serial.println("Motor identification prints estimates only; it does not save motor parameters.");
+      Serial.println("Keep the motor unloaded. It will hold still for R/L, then spin for BEMF.");
+
+      waitForEnter("Press Enter to identify M0.");
+      if (prepareMotorForIdentification(
+            "M0",
+            motor0,
+            driver0,
+            currentSense0,
+            encoder0,
+            workingConfig0,
+            hardware.encoder0Allowed,
+            hardware.currentFeedback0Ok
+          )) {
+        MotorIdentificationResult result;
+        identifyMotorParameters(
+          "M0",
+          motor0,
+          currentSense0,
+          Serial,
+          identificationConfig,
+          result
+        );
+      }
+
+      waitForEnter("Press Enter to identify M1.");
+      if (prepareMotorForIdentification(
+            "M1",
+            motor1,
+            driver1,
+            currentSense1,
+            encoder1,
+            workingConfig1,
+            hardware.encoder1Allowed,
+            hardware.currentFeedback1Ok
+          )) {
+        MotorIdentificationResult result;
+        identifyMotorParameters(
+          "M1",
+          motor1,
+          currentSense1,
+          Serial,
+          identificationConfig,
+          result
+        );
+      }
     }
 
     setIqTarget(motor0, 0.0f);
