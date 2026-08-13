@@ -521,6 +521,9 @@ static bool usbPendingByteValid = false;
 static uint8_t usbPendingByte = 0;
 static TelemetryVelocityFilterState telemetryVelocity0;
 static TelemetryVelocityFilterState telemetryVelocity1;
+static float filteredBusVoltage = SUPPLY_VOLTAGE_FALLBACK;
+static bool filteredBusVoltageInitialized = false;
+static uint32_t lastBusVoltageUpdateUs = 0;
 
 static volatile bool interfaceCoreReady = false;
 static volatile bool calibrationModeActive = false;
@@ -652,11 +655,24 @@ static void syncAllPwmSlices() {
   pwm_set_mask_enabled((1u << NUM_PWM_SLICES) - 1u);
 }
 
+static void configureBusVoltageSense() {
+  analogReadResolution(VBUS_ADC_BITS);
+  pinMode(GPIO_VBUS_SENSE, INPUT);
+}
+
+static float busVoltageFromAdcCounts(float rawCounts) {
+  const float adcVoltage = rawCounts * CURRENT_SENSE_VREF / VBUS_ADC_MAX_COUNTS;
+  return adcVoltage * VBUS_DIVIDER_RATIO;
+}
+
+static float readBusVoltageSample() {
+  return busVoltageFromAdcCounts((float)analogRead(GPIO_VBUS_SENSE));
+}
+
 static float readBusVoltage() {
   uint32_t sum = 0;
 
-  analogReadResolution(VBUS_ADC_BITS);
-  pinMode(GPIO_VBUS_SENSE, INPUT);
+  configureBusVoltageSense();
   delay(2);
 
   for (uint16_t i = 0; i < VBUS_STARTUP_SAMPLES; i++) {
@@ -665,8 +681,7 @@ static float readBusVoltage() {
   }
 
   const float rawCounts = (float)sum / VBUS_STARTUP_SAMPLES;
-  const float adcVoltage = rawCounts * CURRENT_SENSE_VREF / VBUS_ADC_MAX_COUNTS;
-  return adcVoltage * VBUS_DIVIDER_RATIO;
+  return busVoltageFromAdcCounts(rawCounts);
 }
 
 static Direction directionFromSign(int8_t sign) {
@@ -714,8 +729,15 @@ static void loadOrCreateCalibrationSettings() {
   applyCalibrationSettings(activeCalibrationSettings);
 }
 
-static float usableSupplyVoltage(float measuredVoltage) {
+static bool busVoltageMeasurementValid(float measuredVoltage) {
   if (measuredVoltage > 4.0f && measuredVoltage < 30.0f) {
+    return true;
+  }
+  return false;
+}
+
+static float usableSupplyVoltage(float measuredVoltage) {
+  if (busVoltageMeasurementValid(measuredVoltage)) {
     return measuredVoltage;
   }
   return SUPPLY_VOLTAGE_FALLBACK;
@@ -779,13 +801,75 @@ static void configureDriver(DRV8316Driver3PWM &driver, float measuredBusVoltage)
   driver.setOCPClearInPWMCycleChange(false);
   delayMicroseconds(5);
 
-  driver.setCurrentSenseGain(DRV8316_CSAGain::Gain_0V375);
+  // DRV8316C raw CSA_GAIN=01b is 0.3 V/A; the enum name is for another variant.
+  driver.setCurrentSenseGain(DRV8316_CSAGain::Gain_0V1875);
   delayMicroseconds(5);
 
   driver.setDriverOffEnabled(false);
   delayMicroseconds(5);
 
   driver.clearFault();
+}
+
+static void applyMotorVoltageLimit(BLDCMotor &motor, bool ready) {
+  if (!ready || motor.driver == nullptr) {
+    return;
+  }
+
+  const float voltageLimit = _constrain(
+    CURRENT_FOC_VOLTAGE_LIMIT,
+    0.0f,
+    motor.driver->voltage_limit
+  );
+  motor.voltage_limit = voltageLimit;
+  if (motor.current_sense != nullptr) {
+    motor.PID_current_q.limit = voltageLimit;
+    motor.PID_current_d.limit = voltageLimit;
+  }
+}
+
+static void applyRuntimeBusVoltage(float busVoltage) {
+  const float supplyVoltage = usableSupplyVoltage(busVoltage);
+  filteredBusVoltage = supplyVoltage;
+
+  driver0.voltage_power_supply = supplyVoltage;
+  driver1.voltage_power_supply = supplyVoltage;
+  driver0.voltage_limit = clampVoltageLimitToBus(DRIVER_VOLTAGE_LIMIT, supplyVoltage);
+  driver1.voltage_limit = clampVoltageLimitToBus(DRIVER_VOLTAGE_LIMIT, supplyVoltage);
+
+  applyMotorVoltageLimit(motor0, motor0Ready);
+  applyMotorVoltageLimit(motor1, motor1Ready);
+}
+
+static void initializeRuntimeBusVoltage(float measuredBusVoltage, uint32_t nowUs) {
+  filteredBusVoltageInitialized = true;
+  lastBusVoltageUpdateUs = nowUs;
+  applyRuntimeBusVoltage(measuredBusVoltage);
+}
+
+static void updateRuntimeBusVoltageIfDue(uint32_t nowUs) {
+  if (!filteredBusVoltageInitialized) {
+    initializeRuntimeBusVoltage(SUPPLY_VOLTAGE_FALLBACK, nowUs);
+  }
+  if ((nowUs - lastBusVoltageUpdateUs) < VBUS_RUNTIME_UPDATE_INTERVAL_US) {
+    return;
+  }
+
+  const float measuredBusVoltage = readBusVoltageSample();
+  if (!busVoltageMeasurementValid(measuredBusVoltage)) {
+    lastBusVoltageUpdateUs = nowUs;
+    return;
+  }
+
+  const float dt = (float)(nowUs - lastBusVoltageUpdateUs) * 1.0e-6f;
+  lastBusVoltageUpdateUs = nowUs;
+  if (dt <= 0.0f) {
+    return;
+  }
+
+  const float alpha = dt / (VBUS_RUNTIME_FILTER_TF + dt);
+  filteredBusVoltage += alpha * (measuredBusVoltage - filteredBusVoltage);
+  applyRuntimeBusVoltage(filteredBusVoltage);
 }
 
 static float adcRawToSensedCurrent(uint16_t raw) {
@@ -887,7 +971,7 @@ static bool configureMotor(
 
   motor.torque_controller = TorqueControlType::foc_current;
   motor.controller = MotionControlType::torque;
-  motor.foc_modulation = FOCModulationType::SinePWM;
+  motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
   const float voltageLimit = _constrain(CURRENT_FOC_VOLTAGE_LIMIT, 0.0f, driver.voltage_limit);
   motor.phase_resistance = GM3506_PHASE_RESISTANCE_OHM;
   motor.phase_inductance = GM3506_PHASE_INDUCTANCE_H;
@@ -2009,6 +2093,7 @@ static void runCalibrationWizard() {
 
 static void controlSetup() {
   const MotorHardwareStatus hardware = initializeMotorHardware();
+  initializeRuntimeBusVoltage(hardware.busVoltage, micros());
 
   if (hardware.encoder0Allowed && hardware.currentFeedback0Ok) {
     if (configureMotor(motor0, driver0, currentSense0, encoder0, runtimeConfig0)) {
@@ -2062,6 +2147,8 @@ static void controlStep() {
       setIqTarget(motor1, 0.0f);
     }
   }
+
+  updateRuntimeBusVoltageIfDue(nowUs);
 
   controlLoopCounter++;
   if ((nowUs - lastRuntimePublishUs) >= RUNTIME_STATE_PUBLISH_INTERVAL_US) {

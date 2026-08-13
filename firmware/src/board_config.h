@@ -29,7 +29,7 @@
 #define GPIO_ADC_SYNC_PWM 27
 
 #ifndef CURRENT_CONTROL_BANDWIDTH_HZ
-#define CURRENT_CONTROL_BANDWIDTH_HZ 300.0f
+#define CURRENT_CONTROL_BANDWIDTH_HZ 200.0f
 #endif
 
 #ifndef M0_SENSOR_DIRECTION_SIGN
@@ -72,13 +72,14 @@ struct PositionHoldConfig {
 static constexpr int GM3506_POLE_PAIRS = 11;
 static constexpr float GM3506_PHASE_RESISTANCE_OHM = 3.2f;
 static constexpr float GM3506_PHASE_INDUCTANCE_H = 0.0005f;
-static constexpr float GM3506_PEAK_CURRENT_A = 3.0f;
+static constexpr float GM3506_PEAK_CURRENT_A = 2.0f;
 
 static constexpr float SUPPLY_VOLTAGE_FALLBACK = 10.0f;
-static constexpr float CURRENT_FOC_VOLTAGE_LIMIT = 10.0f;
+static constexpr float VOLTAGE_LIMIT_SAFETY_CEILING = 30.0f;
+static constexpr float CURRENT_FOC_VOLTAGE_LIMIT = VOLTAGE_LIMIT_SAFETY_CEILING;
 static constexpr float POSITION_SENSOR_ALIGN_VOLTAGE = 1.0f;
-static constexpr float DRIVER_VOLTAGE_LIMIT = 10.0f;
-static constexpr float DRIVER_VOLTAGE_LIMIT_BUS_FRACTION = 0.95f;
+static constexpr float DRIVER_VOLTAGE_LIMIT = VOLTAGE_LIMIT_SAFETY_CEILING;
+static constexpr float DRIVER_VOLTAGE_LIMIT_BUS_FRACTION = 0.90f;
 static constexpr long PWM_FREQUENCY = 20000;
 
 static constexpr float M0_POSITION_IQ_LIMIT_A = GM3506_PEAK_CURRENT_A;
@@ -141,9 +142,9 @@ static constexpr float ADC_TRIGGER_DUTY = 1.0f - 0.045f;
 static constexpr float CURRENT_SENSE_VREF = 3.3f;
 static constexpr float ADC_FULL_SCALE_COUNTS = 4096.0f;
 static constexpr float ADC_ZERO_CURRENT_COUNTS = ADC_FULL_SCALE_COUNTS * 0.5f;
-// DRV8316C: CSA_GAIN=11b is 1.2 V/A. The Arduino-FOC-drivers enum name for
-// this raw value is inherited from another variant and is called Gain_0V375.
-static constexpr float DRV_CSA_GAIN_V_PER_A = 1.2f;
+// DRV8316C: CSA_GAIN=01b is 0.3 V/A. The Arduino-FOC-drivers enum name for
+// this raw value is inherited from another variant and is called Gain_0V1875.
+static constexpr float DRV_CSA_GAIN_V_PER_A = 0.3f;
 static constexpr float ADC_COUNT_TO_PHASE_CURRENT_A =
     CURRENT_SENSE_VREF / ADC_FULL_SCALE_COUNTS / DRV_CSA_GAIN_V_PER_A;
 static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLES = 128;
@@ -156,6 +157,12 @@ static constexpr float VBUS_DIVIDER_LOW_OHM = 10000.0f;
 static constexpr float VBUS_DIVIDER_RATIO =
   (VBUS_DIVIDER_HIGH_OHM + VBUS_DIVIDER_LOW_OHM) / VBUS_DIVIDER_LOW_OHM;
 static constexpr uint16_t VBUS_STARTUP_SAMPLES = 16;
+static constexpr uint16_t VBUS_RUNTIME_UPDATE_PWM_CYCLES = 100;
+static constexpr uint32_t VBUS_RUNTIME_UPDATE_INTERVAL_US =
+  (1000000UL * VBUS_RUNTIME_UPDATE_PWM_CYCLES) / PWM_FREQUENCY;
+static constexpr float VBUS_RUNTIME_FILTER_HZ = 5.0f;
+static constexpr float VBUS_RUNTIME_FILTER_TF =
+  1.0f / (6.28318530718f * VBUS_RUNTIME_FILTER_HZ);
 
 static constexpr float IDENTIFICATION_TEST_VOLTAGE = 1.0f;
 static constexpr float IDENTIFICATION_SPIN_VOLTAGE = 2.0f;
