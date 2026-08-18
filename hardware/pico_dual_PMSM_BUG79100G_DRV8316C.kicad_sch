@@ -2766,6 +2766,277 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "LED:SK6812MINI"
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 5.08 5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right bottom)
+				)
+			)
+			(property "Value" "SK6812MINI"
+				(at 1.27 -5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "LED_SMD:LED_SK6812MINI_PLCC4_3.5x3.5mm_P1.75mm"
+				(at 1.27 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/2686/SK6812MINI_REV.01-1-2.pdf"
+				(at 2.54 -9.525 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Description" "RGB LED with integrated controller"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "RGB LED NeoPixel Mini addressable"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "LED*SK6812MINI*PLCC*3.5x3.5mm*P1.75mm*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SK6812MINI_0_0"
+				(text "RGB"
+					(at 2.286 -4.191 0)
+					(effects
+						(font
+							(size 0.762 0.762)
+						)
+					)
+				)
+			)
+			(symbol "SK6812MINI_0_1"
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 1.778 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -3.556) (xy 1.778 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.286 -1.524) (xy 1.27 -2.54) (xy 1.27 -2.032)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.286 -2.54) (xy 1.27 -3.556) (xy 1.27 -3.048)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.683 -1.016) (xy 3.683 -3.556) (xy 3.683 -4.064)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 4.699 -1.524) (xy 2.667 -1.524) (xy 3.683 -3.556) (xy 4.699 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 4.699 -3.556) (xy 2.667 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 5.08 5.08)
+					(end -5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "SK6812MINI_1_1"
+				(pin output line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "DOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "DIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "MCU_Module:RaspberryPi_Pico"
 			(pin_names
 				(offset 0.762)
@@ -3923,6 +4194,170 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Switch:SW_Push"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "SW"
+				(at 1.27 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "SW_Push"
+				(at 0 -1.524 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Push button switch, generic, two pins"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "switch normally-open pushbutton push-button"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SW_Push_0_1"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 1.27) (xy 0 3.048)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.27) (xy -2.54 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "THVD2450DRBR:THVD2450DRBR"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -4663,6 +5098,16 @@
 		)
 		(uuid "0dcb372f-d2c3-4f25-9c0d-0dc0a6488e81")
 	)
+	(text "4.8Mhz"
+		(exclude_from_sim no)
+		(at 339.852 37.338 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "3283127a-7598-46fd-95a9-1a5c79239e0d")
+	)
 	(text "175Hz"
 		(exclude_from_sim no)
 		(at 152.4 81.28 0)
@@ -4733,6 +5178,12 @@
 		(uuid "0b4623e0-6a13-469c-8fca-4908afc0bbae")
 	)
 	(junction
+		(at 71.12 185.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0f2270ed-0237-47f6-a9ec-4ee56118091b")
+	)
+	(junction
 		(at 224.79 83.82)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4757,6 +5208,12 @@
 		(uuid "19297a9a-baa5-4322-841e-caf658def69b")
 	)
 	(junction
+		(at 82.55 135.89)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1ae2195d-00c5-43bd-a4a5-69c8d26c7725")
+	)
+	(junction
 		(at 379.73 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4767,6 +5224,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1fed6ddd-1931-45a3-8749-c9cc2c460748")
+	)
+	(junction
+		(at 132.08 203.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "20401165-3ff3-46f6-aa47-cfaca0400881")
 	)
 	(junction
 		(at 344.17 73.66)
@@ -4787,16 +5250,28 @@
 		(uuid "2ae89596-1aa3-4124-8c1e-d4fb1de57a0b")
 	)
 	(junction
+		(at 82.55 218.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "300adcc8-dc30-4592-93f3-9bd89f9e6a1f")
+	)
+	(junction
+		(at 82.55 177.8)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3405f690-07a9-41ce-b719-d8e4605015ad")
+	)
+	(junction
+		(at 82.55 223.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3a6b1a21-71e8-46d8-8c16-dc986d5e430c")
+	)
+	(junction
 		(at 345.44 135.89)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3b9d5a2e-77af-4cd0-8a3e-e73856a4599d")
-	)
-	(junction
-		(at 57.15 184.15)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "3df438d7-fd2a-408d-befe-6ede36fd71b8")
 	)
 	(junction
 		(at 213.36 76.2)
@@ -4817,6 +5292,12 @@
 		(uuid "6568e26b-057d-4b3d-9c4e-34f265e3039f")
 	)
 	(junction
+		(at 82.55 185.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6a8427ce-38cd-429a-8922-fd6aa64967b9")
+	)
+	(junction
 		(at 224.79 76.2)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4829,16 +5310,34 @@
 		(uuid "6df2f979-dc24-4fc1-b51a-75ac6516b9ee")
 	)
 	(junction
+		(at 82.55 220.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7195b913-e66a-4cbe-84b7-a8b3878b9a2c")
+	)
+	(junction
 		(at 346.71 27.94)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "75b40fc4-8f10-4027-99da-86a2f590b9bc")
 	)
 	(junction
+		(at 163.83 195.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "775787b8-1d20-40e1-ba99-413f11e43aee")
+	)
+	(junction
 		(at 220.98 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7c22a5b5-ef43-44d2-9590-a80dc0206986")
+	)
+	(junction
+		(at 82.55 182.88)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "830e0ea1-031b-474c-9451-0f46fde2e5e6")
 	)
 	(junction
 		(at 184.15 48.26)
@@ -4859,12 +5358,6 @@
 		(uuid "889d1e14-39c6-4358-a784-a8a534fec79e")
 	)
 	(junction
-		(at 49.53 208.28)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "88e1a102-6c0c-4bf1-8f62-0d22bc36f710")
-	)
-	(junction
 		(at 295.91 76.2)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4883,10 +5376,28 @@
 		(uuid "91292f7f-22eb-4572-b335-f4f4e49054a8")
 	)
 	(junction
+		(at 82.55 215.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "96e5469b-2b19-44f0-81cb-8f0f29dd1930")
+	)
+	(junction
+		(at 82.55 226.06)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "994f7973-9c92-47bc-ad67-730b6778ae17")
+	)
+	(junction
 		(at 157.48 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9993d9fb-70ac-4375-b4fb-a67fc86962a3")
+	)
+	(junction
+		(at 82.55 175.26)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9c1889c3-473f-473a-a8bd-dbc7e6a66ee4")
 	)
 	(junction
 		(at 220.98 60.96)
@@ -4949,34 +5460,22 @@
 		(uuid "b5d4e4c8-4d99-411d-8115-2b6930a4ef87")
 	)
 	(junction
-		(at 82.55 135.89)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b7132687-cb38-438f-ad5a-a1f035356832")
-	)
-	(junction
-		(at 57.15 210.82)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ba701b5f-70b1-4b80-b075-4efa93a55e00")
-	)
-	(junction
 		(at 210.82 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bed75bed-6305-4f1f-a004-f7879df31da4")
 	)
 	(junction
-		(at 49.53 181.61)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "bee5e53e-7154-4c89-b894-e89393ef454e")
-	)
-	(junction
 		(at 213.36 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c0be1877-cb8d-4ca4-819c-bd5ae6e30d05")
+	)
+	(junction
+		(at 82.55 213.36)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c5c4aab2-e8fa-459f-b586-a52cbe69ad80")
 	)
 	(junction
 		(at 219.71 133.35)
@@ -5015,6 +5514,12 @@
 		(uuid "d9a32b13-ad1f-4f05-85bb-0726b9b8f68b")
 	)
 	(junction
+		(at 91.44 135.89)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e4afe906-d870-4557-bdc8-b65e8025fa0d")
+	)
+	(junction
 		(at 212.09 146.05)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5027,10 +5532,28 @@
 		(uuid "e5f4a705-598a-4bbc-bf97-813b3ce1d7a1")
 	)
 	(junction
+		(at 71.12 223.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e83c8b20-d716-4617-88b0-5d604729b40e")
+	)
+	(junction
+		(at 82.55 187.96)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ead64f9c-7a02-4bfa-98dd-a76a19011cc2")
+	)
+	(junction
 		(at 46.99 67.31)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ec2b562e-e846-4d51-928b-729385bbb036")
+	)
+	(junction
+		(at 82.55 180.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f6c4ca8b-0130-4ae9-8f85-49ce09866326")
 	)
 	(junction
 		(at 212.09 151.13)
@@ -5063,16 +5586,6 @@
 			(type default)
 		)
 		(uuid "00d77a9a-edfc-43e0-82aa-5ae84bac59bd")
-	)
-	(wire
-		(pts
-			(xy 45.72 184.15) (xy 57.15 184.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "00fc1943-c185-406c-a40b-7e012ba717b4")
 	)
 	(wire
 		(pts
@@ -5133,16 +5646,6 @@
 			(type default)
 		)
 		(uuid "05de1313-c573-4667-9c40-39e6090490cc")
-	)
-	(wire
-		(pts
-			(xy 57.15 210.82) (xy 60.96 210.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "06335cc0-b578-46b8-aba9-335e0799cbcc")
 	)
 	(wire
 		(pts
@@ -5236,6 +5739,16 @@
 	)
 	(wire
 		(pts
+			(xy 148.59 195.58) (xy 144.78 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1486d573-df31-41c3-ba8c-828cf9455461")
+	)
+	(wire
+		(pts
 			(xy 379.73 105.41) (xy 379.73 140.97)
 		)
 		(stroke
@@ -5286,16 +5799,6 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 210.82) (xy 57.15 210.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "16fd46d1-474c-4e16-bfbd-fa7c73fbf3b0")
-	)
-	(wire
-		(pts
 			(xy 204.47 73.66) (xy 213.36 73.66)
 		)
 		(stroke
@@ -5316,6 +5819,16 @@
 	)
 	(wire
 		(pts
+			(xy 68.58 223.52) (xy 71.12 223.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "182dfcf7-27b6-44cf-b18f-a31ce3450282")
+	)
+	(wire
+		(pts
 			(xy 57.15 85.09) (xy 73.66 85.09)
 		)
 		(stroke
@@ -5323,16 +5836,6 @@
 			(type default)
 		)
 		(uuid "1899108c-1d86-42cb-856f-a00431d77862")
-	)
-	(wire
-		(pts
-			(xy 45.72 186.69) (xy 60.96 186.69)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "19ccc3d7-174b-4806-b7c0-4bb153131e52")
 	)
 	(wire
 		(pts
@@ -5386,13 +5889,13 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 189.23) (xy 60.96 189.23)
+			(xy 82.55 180.34) (xy 92.71 180.34)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1e7ba422-8491-4d14-ad7f-ff64d3ce1438")
+		(uuid "1e82d134-cf4f-4a3c-bf6f-79c3577b713e")
 	)
 	(wire
 		(pts
@@ -5403,16 +5906,6 @@
 			(type default)
 		)
 		(uuid "203c8fab-6459-4655-80e5-057401278d96")
-	)
-	(wire
-		(pts
-			(xy 49.53 181.61) (xy 60.96 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "208303b2-a54d-4cbf-b7ce-99d64aaa6202")
 	)
 	(wire
 		(pts
@@ -5433,6 +5926,16 @@
 			(type default)
 		)
 		(uuid "2120be89-b390-401f-a15f-45650c328282")
+	)
+	(wire
+		(pts
+			(xy 67.31 180.34) (xy 82.55 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2134da05-f0b9-4a53-9d6c-cc15d335cb6f")
 	)
 	(wire
 		(pts
@@ -5576,16 +6079,6 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 176.53) (xy 57.15 184.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2c14945a-ef6a-470a-bd7d-b5076daec284")
-	)
-	(wire
-		(pts
 			(xy 280.67 76.2) (xy 295.91 76.2)
 		)
 		(stroke
@@ -5623,6 +6116,16 @@
 			(type default)
 		)
 		(uuid "2edf082d-a4c3-441d-be3e-a0e8066f7670")
+	)
+	(wire
+		(pts
+			(xy 67.31 175.26) (xy 82.55 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3081575d-1c6c-4b1a-9d86-ae5c94beff14")
 	)
 	(wire
 		(pts
@@ -5666,16 +6169,6 @@
 	)
 	(wire
 		(pts
-			(xy 49.53 208.28) (xy 60.96 208.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "36f795e2-d1ec-4900-b5d1-a8c6a8cdd34a")
-	)
-	(wire
-		(pts
 			(xy 345.44 100.33) (xy 345.44 105.41)
 		)
 		(stroke
@@ -5706,6 +6199,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 185.42) (xy 92.71 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3c71f927-c4bc-4955-acb5-3f32260e0184")
+	)
+	(wire
+		(pts
 			(xy 299.72 76.2) (xy 295.91 76.2)
 		)
 		(stroke
@@ -5713,6 +6216,16 @@
 			(type default)
 		)
 		(uuid "3c9282ce-2652-471d-ad0e-cd24f97d25b5")
+	)
+	(wire
+		(pts
+			(xy 71.12 185.42) (xy 82.55 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3ca00ce1-ce6a-4848-a57b-da347c1ae0c0")
 	)
 	(wire
 		(pts
@@ -5836,16 +6349,6 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 208.28) (xy 49.53 208.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "453f74c4-18c9-4a09-b1ad-e78852666951")
-	)
-	(wire
-		(pts
 			(xy 346.71 26.67) (xy 346.71 27.94)
 		)
 		(stroke
@@ -5943,6 +6446,16 @@
 			(type default)
 		)
 		(uuid "4d922fe0-8691-4b7e-aa95-aef0423f30c0")
+	)
+	(wire
+		(pts
+			(xy 68.58 185.42) (xy 71.12 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d9befdd-2553-4bcd-9b36-6c7ea9fa2124")
 	)
 	(wire
 		(pts
@@ -6116,6 +6629,36 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 215.9) (xy 92.71 215.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "584ab42f-ff90-41c0-ae49-8f814a26073a")
+	)
+	(wire
+		(pts
+			(xy 78.74 187.96) (xy 82.55 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5912bf6c-8a00-4fa8-a453-fedd399b8d1c")
+	)
+	(wire
+		(pts
+			(xy 67.31 177.8) (xy 82.55 177.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "59be2adf-5a3a-41a5-a543-fe91cf38191c")
+	)
+	(wire
+		(pts
 			(xy 332.74 110.49) (xy 342.9 110.49)
 		)
 		(stroke
@@ -6216,6 +6759,16 @@
 	)
 	(wire
 		(pts
+			(xy 156.21 195.58) (xy 163.83 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "65184bda-c6f6-451d-a997-70851a6fd90a")
+	)
+	(wire
+		(pts
 			(xy 220.98 58.42) (xy 220.98 60.96)
 		)
 		(stroke
@@ -6223,6 +6776,16 @@
 			(type default)
 		)
 		(uuid "65aa69bc-fda7-4fa5-99b8-e878f9eaa758")
+	)
+	(wire
+		(pts
+			(xy 82.55 218.44) (xy 92.71 218.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "662f46f7-f13e-4fb2-8dc7-ee344dcb2a06")
 	)
 	(wire
 		(pts
@@ -6263,16 +6826,6 @@
 			(type default)
 		)
 		(uuid "6b2538e8-99ed-4e9e-bd3d-a9521c3b1cab")
-	)
-	(wire
-		(pts
-			(xy 45.72 181.61) (xy 49.53 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6cdc3986-ffdd-4ad9-b659-467ace405724")
 	)
 	(wire
 		(pts
@@ -6353,6 +6906,16 @@
 			(type default)
 		)
 		(uuid "73c96988-06d8-4c82-ba7f-0068e16510e3")
+	)
+	(wire
+		(pts
+			(xy 67.31 218.44) (xy 82.55 218.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74839399-ff6f-479e-8595-ee3a7b598ac6")
 	)
 	(wire
 		(pts
@@ -6486,6 +7049,26 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 226.06) (xy 92.71 226.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7fa3cd13-ae53-4ecd-952f-b6f5a2704ce2")
+	)
+	(wire
+		(pts
+			(xy 91.44 135.89) (xy 120.65 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8105f350-444e-4dcb-914c-810bd78b5872")
+	)
+	(wire
+		(pts
 			(xy 119.38 85.09) (xy 135.89 85.09)
 		)
 		(stroke
@@ -6546,6 +7129,26 @@
 	)
 	(wire
 		(pts
+			(xy 107.95 203.2) (xy 132.08 203.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "86a38fc7-96a9-4b80-bc3d-ce28089e0e9f")
+	)
+	(wire
+		(pts
+			(xy 144.78 195.58) (xy 144.78 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "871dd89c-ba08-4f13-9306-2ffa3c6b29ab")
+	)
+	(wire
+		(pts
 			(xy 378.46 146.05) (xy 375.92 146.05)
 		)
 		(stroke
@@ -6566,6 +7169,16 @@
 	)
 	(wire
 		(pts
+			(xy 132.08 203.2) (xy 132.08 207.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "898cdbf3-5003-494c-8f55-013c2e3fa6f7")
+	)
+	(wire
+		(pts
 			(xy 377.19 71.12) (xy 394.97 71.12)
 		)
 		(stroke
@@ -6576,7 +7189,17 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 194.31) (xy 60.96 194.31)
+			(xy 82.55 223.52) (xy 92.71 223.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "910a819d-3a1f-4ba1-8874-f4f52adc9bc6")
+	)
+	(wire
+		(pts
+			(xy 67.31 182.88) (xy 82.55 182.88)
 		)
 		(stroke
 			(width 0)
@@ -6636,16 +7259,6 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 218.44) (xy 60.96 218.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "965f658e-5a4e-46f3-858a-f27e5ab94732")
-	)
-	(wire
-		(pts
 			(xy 212.09 140.97) (xy 212.09 146.05)
 		)
 		(stroke
@@ -6653,6 +7266,26 @@
 			(type default)
 		)
 		(uuid "96945009-d1b4-43c1-bda8-5229b1df8365")
+	)
+	(wire
+		(pts
+			(xy 82.55 220.98) (xy 92.71 220.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97a32a2a-c570-4324-ace8-ba5af1bc9d36")
+	)
+	(wire
+		(pts
+			(xy 82.55 213.36) (xy 92.71 213.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97ee7d6f-8d6c-4105-bb44-75add802be29")
 	)
 	(wire
 		(pts
@@ -6673,6 +7306,16 @@
 			(type default)
 		)
 		(uuid "9af48d1d-e856-45f7-ae3b-60a904eeb277")
+	)
+	(wire
+		(pts
+			(xy 78.74 226.06) (xy 82.55 226.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9c027557-8373-4c1c-afb3-66e886d438df")
 	)
 	(wire
 		(pts
@@ -6816,6 +7459,16 @@
 	)
 	(wire
 		(pts
+			(xy 71.12 223.52) (xy 82.55 223.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a6b35c90-4b94-49c5-8506-b2968186a952")
+	)
+	(wire
+		(pts
 			(xy 379.73 38.1) (xy 394.97 38.1)
 		)
 		(stroke
@@ -6876,16 +7529,6 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 203.2) (xy 57.15 210.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "aca2f9c4-8bbd-48ee-ae3a-c0659cd478bc")
-	)
-	(wire
-		(pts
 			(xy 57.15 77.47) (xy 73.66 77.47)
 		)
 		(stroke
@@ -6916,6 +7559,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 135.89) (xy 91.44 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ae4370cf-f357-43b9-9f15-f296b864e89e")
+	)
+	(wire
+		(pts
 			(xy 217.17 128.27) (xy 223.52 128.27)
 		)
 		(stroke
@@ -6936,16 +7589,6 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 213.36) (xy 60.96 213.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b2d17368-55b3-470d-8169-685875b38e4f")
-	)
-	(wire
-		(pts
 			(xy 280.67 73.66) (xy 300.99 73.66)
 		)
 		(stroke
@@ -6956,16 +7599,6 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 220.98) (xy 60.96 220.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b3f56547-ecd2-4a27-9aa5-c67c6ce17405")
-	)
-	(wire
-		(pts
 			(xy 119.38 67.31) (xy 135.89 67.31)
 		)
 		(stroke
@@ -6973,16 +7606,6 @@
 			(type default)
 		)
 		(uuid "b4bfd8c5-ec7b-4574-97a3-7c5a41b419ee")
-	)
-	(wire
-		(pts
-			(xy 49.53 203.2) (xy 49.53 208.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b50b1572-f36f-445a-b23a-402a79307719")
 	)
 	(wire
 		(pts
@@ -7076,6 +7699,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 182.88) (xy 92.71 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bdc4bec7-839a-4a1e-b1e6-76141c8d16ba")
+	)
+	(wire
+		(pts
 			(xy 346.71 27.94) (xy 346.71 33.02)
 		)
 		(stroke
@@ -7096,6 +7729,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 177.8) (xy 92.71 177.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "beffe321-708d-4371-a4e5-d4d7cf124de0")
+	)
+	(wire
+		(pts
 			(xy 280.67 50.8) (xy 300.99 50.8)
 		)
 		(stroke
@@ -7113,16 +7756,6 @@
 			(type default)
 		)
 		(uuid "c0e3ee3a-cb74-4970-895d-a23b6a950f10")
-	)
-	(wire
-		(pts
-			(xy 45.72 215.9) (xy 60.96 215.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c6a9b3c8-256b-4984-a9d9-810592684832")
 	)
 	(wire
 		(pts
@@ -7226,6 +7859,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 175.26) (xy 92.71 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ceb06536-126e-4d71-bdca-6844db18654b")
+	)
+	(wire
+		(pts
 			(xy 381 33.02) (xy 394.97 33.02)
 		)
 		(stroke
@@ -7243,6 +7886,16 @@
 			(type default)
 		)
 		(uuid "d3e2ec1e-4d86-458f-b847-35bbfd6f7713")
+	)
+	(wire
+		(pts
+			(xy 163.83 210.82) (xy 163.83 213.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d46d5760-fa49-405d-b2fd-a4f2e74b2106")
 	)
 	(wire
 		(pts
@@ -7286,6 +7939,16 @@
 	)
 	(wire
 		(pts
+			(xy 156.21 203.2) (xy 132.08 203.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d7289fbf-7417-4171-af12-422d10659b77")
+	)
+	(wire
+		(pts
 			(xy 20.32 74.93) (xy 33.02 74.93)
 		)
 		(stroke
@@ -7313,16 +7976,6 @@
 			(type default)
 		)
 		(uuid "d8913dc5-c705-42be-ba94-e7c686319046")
-	)
-	(wire
-		(pts
-			(xy 57.15 184.15) (xy 60.96 184.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d9994e84-63e1-44de-a6b7-128ee1470682")
 	)
 	(wire
 		(pts
@@ -7356,16 +8009,6 @@
 	)
 	(wire
 		(pts
-			(xy 49.53 176.53) (xy 49.53 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dcd800ac-bcb7-49ec-82f1-5180392db584")
-	)
-	(wire
-		(pts
 			(xy 57.15 74.93) (xy 73.66 74.93)
 		)
 		(stroke
@@ -7373,16 +8016,6 @@
 			(type default)
 		)
 		(uuid "de1a7208-4207-4ee1-9ce5-935a49b68320")
-	)
-	(wire
-		(pts
-			(xy 45.72 191.77) (xy 60.96 191.77)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "de379ddd-e5d8-4538-b148-205b2bb29325")
 	)
 	(wire
 		(pts
@@ -7436,6 +8069,16 @@
 	)
 	(wire
 		(pts
+			(xy 67.31 220.98) (xy 82.55 220.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e422e98f-4fea-4677-9d7d-6e18ba662190")
+	)
+	(wire
+		(pts
 			(xy 182.88 115.57) (xy 182.88 120.65)
 		)
 		(stroke
@@ -7453,6 +8096,16 @@
 			(type default)
 		)
 		(uuid "e7378f68-3c7b-4212-8155-a4fe9dc9755e")
+	)
+	(wire
+		(pts
+			(xy 82.55 187.96) (xy 92.71 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e90878af-6549-4a0d-941b-9d9b66086622")
 	)
 	(wire
 		(pts
@@ -7526,6 +8179,16 @@
 	)
 	(wire
 		(pts
+			(xy 67.31 213.36) (xy 82.55 213.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6410607-8a79-4568-bf06-607c3cc3deb3")
+	)
+	(wire
+		(pts
 			(xy 345.44 140.97) (xy 347.98 140.97)
 		)
 		(stroke
@@ -7553,6 +8216,16 @@
 			(type default)
 		)
 		(uuid "f82d2fcf-0dd1-420b-9103-6c4970bae020")
+	)
+	(wire
+		(pts
+			(xy 67.31 215.9) (xy 82.55 215.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8d1f5bb-6f23-46d0-a97c-23e8741138eb")
 	)
 	(wire
 		(pts
@@ -7674,6 +8347,16 @@
 		)
 		(uuid "024bfb16-0a0e-4ce1-99aa-18bf0ca41793")
 	)
+	(label "LED_SW"
+		(at 124.46 87.63 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "02f64498-33ed-41cd-9af3-fa46a060e0e7")
+	)
 	(label "M1_ENC_CS"
 		(at 57.15 87.63 0)
 		(effects
@@ -7713,6 +8396,16 @@
 			(justify left bottom)
 		)
 		(uuid "0e6d59d3-185d-4890-bd7c-54ea737b776c")
+	)
+	(label "M1_ENC_CS"
+		(at 67.31 220.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1948070a-ac60-4fd5-a161-f952a91c1e6c")
 	)
 	(label "M1_ADC_DATA_A"
 		(at 57.15 80.01 0)
@@ -7764,6 +8457,16 @@
 		)
 		(uuid "24064e27-e14f-4d4c-8093-9ae251c11f1d")
 	)
+	(label "M0_ENC_CLK"
+		(at 67.31 175.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "25052a85-de43-4a39-9a4e-e073e80e6cac")
+	)
 	(label "M0_ENC_MOSI"
 		(at 290.83 55.88 0)
 		(effects
@@ -7805,7 +8508,7 @@
 		(uuid "291d4674-0e3b-42d0-91ac-48945087d76e")
 	)
 	(label "M0_ENC_CS"
-		(at 45.72 194.31 0)
+		(at 67.31 182.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7813,26 +8516,6 @@
 			(justify left bottom)
 		)
 		(uuid "2ba534ce-8f0d-49d5-8ad7-07ef5bc400e9")
-	)
-	(label "M1_ENC_CLK"
-		(at 45.72 218.44 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "2c60becd-e532-4957-8b8f-52c5631a6752")
-	)
-	(label "M1_ENC_MISO"
-		(at 45.72 213.36 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "2d267196-35c2-4a1b-9d9c-b537c49133f7")
 	)
 	(label "M1_ADC_DATA_C"
 		(at 57.15 82.55 0)
@@ -7843,16 +8526,6 @@
 			(justify left bottom)
 		)
 		(uuid "2d97b449-69e0-4f43-b84b-9ce90e972c73")
-	)
-	(label "M0_ENC_CLK"
-		(at 45.72 191.77 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "2f601bdc-df15-47c4-a4c4-2a914b343bad")
 	)
 	(label "ADC_SYNC_PWM"
 		(at 124.46 85.09 0)
@@ -7893,16 +8566,6 @@
 			(justify left bottom)
 		)
 		(uuid "3854b0b8-f249-4112-9f2b-952ae83e4c3a")
-	)
-	(label "M0_ENC_MOSI"
-		(at 45.72 189.23 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "3b0f303e-3a8b-4d5b-a22f-cd9b7e3d4f11")
 	)
 	(label "VBUS_SENSE"
 		(at 132.08 82.55 0)
@@ -7983,6 +8646,16 @@
 			(justify left bottom)
 		)
 		(uuid "59b8bc27-e82b-4dbf-877e-01d7651e24dd")
+	)
+	(label "LED_SW"
+		(at 107.95 203.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5ea4bd9f-88b1-449b-8753-9960c7fcd52c")
 	)
 	(label "M0_ENC_CS"
 		(at 57.15 85.09 0)
@@ -8074,6 +8747,16 @@
 		)
 		(uuid "7871bf9a-5958-4215-a8f5-de7f5cc8efab")
 	)
+	(label "M0_ENC_MOSI"
+		(at 67.31 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "79d97934-5e49-4fa2-a513-d52f7b6c45b4")
+	)
 	(label "SPI0_SCK"
 		(at 125.73 62.23 0)
 		(effects
@@ -8113,6 +8796,16 @@
 			(justify left bottom)
 		)
 		(uuid "874acd8c-73f5-4c45-8c0e-e2496b4c448a")
+	)
+	(label "M1_ENC_MOSI"
+		(at 67.31 218.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8ec2e417-4b16-4f40-91ac-95e7fc4f011d")
 	)
 	(label "RS485_RX"
 		(at 215.9 200.66 0)
@@ -8164,16 +8857,6 @@
 		)
 		(uuid "95265ec0-3e30-4720-a8bf-edc05d31c949")
 	)
-	(label "M0_ENC_MISO"
-		(at 45.72 186.69 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "9b075b2c-623a-4869-b7d8-432075916c4f")
-	)
 	(label "M1_VA"
 		(at 213.36 140.97 0)
 		(effects
@@ -8214,6 +8897,16 @@
 		)
 		(uuid "ab5d48d7-6420-42cd-b880-e7da8de51539")
 	)
+	(label "M1_ENC_CLK"
+		(at 67.31 213.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ad872428-e4bf-456d-a1b7-a78cdce7fae3")
+	)
 	(label "M1_DRV_CS"
 		(at 57.15 92.71 0)
 		(effects
@@ -8223,16 +8916,6 @@
 			(justify left bottom)
 		)
 		(uuid "b12b4468-b75c-4387-804a-d0631045521c")
-	)
-	(label "M1_ENC_CS"
-		(at 45.72 220.98 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2a0c551-02ef-4b16-aa91-a3b99b8c3e67")
 	)
 	(label "M1_PWM_C"
 		(at 57.15 67.31 0)
@@ -8273,6 +8956,26 @@
 			(justify left bottom)
 		)
 		(uuid "be6087cb-47f3-4a5e-b69b-5b5232a40317")
+	)
+	(label "M1_ENC_MISO"
+		(at 67.31 215.9 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ce664889-5b44-419e-a73a-c4815927b508")
+	)
+	(label "M0_ENC_MISO"
+		(at 67.31 177.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d2bbada6-3130-4137-9c44-f5f6b25ee40f")
 	)
 	(label "M0_ADC_CSB"
 		(at 20.32 74.93 0)
@@ -8384,16 +9087,6 @@
 		)
 		(uuid "f80759a1-d1d9-4cda-bf86-7d8436769ed6")
 	)
-	(label "M1_ENC_MOSI"
-		(at 45.72 215.9 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "fd1fa2d3-7c10-46b0-8de7-f205d87386ae")
-	)
 	(label "M0_PWM_A"
 		(at 57.15 54.61 0)
 		(effects
@@ -8487,6 +9180,85 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR08")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 226.06 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0194473b-148a-487a-b81e-a8cf2fe7d2f8")
+		(property "Reference" "J25"
+			(at 97.155 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 228.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7ce3e50e-6a9b-49d8-8f0d-91a9d9d5fb90")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J25")
 					(unit 1)
 				)
 			)
@@ -8753,6 +9525,98 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR040")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 132.08 210.82 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "04659731-ffc2-4e8a-82de-9861de24cd98")
+		(property "Reference" "R29"
+			(at 129.54 212.598 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "330"
+			(at 134.366 214.376 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 130.302 210.82 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 210.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 132.08 210.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "mouser" ""
+			(at 132.08 210.82 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2bc4ba3a-887e-43fd-837d-3999a72c178a")
+		)
+		(pin "2"
+			(uuid "f64421be-e469-4d3c-9288-043972bdfa8d")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "R29")
 					(unit 1)
 				)
 			)
@@ -9103,7 +9967,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1812_4532Metric"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
 			(at 58.1152 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -9322,7 +10186,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 66.04 226.06 0)
+		(at 144.78 196.85 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9331,9 +10195,9 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "120f55c2-5b27-42bc-a88c-8838c502f7f0")
-		(property "Reference" "#PWR065"
-			(at 66.04 232.41 0)
+		(uuid "126c0b7f-fab0-448d-bfa4-e97a7a755452")
+		(property "Reference" "#PWR069"
+			(at 144.78 203.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9344,7 +10208,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 66.04 231.14 0)
+			(at 144.78 201.93 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9354,7 +10218,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 66.04 226.06 0)
+			(at 144.78 196.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9365,7 +10229,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 66.04 226.06 0)
+			(at 144.78 196.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9376,7 +10240,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 66.04 226.06 0)
+			(at 144.78 196.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9387,12 +10251,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "7c746855-38d6-4aca-9c4f-292665c96bf0")
+			(uuid "40423dad-38db-4e85-ad28-ab96a367aedd")
 		)
 		(instances
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "#PWR065")
+					(reference "#PWR069")
 					(unit 1)
 				)
 			)
@@ -9404,7 +10268,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -9553,91 +10417,12 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 53.34 203.2 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "170e059a-085b-4d07-a6e7-65e0210dd262")
-		(property "Reference" "C25"
-			(at 53.34 199.644 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100n"
-			(at 53.594 206.756 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 57.15 202.2348 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 53.34 203.2 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 53.34 203.2 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "66465ec8-decb-4c3f-815b-8164e5b79d96")
-		)
-		(pin "2"
-			(uuid "1f45e31f-9a5b-4138-89ff-8b5053a9dd8f")
-		)
-		(instances
-			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
-				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "C25")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "MCU_Module:RaspberryPi_Pico")
 		(at 96.52 69.85 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -9997,6 +10782,163 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 71.12 193.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1c11e5e5-9776-48d9-b30f-b635d87b6cb5")
+		(property "Reference" "#PWR070"
+			(at 71.12 199.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 71.12 198.12 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 71.12 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "87a1c43b-54e2-4c8e-b63d-5ebbc3a5e5a9")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR070")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 71.12 227.33 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "1dd0f5cb-753e-4b1f-b690-319f527d1bf4")
+		(property "Reference" "C25"
+			(at 67.564 227.33 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100n"
+			(at 74.676 227.076 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 70.1548 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 227.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 71.12 227.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "13fb1699-ceec-460b-a144-73a2503f9cea")
+		)
+		(pin "2"
+			(uuid "75adc139-a4eb-46fe-9ee8-eb69bf283a6c")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "C25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 344.17 41.91 0)
 		(unit 1)
@@ -10019,7 +10961,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22p"
+		(property "Value" "100p"
 			(at 347.98 43.1799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10174,6 +11116,85 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR034")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 180.34 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1ebb2e25-37e9-40cf-94e1-b5ddfd18a363")
+		(property "Reference" "J16"
+			(at 97.155 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "27c75741-9b33-4731-9c26-9246ec91d141")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J16")
 					(unit 1)
 				)
 			)
@@ -10438,7 +11459,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "Conn_01x02_Pin"
+		(property "Value" "DF13-02P-1.25DSA"
 			(at 302.26 205.74 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10520,7 +11541,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22p"
+		(property "Value" "100p"
 			(at 346.71 115.5699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10688,6 +11709,85 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "R21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 218.44 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "293fe248-fb1a-4bbf-b2df-755c19fc7f08")
+		(property "Reference" "J22"
+			(at 97.155 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 220.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "203d5a55-67f8-41fa-b4a7-830bb1399165")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J22")
 					(unit 1)
 				)
 			)
@@ -10946,7 +12046,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 45.72 184.15 90)
+		(at 68.58 185.42 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10957,7 +12057,7 @@
 		(fields_autoplaced yes)
 		(uuid "2fdb9b9f-be67-483c-9ee7-4aee574c9879")
 		(property "Reference" "#PWR057"
-			(at 49.53 184.15 0)
+			(at 72.39 185.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10968,7 +12068,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 41.91 184.1499 90)
+			(at 64.77 185.4199 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10979,7 +12079,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 45.72 184.15 0)
+			(at 68.58 185.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10990,7 +12090,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 45.72 184.15 0)
+			(at 68.58 185.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11001,7 +12101,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 45.72 184.15 0)
+			(at 68.58 185.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11102,6 +12202,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 177.8 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "30ae97b6-d7df-4830-92f3-c1382bbc7b9a")
+		(property "Reference" "J15"
+			(at 97.155 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "904a010a-d043-47a1-9830-9446124f6aad")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 223.52 138.43 270)
 		(unit 1)
@@ -11175,6 +12354,182 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR035")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 185.42 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "35b4d21f-fd70-48a5-ac3b-d9773985afa5")
+		(property "Reference" "J19"
+			(at 97.155 190.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b5bf7499-6596-4820-89be-3b745626772b")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic_MountingPin:Conn_01x06_MountingPin")
+		(at 87.63 180.34 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "36c8671d-26d7-4790-ba48-a125f3978329")
+		(property "Reference" "J10"
+			(at 85.598 171.704 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BM06B-SRSS-TB"
+			(at 90.17 183.2355 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_SH_BM06B-SRSS-TB_1x06-1MP_P1.00mm_Vertical"
+			(at 87.63 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connectable mounting pin connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 87.63 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "5"
+			(uuid "22410529-daa2-4d99-b5f9-2bc982d7138a")
+		)
+		(pin "3"
+			(uuid "f6ee67fd-64fd-4e60-822d-11821fcd26c9")
+		)
+		(pin "2"
+			(uuid "6ce75ab2-6494-40dc-9ab9-34b2138120ca")
+		)
+		(pin "1"
+			(uuid "08fa2b0b-0521-4198-ad10-a2d3d57bea31")
+		)
+		(pin "6"
+			(uuid "634f3e3d-4404-4b55-a02e-4065a87d88bf")
+		)
+		(pin "4"
+			(uuid "db94f19d-2fbd-4606-93bf-2df75b527b52")
+		)
+		(pin "MP"
+			(uuid "44afca01-2da3-47f0-81d5-121f5c57074c")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J10")
 					(unit 1)
 				)
 			)
@@ -11743,6 +13098,100 @@
 	)
 	(symbol
 		(lib_id "Device:C")
+		(at 91.44 139.7 0)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4371c756-e51d-4aae-abf5-cd7e3298489a")
+		(property "Reference" "C10"
+			(at 95.25 140.9701 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1uF 50V"
+			(at 95.25 138.4301 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+			(at 92.4052 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 91.44 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "mouser" ""
+			(at 91.44 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "d6c03e31-1bc1-44e0-8b6f-568f2b231d9b")
+		)
+		(pin "1"
+			(uuid "68c4bfd3-ae2e-40e8-aac2-eaebd3994f23")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
 		(at 339.09 100.33 90)
 		(unit 1)
 		(body_style 1)
@@ -12002,7 +13451,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22p"
+		(property "Value" "100p"
 			(at 346.71 151.1299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12078,6 +13527,243 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 152.4 195.58 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "4b07f2c8-adbb-4172-9887-4ab64b90a26e")
+		(property "Reference" "C26"
+			(at 152.4 192.024 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100n"
+			(at 152.654 199.136 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 156.21 194.6148 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 152.4 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0ef475c7-1db5-46e3-ad7b-9b9b3cb52712")
+		)
+		(pin "2"
+			(uuid "f8179541-6222-4c45-a8e7-3f285e2e0bf3")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "C26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 223.52 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4ec5d2fd-5a9b-4b01-ad8d-323f34c3090f")
+		(property "Reference" "J24"
+			(at 97.155 228.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5daf8d1a-04ad-499c-9b37-411efabfd37a")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 215.9 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "50b4b97b-5afd-45c4-ad18-cb8c19dec978")
+		(property "Reference" "J21"
+			(at 97.155 220.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c2f6e4df-5669-40ab-a067-263e63c82759")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J21")
 					(unit 1)
 				)
 			)
@@ -12253,6 +13939,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 87.63 193.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "52e843de-4a29-46f3-ace2-931bb84ad2b0")
+		(property "Reference" "#PWR064"
+			(at 87.63 199.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 87.63 198.12 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 87.63 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "50d35c5a-5608-4f36-bd88-a1f8d3e24aa5")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR064")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VCC")
 		(at 346.71 62.23 0)
 		(unit 1)
@@ -12353,7 +14117,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22p"
+		(property "Value" "100p"
 			(at 347.98 78.7399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12761,7 +14525,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 82.55 143.51 0)
+		(at 120.65 143.51 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12772,7 +14536,7 @@
 		(fields_autoplaced yes)
 		(uuid "5e95b1d5-f1b3-4310-8892-f99c4be7ca49")
 		(property "Reference" "#PWR014"
-			(at 82.55 149.86 0)
+			(at 120.65 149.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12783,7 +14547,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 82.55 148.59 0)
+			(at 120.65 148.59 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12793,7 +14557,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 82.55 143.51 0)
+			(at 120.65 143.51 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12804,7 +14568,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 143.51 0)
+			(at 120.65 143.51 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12815,7 +14579,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 82.55 143.51 0)
+			(at 120.65 143.51 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12950,7 +14714,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1812_4532Metric"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
 			(at 73.3552 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -13010,109 +14774,12 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic_MountingPin:Conn_01x06_MountingPin")
-		(at 66.04 186.69 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "655e1dfc-f4e6-4499-bbc4-98fd8ed17af4")
-		(property "Reference" "J10"
-			(at 68.58 187.0455 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Conn_01x06"
-			(at 68.58 189.5855 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_JST:JST_SH_BM06B-SRSS-TB_1x06-1MP_P1.00mm_Vertical"
-			(at 66.04 186.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 66.04 186.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connectable mounting pin connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 66.04 186.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "5"
-			(uuid "a16cf900-ca0f-4cc4-8de9-f758bc695c2f")
-		)
-		(pin "3"
-			(uuid "2e87c063-4e41-4d68-a4e1-70624b31e52e")
-		)
-		(pin "2"
-			(uuid "8fee3bfa-7044-44b8-ad89-3d622312649e")
-		)
-		(pin "1"
-			(uuid "d1b461b7-e863-4d47-b7f4-0c2a99bc14c5")
-		)
-		(pin "6"
-			(uuid "43b25499-41ec-4a10-9953-5f539d593030")
-		)
-		(pin "4"
-			(uuid "9af0408d-f8a6-4569-bed0-0a9f731559bd")
-		)
-		(pin "MP"
-			(uuid "74c83b7b-cdac-4daf-8c3b-43a7ba953b9c")
-		)
-		(instances
-			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
-				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "J10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector:Conn_01x01_Pin")
 		(at 198.12 151.13 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -13256,6 +14923,242 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR07")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 220.98 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6f26e32d-2102-4810-9256-3478dc8e6c8d")
+		(property "Reference" "J23"
+			(at 97.155 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 220.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 220.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 220.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0b933b4e-5742-4ed7-b92b-a5a0f726fbc4")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 78.74 187.96 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "75bea057-4171-4059-9dfd-6373eef76d79")
+		(property "Reference" "#PWR056"
+			(at 78.74 194.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 78.74 193.04 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 78.74 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 78.74 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 78.74 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "22203bf3-5ee5-4bf9-9e7a-a2feb9fc7e54")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR056")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 175.26 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "76ed7dae-43ab-4fb4-8b1d-3cf9d56fb4be")
+		(property "Reference" "J14"
+			(at 97.155 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "df48eb05-3697-4878-b769-29732cde44b9")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J14")
 					(unit 1)
 				)
 			)
@@ -13410,85 +15313,6 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "IC3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:VCC")
-		(at 45.72 210.82 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "791ad156-2daa-4a46-a8e4-ba477cdc122c")
-		(property "Reference" "#PWR059"
-			(at 49.53 210.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "VCC"
-			(at 41.91 210.8199 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 45.72 210.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 45.72 210.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 45.72 210.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "2e3ad3a4-64ed-4a5a-be0a-f2c9de470b9d")
-		)
-		(instances
-			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
-				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "#PWR059")
 					(unit 1)
 				)
 			)
@@ -13658,7 +15482,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -14193,6 +16017,84 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR024")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 87.63 231.14 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "90c38cf5-c886-473f-86aa-0123507b3a86")
+		(property "Reference" "#PWR065"
+			(at 87.63 237.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 87.63 236.22 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 87.63 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "257d2407-cbfd-4a1f-8263-b3969f3dc460")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR065")
 					(unit 1)
 				)
 			)
@@ -14896,6 +16798,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 91.44 143.51 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "98165798-0b69-4397-9653-a7f386e6e7cf")
+		(property "Reference" "#PWR072"
+			(at 91.44 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 91.44 148.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 91.44 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 91.44 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "bb887713-e540-47d9-bb03-d117e050d2b5")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR072")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 149.86 90.17 180)
 		(unit 1)
@@ -15297,10 +17277,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "9ccf93ee-b026-4cc7-990e-253356cfb118")
 		(property "Reference" "C5"
-			(at 266.7 195.58 0)
+			(at 259.588 195.072 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15311,7 +17290,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 266.7 198.12 0)
+			(at 259.588 193.294 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15364,6 +17343,85 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
+		(at 68.58 223.52 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9eac5e37-6533-4e93-818e-863f418ded7b")
+		(property "Reference" "#PWR058"
+			(at 72.39 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "VCC"
+			(at 64.77 223.5199 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 68.58 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 68.58 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 68.58 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ea148397-9eb7-49fa-9610-6bb4b3a3f2e1")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR058")
 					(unit 1)
 				)
 			)
@@ -15633,85 +17691,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 45.72 208.28 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a51d1f7f-1b6e-409a-a43e-dbe2367a227b")
-		(property "Reference" "#PWR058"
-			(at 39.37 208.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 41.91 208.2799 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 45.72 208.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 45.72 208.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 45.72 208.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "ab6e0537-a2ea-413a-801d-54e558710788")
-		)
-		(instances
-			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
-				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "#PWR058")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 157.48 76.2 0)
 		(unit 1)
@@ -15882,85 +17861,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 45.72 181.61 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a6fe7956-78d7-4558-8117-31003f66df1e")
-		(property "Reference" "#PWR056"
-			(at 39.37 181.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 41.91 181.6099 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 45.72 181.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 45.72 181.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 45.72 181.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "dff2fe9d-de57-40f7-b3f2-b4ae1e2b3db9")
-		)
-		(instances
-			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
-				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "#PWR056")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 157.48 41.91 270)
 		(unit 1)
@@ -16053,6 +17953,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 182.88 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "aaec534a-20e3-4127-90ed-8fabe33fefec")
+		(property "Reference" "J17"
+			(at 97.155 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2a41b44c-8e79-459a-9981-e80f8db30b9e")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 157.48 92.71 0)
 		(unit 1)
@@ -16125,6 +18104,88 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR033")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 132.08 219.71 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "acf4800b-0ee5-4141-91dc-75bf69530266")
+		(property "Reference" "SW1"
+			(at 133.35 218.4399 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "PTS810SJM250SMTRLFS"
+			(at 133.35 220.9799 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_PTS810"
+			(at 127 219.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 219.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Push button switch, generic, two pins"
+			(at 132.08 219.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "f6b71c83-d74b-4ecc-aadd-d402010db302")
+		)
+		(pin "1"
+			(uuid "153f755e-25fc-44a1-b1dd-a4092d6e0cfa")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "SW1")
 					(unit 1)
 				)
 			)
@@ -16209,8 +18270,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic_MountingPin:Conn_01x06_MountingPin")
-		(at 66.04 213.36 0)
+		(lib_id "LED:SK6812MINI")
+		(at 163.83 203.2 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -16219,31 +18280,53 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "b00e78b0-02f3-4dfc-a7f3-45359b8f0368")
-		(property "Reference" "J11"
-			(at 68.58 213.7155 0)
+		(uuid "b1d08767-948f-4557-bc89-3f4c2c885de7")
+		(property "Reference" "D1"
+			(at 176.53 196.7798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x06"
-			(at 68.58 216.2555 0)
+		(property "Value" "SK6812MINI"
+			(at 176.53 199.3198 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_JST:JST_SH_BM06B-SRSS-TB_1x06-1MP_P1.00mm_Vertical"
-			(at 66.04 213.36 0)
+		(property "Footprint" "LED_SMD:LED_SK6812MINI_PLCC4_3.5x3.5mm_P1.75mm"
+			(at 165.1 210.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/2686/SK6812MINI_REV.01-1-2.pdf"
+			(at 166.37 212.725 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Description" "RGB LED with integrated controller"
+			(at 163.83 203.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16252,54 +18335,23 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(property "Datasheet" ""
-			(at 66.04 213.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connectable mounting pin connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 66.04 213.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "5"
-			(uuid "feab22a3-8be3-4546-9574-9a76ba641614")
 		)
 		(pin "3"
-			(uuid "21c6aabf-5fd6-4deb-9f0a-cebf331ba109")
-		)
-		(pin "2"
-			(uuid "0bb6b167-f7ed-497d-a145-2aa0a92ffe3d")
+			(uuid "20b5a3c8-1e52-46aa-ade4-7ee5b0f22810")
 		)
 		(pin "1"
-			(uuid "047ceed9-078f-41d1-a942-4f33a045373f")
+			(uuid "a2453683-b0f0-4e90-87c6-842d5526c2be")
 		)
-		(pin "6"
-			(uuid "65a77391-4cca-4e71-8ffa-fff20882da9a")
+		(pin "2"
+			(uuid "262a97df-ba7e-464a-b820-0c39133814a4")
 		)
 		(pin "4"
-			(uuid "7c37f295-f92b-42c5-a674-1e878f25a5c0")
-		)
-		(pin "MP"
-			(uuid "f607a862-db96-47af-a2bf-c16d43e361df")
+			(uuid "7c717f70-f8c2-443d-b69c-628e7a8230bb")
 		)
 		(instances
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "J11")
+					(reference "D1")
 					(unit 1)
 				)
 			)
@@ -16378,6 +18430,85 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR011")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 71.12 189.23 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "b9731ca0-8708-44ed-a7cc-2ea1aec4feb2")
+		(property "Reference" "C24"
+			(at 67.564 189.23 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100n"
+			(at 74.676 188.976 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 70.1548 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 189.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 71.12 189.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b78a7681-3f66-4d56-9ec5-d1361460ade0")
+		)
+		(pin "2"
+			(uuid "72378dff-bb71-4ee3-a72f-c446dcce8185")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "C24")
 					(unit 1)
 				)
 			)
@@ -16535,6 +18666,84 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR022")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 132.08 224.79 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bdd96874-bae9-4498-91ea-6b54a17d9e48")
+		(property "Reference" "#PWR068"
+			(at 132.08 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 132.08 229.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.08 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 132.08 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0320d891-448e-4b4d-8a00-7ab7bc697bb5")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR068")
 					(unit 1)
 				)
 			)
@@ -16704,6 +18913,84 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "R23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 163.83 213.36 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c300ef6d-85a5-46cc-b1f8-1147399d86e5")
+		(property "Reference" "#PWR067"
+			(at 163.83 219.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 163.83 218.44 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 163.83 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 163.83 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 163.83 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2d9fcce2-50f1-463a-8120-e8d558d7f78d")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR067")
 					(unit 1)
 				)
 			)
@@ -16903,6 +19190,85 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 213.36 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c5ca78b8-f546-4a46-b775-a83055dcdf4e")
+		(property "Reference" "J18"
+			(at 97.155 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "23f2d50b-f2fe-4f95-8fbc-8085ea149f13")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J18")
 					(unit 1)
 				)
 			)
@@ -17242,7 +19608,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -17308,6 +19674,84 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 71.12 231.14 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "cc804a8a-f9dd-4828-bd35-c8ab2c0eb3d1")
+		(property "Reference" "#PWR071"
+			(at 71.12 237.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 71.12 236.22 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 71.12 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "bf0681bc-a56c-4f31-a830-6f710b34c32e")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR071")
 					(unit 1)
 				)
 			)
@@ -17715,6 +20159,84 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR012")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
+		(at 163.83 195.58 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d47d2419-2a3a-4ce1-ae86-16a9c7345c38")
+		(property "Reference" "#PWR066"
+			(at 163.83 199.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "VCC"
+			(at 163.83 190.5 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 163.83 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 163.83 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 163.83 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a838a9ca-9e31-4ad6-9603-616a9b902317")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR066")
 					(unit 1)
 				)
 			)
@@ -18130,84 +20652,6 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 66.04 199.39 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "de3adab7-e20b-4ab6-9870-6e74abb62ad0")
-		(property "Reference" "#PWR064"
-			(at 66.04 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 66.04 204.47 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 66.04 199.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 66.04 199.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 66.04 199.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "10bd16bd-fef3-44c3-8803-0f6b224bffe7")
-		)
-		(instances
-			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
-				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "#PWR064")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
 		(at 344.17 81.28 0)
 		(unit 1)
 		(body_style 1)
@@ -18279,6 +20723,85 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 97.79 187.96 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "dfeb4d9e-aed4-42ea-b654-73ab3ff51c5d")
+		(property "Reference" "J20"
+			(at 97.155 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 97.155 190.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Wire:SolderWirePad_1x01_SMD_1x2mm"
+			(at 97.79 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 97.79 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "70acb8de-0a7d-45ce-b7cc-da39e2c65471")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J20")
 					(unit 1)
 				)
 			)
@@ -18783,6 +21306,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 78.74 226.06 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "eb9192ae-9b62-45be-aa24-eb34875412bf")
+		(property "Reference" "#PWR059"
+			(at 78.74 232.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 78.74 231.14 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 78.74 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 78.74 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 78.74 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "967dea5a-ce16-4833-a093-b85d1919a6ad")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "#PWR059")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 43.18 138.43 180)
 		(unit 1)
@@ -18803,7 +21404,7 @@
 				)
 			)
 		)
-		(property "Value" "Conn_01x02"
+		(property "Value" "XT30PW-M"
 			(at 43.18 132.08 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19038,7 +21639,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -19366,7 +21967,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -19780,6 +22381,103 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic_MountingPin:Conn_01x06_MountingPin")
+		(at 87.63 218.44 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "fbffac94-1f36-4390-877c-03707b2242cc")
+		(property "Reference" "J11"
+			(at 85.598 209.804 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BM06B-SRSS-TB"
+			(at 90.17 221.3355 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_SH_BM06B-SRSS-TB_1x06-1MP_P1.00mm_Vertical"
+			(at 87.63 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connectable mounting pin connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 87.63 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "5"
+			(uuid "007139a1-d17f-46dc-b8ff-aecc2bb3e4df")
+		)
+		(pin "3"
+			(uuid "048a8ed4-5a72-4071-81e1-934f32e280f2")
+		)
+		(pin "2"
+			(uuid "db83710e-b4bb-41c2-a758-83b6edaaa6c0")
+		)
+		(pin "1"
+			(uuid "d3f45b78-e8ae-497e-9a1c-a9e6f3073fd7")
+		)
+		(pin "6"
+			(uuid "dda74f27-7dad-45d3-8ede-7a3e1c3a00a9")
+		)
+		(pin "4"
+			(uuid "67d83198-5034-4407-9ffd-2bf091fed954")
+		)
+		(pin "MP"
+			(uuid "04b8a9e3-d264-4238-9ad1-9ee3537e8372")
+		)
+		(instances
+			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
+				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
+					(reference "J11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 377.19 222.25 0)
 		(unit 1)
@@ -19859,7 +22557,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Polarized")
-		(at 82.55 139.7 0)
+		(at 120.65 139.7 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -19870,7 +22568,7 @@
 		(fields_autoplaced yes)
 		(uuid "ff2cbca1-a955-4bae-a600-763c01758ab0")
 		(property "Reference" "C9"
-			(at 86.36 137.5409 0)
+			(at 124.46 137.5409 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19881,7 +22579,7 @@
 			)
 		)
 		(property "Value" "100uF 50V"
-			(at 86.36 140.0809 0)
+			(at 124.46 140.0809 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19892,7 +22590,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"
-			(at 83.5152 143.51 0)
+			(at 121.6152 143.51 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19903,7 +22601,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 139.7 0)
+			(at 120.65 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19914,7 +22612,7 @@
 			)
 		)
 		(property "Description" "Polarized capacitor"
-			(at 82.55 139.7 0)
+			(at 120.65 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19925,7 +22623,7 @@
 			)
 		)
 		(property "mouser" ""
-			(at 82.55 139.7 0)
+			(at 120.65 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20024,85 +22722,6 @@
 			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
 				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
 					(reference "C22")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 53.34 176.53 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "ff9c2686-ba61-4c79-b33a-1472e890129e")
-		(property "Reference" "C24"
-			(at 53.34 172.974 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100n"
-			(at 53.594 180.086 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 57.15 175.5648 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 53.34 176.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 53.34 176.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "2a5870bf-0635-4116-900d-16e0e149a338")
-		)
-		(pin "2"
-			(uuid "d127ca57-c5fc-44ce-907b-8bfd3b513e38")
-		)
-		(instances
-			(project "pico_dual_PMSM_BUG79100G_DRV8316C"
-				(path "/cdbad878-cf0e-4e6d-af53-52c1cd52a9c6"
-					(reference "C24")
 					(unit 1)
 				)
 			)

@@ -29,6 +29,12 @@ bool core1_separate_stack = true;
 static constexpr uint8_t CONTROL_REFERENCE_FLAG_M0 = 1u << 0;
 static constexpr uint8_t CONTROL_REFERENCE_FLAG_M1 = 1u << 1;
 
+enum class SerialBootMode : uint8_t {
+  Control,
+  Calibration,
+  BoardTest,
+};
+
 struct PositionHoldState {
   float targetPosition = 0.0f;
   float targetVelocity = 0.0f;
@@ -527,6 +533,7 @@ static uint32_t lastBusVoltageUpdateUs = 0;
 
 static volatile bool interfaceCoreReady = false;
 static volatile bool calibrationModeActive = false;
+static volatile bool boardTestModeActive = false;
 // Latest-value mailboxes use an odd/even sequence counter so readers never see torn structs.
 static volatile uint32_t runtimeStateSequence = 0;
 static RuntimeControlState sharedRuntimeState;
@@ -1729,7 +1736,7 @@ static void printCalibrationSettings(const CalibrationSettings &settings) {
   printMotorCalibration("M1", settings.motor[1]);
 }
 
-static bool serialBootCalibrationRequested() {
+static SerialBootMode serialBootModeRequested() {
   const uint32_t startMs = millis();
   while ((millis() - startMs) < CALIBRATION_ENTRY_WAIT_MS) {
     if (Serial.available() > 0) {
@@ -1738,17 +1745,20 @@ static bool serialBootCalibrationRequested() {
         continue;
       }
       if (value == '!') {
-        return true;
+        return SerialBootMode::Calibration;
+      }
+      if (value == '?') {
+        return SerialBootMode::BoardTest;
       }
       if (value >= 0) {
         usbPendingByte = (uint8_t)value;
         usbPendingByteValid = true;
       }
-      return false;
+      return SerialBootMode::Control;
     }
     delay(1);
   }
-  return false;
+  return SerialBootMode::Control;
 }
 
 static bool prepareMotorForMechanicalCalibration(
@@ -2091,6 +2101,8 @@ static void runCalibrationWizard() {
   Serial.println("Reset the board to start the binary control protocol.");
 }
 
+#include "board_test_mode.h"
+
 static void controlSetup() {
   const MotorHardwareStatus hardware = initializeMotorHardware();
   initializeRuntimeBusVoltage(hardware.busVoltage, micros());
@@ -2174,10 +2186,19 @@ void setup() {
 
   loadOrCreateCalibrationSettings();
 
-  if (serialBootCalibrationRequested()) {
+  const SerialBootMode bootMode = serialBootModeRequested();
+  if (bootMode == SerialBootMode::Calibration) {
     calibrationModeActive = true;
     sharedMemoryBarrier();
     runCalibrationWizard();
+    while (true) {
+      delay(1000);
+    }
+  }
+  if (bootMode == SerialBootMode::BoardTest) {
+    boardTestModeActive = true;
+    sharedMemoryBarrier();
+    runBoardTestMode();
     while (true) {
       delay(1000);
     }
@@ -2204,7 +2225,7 @@ void loop() {
 
 void setup1() {
   while (!interfaceCoreReady) {
-    if (calibrationModeActive) {
+    if (calibrationModeActive || boardTestModeActive) {
       while (true) {
         delay(1000);
       }

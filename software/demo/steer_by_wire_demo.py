@@ -16,6 +16,6 @@ with MotorUsbController(timeout_ms=20) as robot:
     q1_start = robot.m1.q
 
     while True:
-        robot.m0.set(q=q0_start + robot.m1.q - q1_start, v=0.9*robot.m1.v, kp=KP, kd=KD)
-        robot.m1.set(q=q1_start + robot.m0.q - q0_start, v=0.9*robot.m0.v, kp=KP, kd=KD)
+        robot.m0.set(q=q0_start + robot.m1.q - q1_start, v=robot.m1.v, kp=KP, kd=KD)
+        robot.m1.set(q=q1_start + robot.m0.q - q0_start, v=robot.m0.v, kp=KP, kd=KD)
         robot.update()
