@@ -99,12 +99,29 @@ static bool drvStatusHasSpiFault(const DRV8316Status &status) {
     status.status2.SPI_PARITY;
 }
 
+static uint16_t boardTestReadSharedMisoWithNoSlaveSelected() {
+  deselectSpiSlaves();
+  sharedSpiUseDrv8316();
+  delayMicroseconds(2);
+
+  uint16_t out = 0xFFFF;
+  uint16_t in = 0;
+  spi_write16_read16_blocking(spi0, &out, &in, 1);
+  return in;
+}
+
 static bool boardTestDrvCommunication(
   const char *label,
   uint8_t csPin,
   DRV8316Driver3PWM &driver
 ) {
+  const bool misoIdleHigh = gpio_get(GPIO_SPI0_MISO);
+  const uint16_t noSlaveRead = boardTestReadSharedMisoWithNoSlaveSelected();
+  driver.clearFault();
+  delayMicroseconds(50);
   DRV8316Status status = driver.getStatus();
+  const uint16_t rawControl2 = driver.readRegisterRaw(Control__2_ADDR);
+  const uint16_t rawControl5 = driver.readRegisterRaw(Control__5_ADDR);
   const DRV8316_PWMMode pwmMode = driver.getPWMMode();
   const DRV8316_CSAGain csaGain = driver.getCurrentSenseGain();
   const bool spiOk = !drvStatusHasSpiFault(status);
@@ -116,6 +133,12 @@ static bool boardTestDrvCommunication(
   Serial.print(label);
   Serial.print(" DRV CS=");
   Serial.print(csPin);
+  Serial.print(" spi_hz=");
+  Serial.print(DRV8316_SPI_HZ);
+  Serial.print(" miso_idle=");
+  Serial.print(misoIdleHigh ? "HIGH" : "LOW");
+  Serial.print(" no_cs_rx=0x");
+  Serial.print(noSlaveRead, HEX);
   Serial.print(" initialized=");
   Serial.print(driver.initialized ? 1 : 0);
   Serial.print(" pwm_mode=");
@@ -130,6 +153,10 @@ static bool boardTestDrvCommunication(
   Serial.print(status.status1.reg, HEX);
   Serial.print(" status2=0x");
   Serial.print(status.status2.reg, HEX);
+  Serial.print(" raw_c2=0x");
+  Serial.print(rawControl2, HEX);
+  Serial.print(" raw_c5=0x");
+  Serial.print(rawControl5, HEX);
   Serial.print(" ");
   printBoardTestResult(ok);
 
@@ -385,6 +412,7 @@ static void boardTestOpenLoopVelocity(
     }
 
     motor.move(velocity);
+    statusLed.serviceStartup();
 
     const uint32_t elapsedMs = millis() - startMs;
     if ((elapsedMs - lastPrintMs) >= 250) {
@@ -496,7 +524,7 @@ static void runBoardTestMode() {
       boardTestStopOpenLoopMotor(motor1, driver1);
       Serial.println("Board test halted. Reset the board to leave this mode.");
       while (true) {
-        delay(1000);
+        statusLed.delayStartup(1000);
       }
     } else {
       Serial.println("Unknown command. Type h for help.");

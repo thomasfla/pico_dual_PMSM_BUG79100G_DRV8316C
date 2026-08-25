@@ -25,6 +25,7 @@
 #define GPIO_DRV_Mx_nFAULT 17
 #define GPIO_SPI0_CLK 18
 #define GPIO_SPI0_MOSI 19
+#define GPIO_PICO_LED 25
 #define GPIO_VBUS_SENSE 26
 #define GPIO_ADC_SYNC_PWM 27
 
@@ -127,6 +128,10 @@ static constexpr PositionHoldConfig MOTOR1_CONFIG = {
 };
 
 static constexpr uint32_t ENCODER_SPI_HZ = 10000000;
+static constexpr uint32_t DRV8316_SPI_HZ = 20000;
+static constexpr uint8_t DRV8316_SPI_CS_SETUP_US = 2;
+static constexpr uint8_t DRV8316_SPI_CS_HOLD_US = 2;
+static constexpr uint8_t DRV8316_SPI_CS_IDLE_US = 2;
 static constexpr uint16_t ENCODER_POWERUP_DELAY_MS = 250;
 static constexpr uint8_t ENCODER_STARTUP_READ_ATTEMPTS = 4;
 static constexpr uint8_t ENCODER_HEALTH_READ_ATTEMPTS = 8;
@@ -186,8 +191,11 @@ static constexpr size_t CALIBRATION_EEPROM_BYTES = 256;
 static constexpr uint32_t STARTUP_TARGET_SETTLE_MS = 50;
 static constexpr uint32_t RUNTIME_STATE_PUBLISH_INTERVAL_US = 1000;
 static constexpr uint32_t USB_STATE_FRAME_INTERVAL_US = 1000;
-static constexpr uint32_t MOTOR_START_RETRY_INTERVAL_MS = 500;
 static constexpr uint32_t INTERFACE_IDLE_US = 100;
+
+static constexpr uint32_t STATUS_LED_STARTUP_BLINK_US = 100000;
+static constexpr uint32_t STATUS_LED_TIMEOUT_BLINK_US = 50000;
+static constexpr uint32_t STATUS_LED_CONTROLLED_BLINK_US = 500000;
 
 static constexpr uint8_t USB_PACKET_MAGIC0 = 0xA5;
 static constexpr uint8_t USB_PACKET_MAGIC1 = 0x5A;

@@ -5,7 +5,6 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SimpleFOC.h>
-#include <SimpleFOCDrivers.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -19,6 +18,8 @@
 #include "calibration_store.h"
 #include "drivers/drv8316/drv8316.h"
 #include "motor_identification.h"
+#include "shared_spi_bus.h"
+#include "status_led.h"
 
 static PhaseCurrent_s readMotor0Currents();
 static PhaseCurrent_s readMotor1Currents();
@@ -296,7 +297,9 @@ private:
     (int32_t)((float)ENCODER_CPR * 0.8f);
 
   void configureHardwareSpi() {
-    if (spiHw_ != nullptr) {
+    if (spiHw_ == spi0) {
+      sharedSpiUseEncoder();
+    } else if (spiHw_ != nullptr) {
       spi_init(spiHw_, ENCODER_SPI_HZ);
       spi_set_baudrate(spiHw_, ENCODER_SPI_HZ);
       spi_set_format(spiHw_, 16, SPI_CPOL_0, SPI_CPHA_1, SPI_MSB_FIRST);
@@ -330,6 +333,7 @@ private:
   uint16_t transfer16(uint16_t out) {
     if (fastRuntimeSpi_ && spiHw_ != nullptr) {
       uint16_t in = 0;
+      configureHardwareSpi();
       gpio_put(csPin_, false);
       spi_write16_read16_blocking(spiHw_, &out, &in, 1);
       gpio_put(csPin_, true);
@@ -512,8 +516,6 @@ static PositionHoldConfig runtimeConfig1 = MOTOR1_CONFIG;
 static CalibrationSettings activeCalibrationSettings;
 static bool motor0Ready = false;
 static bool motor1Ready = false;
-static bool currentFeedback0Ready = false;
-static bool currentFeedback1Ready = false;
 static uint32_t controlLoopCounter = 0;
 static uint32_t lastRuntimePublishLoopCounter = 0;
 static uint32_t latestAppliedCommandIndex = 0;
@@ -525,6 +527,12 @@ static bool commandMotor0Enabled = false;
 static bool commandMotor1Enabled = false;
 static bool usbPendingByteValid = false;
 static uint8_t usbPendingByte = 0;
+static StatusLed statusLed(
+  GPIO_PICO_LED,
+  STATUS_LED_STARTUP_BLINK_US,
+  STATUS_LED_TIMEOUT_BLINK_US,
+  STATUS_LED_CONTROLLED_BLINK_US
+);
 static TelemetryVelocityFilterState telemetryVelocity0;
 static TelemetryVelocityFilterState telemetryVelocity1;
 static float filteredBusVoltage = SUPPLY_VOLTAGE_FALLBACK;
@@ -632,6 +640,7 @@ static void configureSpiPins() {
   gpio_set_function(GPIO_SPI0_CLK, GPIO_FUNC_SPI);
   gpio_set_function(GPIO_SPI0_MOSI, GPIO_FUNC_SPI);
   gpio_pull_up(GPIO_SPI0_MISO);
+  sharedSpiMarkUnknown();
 }
 
 static void configureAdcTriggerPwm() {
@@ -1367,89 +1376,7 @@ static MotorHardwareStatus initializeMotorHardware() {
   status.encoder1Allowed =
     encoder1.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoder1Healthy);
 
-  currentFeedback0Ready = status.currentFeedback0Ok;
-  currentFeedback1Ready = status.currentFeedback1Ok;
   return status;
-}
-
-static bool tryStartMotor(
-  BLDCMotor &motor,
-  DRV8316Driver3PWM &driver,
-  CurrentSense &currentSense,
-  CheckedAS5048ASensor &encoder,
-  PositionHoldState &control,
-  PositionHoldConfig &config,
-  bool currentFeedbackReady,
-  bool &motorReady
-) {
-  if (motorReady || !currentFeedbackReady) {
-    return motorReady;
-  }
-
-  encoder.init(&SPI, spi0);
-  EncoderRegisterDiagnostics regs;
-  const bool encoderHealthy = checkStartupEncoderHealth(encoder, regs);
-
-  const bool encoderAllowed =
-    encoder.angleOk() && (!REQUIRE_ENCODER_STARTUP_HEALTH || encoderHealthy);
-  if (!encoderAllowed) {
-    driver.disable();
-    return false;
-  }
-
-  if (configureMotor(motor, driver, currentSense, encoder, config)) {
-    motorReady = startClosedLoopMotor(motor, control);
-  } else {
-    motorReady = false;
-  }
-
-  if (!motorReady) {
-    driver.disable();
-    return false;
-  }
-
-  publishRuntimeState();
-  return true;
-}
-
-static void retrySkippedMotorsIfDue() {
-  static uint32_t lastRetryMs = 0;
-  if (motor0Ready && motor1Ready) {
-    return;
-  }
-
-  const uint32_t nowMs = millis();
-  if ((nowMs - lastRetryMs) < MOTOR_START_RETRY_INTERVAL_MS) {
-    return;
-  }
-  lastRetryMs = nowMs;
-
-  if (!motor0Ready) {
-    tryStartMotor(
-      motor0,
-      driver0,
-      currentSense0,
-      encoder0,
-      control0,
-      runtimeConfig0,
-      currentFeedback0Ready,
-      motor0Ready
-    );
-  }
-  if (!motor1Ready) {
-    tryStartMotor(
-      motor1,
-      driver1,
-      currentSense1,
-      encoder1,
-      control1,
-      runtimeConfig1,
-      currentFeedback1Ready,
-      motor1Ready
-    );
-  }
-
-  publishRuntimeState();
 }
 
 static void writeUsbStatePacketIfDue(const RuntimeControlState &state) {
@@ -1499,9 +1426,9 @@ static MotorReferenceCommand makeMotorReferenceCommand(
   return command;
 }
 
-static void publishUsbCommandPacket(const UsbCommandPacket &packet) {
+static void publishUsbCommandPacket(const UsbCommandPacket &packet, uint32_t nowUs) {
   ControlReferenceCommand command;
-  command.tUs = micros();
+  command.tUs = nowUs;
   command.commandIndex = packet.command_index;
   command.timeoutMs = packet.timeout_ms;
   command.flags = packet.flags & (CONTROL_REFERENCE_FLAG_M0 | CONTROL_REFERENCE_FLAG_M1);
@@ -1521,6 +1448,12 @@ static void publishUsbCommandPacket(const UsbCommandPacket &packet) {
   );
 
   publishControlReferenceCommand(command);
+}
+
+static void statusLedNoteCommandPacket(const UsbCommandPacket &packet, uint32_t nowUs) {
+  const bool anyMotorCommand =
+    (packet.flags & (CONTROL_REFERENCE_FLAG_M0 | CONTROL_REFERENCE_FLAG_M1)) != 0;
+  statusLed.noteCommand(nowUs, packet.timeout_ms, anyMotorCommand);
 }
 
 static bool readNextUsbCommandByte(uint8_t &byte) {
@@ -1583,7 +1516,9 @@ static void readUsbCommandPackets() {
     rxCount = 0;
 
     if (commandPacketHeaderOk(packet) && commandPacketChecksumOk(packet)) {
-      publishUsbCommandPacket(packet);
+      const uint32_t nowUs = micros();
+      statusLedNoteCommandPacket(packet, nowUs);
+      publishUsbCommandPacket(packet, nowUs);
     }
   }
 }
@@ -1617,6 +1552,7 @@ static size_t readSerialLine(char *buffer, size_t length) {
         const uint32_t pairStartMs = millis();
         while ((millis() - pairStartMs) < 5) {
           if (Serial.available() <= 0) {
+            statusLed.serviceStartup();
             delay(1);
             continue;
           }
@@ -1644,6 +1580,7 @@ static size_t readSerialLine(char *buffer, size_t length) {
         }
       }
     }
+    statusLed.serviceStartup();
     delay(1);
   }
 }
@@ -1756,6 +1693,7 @@ static SerialBootMode serialBootModeRequested() {
       }
       return SerialBootMode::Control;
     }
+    statusLed.serviceStartup();
     delay(1);
   }
   return SerialBootMode::Control;
@@ -2164,8 +2102,6 @@ static void controlStep() {
 
   controlLoopCounter++;
   if ((nowUs - lastRuntimePublishUs) >= RUNTIME_STATE_PUBLISH_INTERVAL_US) {
-    retrySkippedMotorsIfDue();
-
     const uint32_t loopDelta = controlLoopCounter - lastRuntimePublishLoopCounter;
     const uint32_t elapsedUs = lastRuntimePublishUs == 0 ? 0 : nowUs - lastRuntimePublishUs;
     if (loopDelta > 0 && elapsedUs > 0) {
@@ -2179,10 +2115,13 @@ static void controlStep() {
 
 void setup() {
   Serial.begin(115200);
+  statusLed.begin();
   deselectSpiSlaves();
 
   const uint32_t serialStartMs = millis();
-  while (!Serial && (millis() - serialStartMs) < SERIAL_STARTUP_WAIT_MS) {}
+  while (!Serial && (millis() - serialStartMs) < SERIAL_STARTUP_WAIT_MS) {
+    statusLed.serviceStartup();
+  }
 
   loadOrCreateCalibrationSettings();
 
@@ -2192,7 +2131,7 @@ void setup() {
     sharedMemoryBarrier();
     runCalibrationWizard();
     while (true) {
-      delay(1000);
+      statusLed.delayStartup(1000);
     }
   }
   if (bootMode == SerialBootMode::BoardTest) {
@@ -2200,7 +2139,7 @@ void setup() {
     sharedMemoryBarrier();
     runBoardTestMode();
     while (true) {
-      delay(1000);
+      statusLed.delayStartup(1000);
     }
   }
 
@@ -2215,8 +2154,10 @@ void loop() {
   const bool hasRuntimeState = readLatestRuntimeControlState(runtimeState);
 
   if (hasRuntimeState) {
+    statusLed.noteNormalStarted();
     writeUsbStatePacketIfDue(runtimeState);
   }
+  statusLed.serviceInterface();
 
   if (INTERFACE_IDLE_US > 0) {
     delayMicroseconds(INTERFACE_IDLE_US);
