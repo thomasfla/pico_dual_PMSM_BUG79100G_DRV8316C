@@ -5,14 +5,19 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SimpleFOC.h>
+#include <tusb.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include "CoreMutex.h"
+#include "USB.h"
+#include "hardware/adc.h"
 #include "hardware/clocks.h"
 #include "hardware/gpio.h"
 #include "hardware/pwm.h"
 #include "hardware/spi.h"
+#include <drivers/hardware_specific/rp2040/rp2040_mcu.h>
 #include "board_config.h"
 #include "BU79100QuadReader.h"
 #include "calibration_store.h"
@@ -29,6 +34,17 @@ bool core1_separate_stack = true;
 
 static constexpr uint8_t CONTROL_REFERENCE_FLAG_M0 = 1u << 0;
 static constexpr uint8_t CONTROL_REFERENCE_FLAG_M1 = 1u << 1;
+
+static_assert(VBUS_ADC_BITS == 12, "SDK ADC reads return 12-bit samples");
+static_assert(
+  GPIO_VBUS_SENSE >= __FIRSTANALOGGPIO,
+  "VBUS sense pin is below Arduino ADC GPIO range"
+);
+static_assert(
+  GPIO_VBUS_SENSE <= __GPIOCNT,
+  "VBUS sense pin is outside Arduino ADC GPIO range"
+);
+static constexpr uint8_t VBUS_ADC_INPUT = GPIO_VBUS_SENSE - __FIRSTANALOGGPIO;
 
 enum class SerialBootMode : uint8_t {
   Control,
@@ -139,6 +155,8 @@ struct __attribute__((packed)) UsbCommandPacket {
 
 static_assert(sizeof(UsbStatePacket) == 61, "Unexpected USB state packet size");
 static_assert(sizeof(UsbCommandPacket) == 53, "Unexpected USB command packet size");
+static constexpr uint16_t USB_COMMAND_RX_BYTE_BUDGET = sizeof(UsbCommandPacket) * 4u;
+static constexpr uint32_t USB_COMMAND_RX_POLL_INTERVAL_US = 200;
 
 class CheckedAS5048ASensor : public Sensor {
 public:
@@ -479,7 +497,88 @@ private:
   PhaseCurrent_s lastCurrent_ = {0.0f, 0.0f, 0.0f};
 };
 
-DRV8316Driver3PWM driver0(
+class FastDRV8316Driver3PWM : public DRV8316Driver3PWM {
+public:
+  FastDRV8316Driver3PWM(
+    int phA,
+    int phB,
+    int phC,
+    int cs,
+    bool currentLimit = false,
+    int en = NOT_SET,
+    int nFault = NOT_SET
+  ) : DRV8316Driver3PWM(phA, phB, phC, cs, currentLimit, en, nFault) {}
+
+  void init(SPIClass *_spi = &SPI) override {
+    fastPwmReady_ = false;
+    DRV8316Driver3PWM::init(_spi);
+    cachePwmOutputs();
+  }
+
+  void setPwm(float ua, float ub, float uc) override {
+    if (!fastPwmReady_) {
+      BLDCDriver3PWM::setPwm(ua, ub, uc);
+      return;
+    }
+
+    ua = _constrain(ua, 0.0f, voltage_limit);
+    ub = _constrain(ub, 0.0f, voltage_limit);
+    uc = _constrain(uc, 0.0f, voltage_limit);
+
+    const float invSupply = 1.0f / voltage_power_supply;
+    dc_a = _constrain(ua * invSupply, 0.0f, 1.0f);
+    dc_b = _constrain(ub * invSupply, 0.0f, 1.0f);
+    dc_c = _constrain(uc * invSupply, 0.0f, 1.0f);
+
+    writePwmLevel(pwmA_, dc_a);
+    writePwmLevel(pwmB_, dc_b);
+    writePwmLevel(pwmC_, dc_c);
+  }
+
+private:
+  struct PwmOutput {
+    uint8_t slice = 0;
+    uint8_t channel = 0;
+    float levelScale = 0.0f;
+  };
+
+  static PwmOutput makePwmOutput(const RP2040DriverParams &params, uint8_t index) {
+    const uint slice = params.slice[index];
+    const uint channel = params.chan[index];
+    return {
+      (uint8_t)slice,
+      (uint8_t)channel,
+      (float)(pwm_hw->slice[slice].top + 1u),
+    };
+  }
+
+  void cachePwmOutputs() {
+    if (!initialized || params == nullptr) {
+      return;
+    }
+
+    const auto &pwmParams = *static_cast<const RP2040DriverParams *>(params);
+    pwmA_ = makePwmOutput(pwmParams, 0);
+    pwmB_ = makePwmOutput(pwmParams, 1);
+    pwmC_ = makePwmOutput(pwmParams, 2);
+    fastPwmReady_ = true;
+  }
+
+  static void writePwmLevel(const PwmOutput &output, float dutyCycle) {
+    pwm_set_chan_level(
+      output.slice,
+      output.channel,
+      (uint16_t)(output.levelScale * dutyCycle)
+    );
+  }
+
+  PwmOutput pwmA_;
+  PwmOutput pwmB_;
+  PwmOutput pwmC_;
+  bool fastPwmReady_ = false;
+};
+
+FastDRV8316Driver3PWM driver0(
   GPIO_M0_PWM_A,
   GPIO_M0_PWM_B,
   GPIO_M0_PWM_C,
@@ -489,7 +588,7 @@ DRV8316Driver3PWM driver0(
   GPIO_DRV_Mx_nFAULT
 );
 
-DRV8316Driver3PWM driver1(
+FastDRV8316Driver3PWM driver1(
   GPIO_M1_PWM_A,
   GPIO_M1_PWM_B,
   GPIO_M1_PWM_C,
@@ -538,6 +637,7 @@ static TelemetryVelocityFilterState telemetryVelocity1;
 static float filteredBusVoltage = SUPPLY_VOLTAGE_FALLBACK;
 static bool filteredBusVoltageInitialized = false;
 static uint32_t lastBusVoltageUpdateUs = 0;
+static bool runtimeBusVoltageConversionPending = false;
 
 static volatile bool interfaceCoreReady = false;
 static volatile bool calibrationModeActive = false;
@@ -672,8 +772,16 @@ static void syncAllPwmSlices() {
 }
 
 static void configureBusVoltageSense() {
-  analogReadResolution(VBUS_ADC_BITS);
-  pinMode(GPIO_VBUS_SENSE, INPUT);
+  adc_init();
+  adc_run(false);
+  adc_set_round_robin(0);
+  adc_set_temp_sensor_enabled(false);
+  // Arduino-Pico may leave the SDK ADC base-pin define at the RP2350B default.
+  gpio_set_function(GPIO_VBUS_SENSE, GPIO_FUNC_NULL);
+  gpio_disable_pulls(GPIO_VBUS_SENSE);
+  gpio_set_input_enabled(GPIO_VBUS_SENSE, false);
+  adc_select_input(VBUS_ADC_INPUT);
+  runtimeBusVoltageConversionPending = false;
 }
 
 static float busVoltageFromAdcCounts(float rawCounts) {
@@ -681,8 +789,32 @@ static float busVoltageFromAdcCounts(float rawCounts) {
   return adcVoltage * VBUS_DIVIDER_RATIO;
 }
 
-static float readBusVoltageSample() {
-  return busVoltageFromAdcCounts((float)analogRead(GPIO_VBUS_SENSE));
+static uint16_t readBusVoltageAdcBlocking() {
+  adc_select_input(VBUS_ADC_INPUT);
+  return adc_read();
+}
+
+static void startRuntimeBusVoltageConversion() {
+  if ((adc_hw->cs & ADC_CS_READY_BITS) == 0) {
+    return;
+  }
+
+  adc_select_input(VBUS_ADC_INPUT);
+  hw_set_bits(&adc_hw->cs, ADC_CS_START_ONCE_BITS);
+  runtimeBusVoltageConversionPending = true;
+}
+
+static bool readRuntimeBusVoltageIfReady(float &measuredBusVoltage) {
+  if (!runtimeBusVoltageConversionPending) {
+    return false;
+  }
+  if ((adc_hw->cs & ADC_CS_READY_BITS) == 0) {
+    return false;
+  }
+
+  runtimeBusVoltageConversionPending = false;
+  measuredBusVoltage = busVoltageFromAdcCounts((float)(uint16_t)adc_hw->result);
+  return true;
 }
 
 static float readBusVoltage() {
@@ -692,7 +824,7 @@ static float readBusVoltage() {
   delay(2);
 
   for (uint16_t i = 0; i < VBUS_STARTUP_SAMPLES; i++) {
-    sum += analogRead(GPIO_VBUS_SENSE);
+    sum += readBusVoltageAdcBlocking();
     delayMicroseconds(50);
   }
 
@@ -867,25 +999,34 @@ static void updateRuntimeBusVoltageIfDue(uint32_t nowUs) {
   if (!filteredBusVoltageInitialized) {
     initializeRuntimeBusVoltage(SUPPLY_VOLTAGE_FALLBACK, nowUs);
   }
+
+  float measuredBusVoltage = 0.0f;
+  if (runtimeBusVoltageConversionPending) {
+    if (!readRuntimeBusVoltageIfReady(measuredBusVoltage)) {
+      return;
+    }
+    if (!busVoltageMeasurementValid(measuredBusVoltage)) {
+      lastBusVoltageUpdateUs = nowUs;
+      return;
+    }
+
+    const float dt = (float)(nowUs - lastBusVoltageUpdateUs) * 1.0e-6f;
+    lastBusVoltageUpdateUs = nowUs;
+    if (dt <= 0.0f) {
+      return;
+    }
+
+    const float alpha = dt / (VBUS_RUNTIME_FILTER_TF + dt);
+    filteredBusVoltage += alpha * (measuredBusVoltage - filteredBusVoltage);
+    applyRuntimeBusVoltage(filteredBusVoltage);
+    return;
+  }
+
   if ((nowUs - lastBusVoltageUpdateUs) < VBUS_RUNTIME_UPDATE_INTERVAL_US) {
     return;
   }
 
-  const float measuredBusVoltage = readBusVoltageSample();
-  if (!busVoltageMeasurementValid(measuredBusVoltage)) {
-    lastBusVoltageUpdateUs = nowUs;
-    return;
-  }
-
-  const float dt = (float)(nowUs - lastBusVoltageUpdateUs) * 1.0e-6f;
-  lastBusVoltageUpdateUs = nowUs;
-  if (dt <= 0.0f) {
-    return;
-  }
-
-  const float alpha = dt / (VBUS_RUNTIME_FILTER_TF + dt);
-  filteredBusVoltage += alpha * (measuredBusVoltage - filteredBusVoltage);
-  applyRuntimeBusVoltage(filteredBusVoltage);
+  startRuntimeBusVoltageConversion();
 }
 
 static float adcRawToSensedCurrent(uint16_t raw) {
@@ -1382,9 +1523,6 @@ static MotorHardwareStatus initializeMotorHardware() {
 static void writeUsbStatePacketIfDue(const RuntimeControlState &state) {
   static uint32_t lastStatePacketUs = 0;
 
-  if (!Serial) {
-    return;
-  }
   if (state.tUs == lastStatePacketUs) {
     return;
   }
@@ -1392,13 +1530,25 @@ static void writeUsbStatePacketIfDue(const RuntimeControlState &state) {
       (state.tUs - lastStatePacketUs) < USB_STATE_FRAME_INTERVAL_US) {
     return;
   }
-  if (Serial.availableForWrite() < (int)sizeof(UsbStatePacket)) {
+
+  CoreMutex usbLock(&USB.mutex, false);
+  if (!usbLock) {
+    return;
+  }
+
+  tud_task();
+  if (!tud_cdc_connected()) {
+    return;
+  }
+  if (tud_cdc_write_available() < sizeof(UsbStatePacket)) {
     lastStatePacketUs = state.tUs;
     return;
   }
 
   const UsbStatePacket packet = makeUsbStatePacket(state);
-  Serial.write((const uint8_t *)&packet, sizeof(packet));
+  tud_cdc_write((const uint8_t *)&packet, sizeof(packet));
+  tud_task();
+  tud_cdc_write_flush();
   lastStatePacketUs = state.tUs;
 }
 
@@ -1456,31 +1606,55 @@ static void statusLedNoteCommandPacket(const UsbCommandPacket &packet, uint32_t 
   statusLed.noteCommand(nowUs, packet.timeout_ms, anyMotorCommand);
 }
 
-static bool readNextUsbCommandByte(uint8_t &byte) {
+static uint16_t readUsbCommandBytes(uint8_t *bytes, uint16_t capacity) {
+  uint16_t count = 0;
+  if (capacity == 0) {
+    return count;
+  }
+
   if (usbPendingByteValid) {
-    byte = usbPendingByte;
+    bytes[count++] = usbPendingByte;
     usbPendingByteValid = false;
-    return true;
+    if (count >= capacity) {
+      return count;
+    }
   }
 
-  const int value = Serial.read();
-  if (value < 0) {
-    return false;
+  CoreMutex usbLock(&USB.mutex, false);
+  if (!usbLock) {
+    return count;
   }
 
-  byte = (uint8_t)value;
-  return true;
+  tud_task();
+  const uint32_t available = tud_cdc_available();
+  const uint32_t room = (uint32_t)(capacity - count);
+  const uint32_t toRead = available < room ? available : room;
+  if (toRead > 0) {
+    count += (uint16_t)tud_cdc_read(bytes + count, toRead);
+  }
+
+  return count;
 }
 
 static void readUsbCommandPackets() {
   static uint8_t rx[sizeof(UsbCommandPacket)];
   static uint8_t rxCount = 0;
+  static uint32_t lastRxPollUs = 0;
+  const uint32_t nowUs = micros();
 
-  while (usbPendingByteValid || Serial.available() > 0) {
-    uint8_t byte = 0;
-    if (!readNextUsbCommandByte(byte)) {
-      return;
-    }
+  if (!usbPendingByteValid &&
+      lastRxPollUs != 0 &&
+      (nowUs - lastRxPollUs) < USB_COMMAND_RX_POLL_INTERVAL_US) {
+    return;
+  }
+  lastRxPollUs = nowUs;
+
+  uint8_t bytes[USB_COMMAND_RX_BYTE_BUDGET];
+  const uint16_t bytesRead = readUsbCommandBytes(bytes, sizeof(bytes));
+
+  for (uint16_t i = 0; i < bytesRead; i++) {
+    const uint8_t byte = bytes[i];
+
     if (rxCount == 0) {
       if (byte == USB_PACKET_MAGIC0) {
         rx[rxCount++] = byte;
