@@ -525,10 +525,20 @@ public:
     ub = _constrain(ub, 0.0f, voltage_limit);
     uc = _constrain(uc, 0.0f, voltage_limit);
 
+    if (ua == 0.0f && ub == 0.0f && uc == 0.0f) {
+      dc_a = 0.0f;
+      dc_b = 0.0f;
+      dc_c = 0.0f;
+      writePwmLevel(pwmA_, dc_a);
+      writePwmLevel(pwmB_, dc_b);
+      writePwmLevel(pwmC_, dc_c);
+      return;
+    }
+
     const float invSupply = 1.0f / voltage_power_supply;
-    dc_a = _constrain(ua * invSupply, 0.0f, 1.0f);
-    dc_b = _constrain(ub * invSupply, 0.0f, 1.0f);
-    dc_c = _constrain(uc * invSupply, 0.0f, 1.0f);
+    dc_a = _constrain(ua * invSupply, MOTOR_PWM_ACTIVE_MIN_DUTY, MOTOR_PWM_ACTIVE_MAX_DUTY);
+    dc_b = _constrain(ub * invSupply, MOTOR_PWM_ACTIVE_MIN_DUTY, MOTOR_PWM_ACTIVE_MAX_DUTY);
+    dc_c = _constrain(uc * invSupply, MOTOR_PWM_ACTIVE_MIN_DUTY, MOTOR_PWM_ACTIVE_MAX_DUTY);
 
     writePwmLevel(pwmA_, dc_a);
     writePwmLevel(pwmB_, dc_b);
@@ -949,8 +959,8 @@ static void configureDriver(DRV8316Driver3PWM &driver, float measuredBusVoltage)
   driver.setOCPClearInPWMCycleChange(false);
   delayMicroseconds(5);
 
-  // DRV8316C raw CSA_GAIN=01b is 0.3 V/A; the enum name is for another variant.
-  driver.setCurrentSenseGain(DRV8316_CSAGain::Gain_0V1875);
+  // DRV8316C raw CSA_GAIN=10b is 0.6 V/A; the enum name is for another variant.
+  driver.setCurrentSenseGain(DRV8316_CSAGain::Gain_0V25);
   delayMicroseconds(5);
 
   driver.setDriverOffEnabled(false);

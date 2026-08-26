@@ -78,10 +78,12 @@ static constexpr float GM3506_PEAK_CURRENT_A = 2.0f;
 static constexpr float SUPPLY_VOLTAGE_FALLBACK = 10.0f;
 static constexpr float VOLTAGE_LIMIT_SAFETY_CEILING = 30.0f;
 static constexpr float CURRENT_FOC_VOLTAGE_LIMIT = VOLTAGE_LIMIT_SAFETY_CEILING;
-static constexpr float POSITION_SENSOR_ALIGN_VOLTAGE = 1.0f;
+static constexpr float POSITION_SENSOR_ALIGN_VOLTAGE = 3.0f;
 static constexpr float DRIVER_VOLTAGE_LIMIT = VOLTAGE_LIMIT_SAFETY_CEILING;
 static constexpr float DRIVER_VOLTAGE_LIMIT_BUS_FRACTION = 0.90f;
 static constexpr long PWM_FREQUENCY = 20000;
+static constexpr float MOTOR_PWM_ACTIVE_MIN_DUTY = 0.05f;
+static constexpr float MOTOR_PWM_ACTIVE_MAX_DUTY = 0.95f;
 
 static constexpr float M0_POSITION_IQ_LIMIT_A = GM3506_PEAK_CURRENT_A;
 static constexpr float M1_POSITION_IQ_LIMIT_A = GM3506_PEAK_CURRENT_A;
@@ -143,13 +145,15 @@ static constexpr uint16_t ENCODER_MAG_MIN = 1000;
 static constexpr uint16_t ENCODER_MAG_MAX = 14000;
 
 static constexpr float ADC_SCK_HZ = 20000000.0f;
-static constexpr float ADC_TRIGGER_DUTY = 1.0f - 0.045f;
+// The trigger falling edge starts the PIO dummy conversion. With the dummy
+// frame and acquisition guard, 0.041 of a half PWM period centers the real sample.
+static constexpr float ADC_TRIGGER_DUTY = 1.0f - 0.041f;
 static constexpr float CURRENT_SENSE_VREF = 3.3f;
 static constexpr float ADC_FULL_SCALE_COUNTS = 4096.0f;
 static constexpr float ADC_ZERO_CURRENT_COUNTS = ADC_FULL_SCALE_COUNTS * 0.5f;
-// DRV8316C: CSA_GAIN=01b is 0.3 V/A. The Arduino-FOC-drivers enum name for
-// this raw value is inherited from another variant and is called Gain_0V1875.
-static constexpr float DRV_CSA_GAIN_V_PER_A = 0.3f;
+// DRV8316C: CSA_GAIN=10b is 0.6 V/A. The Arduino-FOC-drivers enum name for
+// this raw value is inherited from another variant and is called Gain_0V25.
+static constexpr float DRV_CSA_GAIN_V_PER_A = 0.6f;
 static constexpr float ADC_COUNT_TO_PHASE_CURRENT_A =
     CURRENT_SENSE_VREF / ADC_FULL_SCALE_COUNTS / DRV_CSA_GAIN_V_PER_A;
 static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLES = 128;

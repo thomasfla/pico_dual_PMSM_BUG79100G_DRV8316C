@@ -2,7 +2,7 @@
 ; BU79100G-LA parallel read of 3 ADCs with a trigger GPIO
 ; sideset pin: SCK (1 pin), CPOL=1 idle HIGH
 ; set pin:     CSB (1 pin)
-; in_base:     D0..D2 (3 contiguous input pins)
+; in_base:     D0..D3 (4 contiguous input pins)
 
 .side_set 1 opt            ; 1 sideset bit to drive SCK
 .wrap_target
@@ -16,8 +16,13 @@
 dummy_loop:
         nop           side 0          ; SCK=0
         jmp x--, dummy_loop side 1    ; SCK=1
-    set pins, 1   side 1       ; CSB=0, keep SCK=HIGH at CSB falling (datasheet rec.)
-    set x, 15     side 1  
+    set pins, 1   side 1       ; CSB=1, keep SCK high between dummy and real conversions
+    set x, 15     side 1
+    nop           side 1
+    nop           side 1
+    nop           side 1
+    nop           side 1
+    nop           side 1
     set pins, 0
     ; -------- 16 real clocks, sample on SCK falling edge -----------
 read_loop:    

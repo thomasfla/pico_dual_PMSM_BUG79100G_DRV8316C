@@ -127,7 +127,7 @@ static bool boardTestDrvCommunication(
   const bool spiOk = !drvStatusHasSpiFault(status);
   const bool readbackOk =
     pwmMode == DRV8316_PWMMode::PWM3_Mode &&
-    csaGain == DRV8316_CSAGain::Gain_0V1875;
+    csaGain == DRV8316_CSAGain::Gain_0V25;
   const bool ok = driver.initialized && spiOk && readbackOk;
 
   Serial.print(label);
