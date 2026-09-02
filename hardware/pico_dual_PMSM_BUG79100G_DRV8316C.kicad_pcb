@@ -113,6 +113,7 @@
 		)
 		(capping no)
 		(filling no)
+		(aux_axis_origin 62 180)
 		(pcbplotparams
 			(layerselection 0x00000000_00000000_55555555_5755f5ff)
 			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
@@ -5922,7 +5923,7 @@
 				(pins "1")
 			)
 		)
-		(attr exclude_from_bom)
+		(attr smd exclude_from_bom)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
 			(center 0 0)
@@ -18646,7 +18647,7 @@
 				(pins "1")
 			)
 		)
-		(attr exclude_from_bom)
+		(attr smd exclude_from_bom)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
 			(center 0 0)
@@ -20653,7 +20654,7 @@
 				(pins "1")
 			)
 		)
-		(attr exclude_from_bom)
+		(attr smd exclude_from_bom)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
 			(center 0 0)
