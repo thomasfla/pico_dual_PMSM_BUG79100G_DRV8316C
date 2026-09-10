@@ -1,3 +1,4 @@
+import sys
 import time
 from dataclasses import dataclass
 from threading import Condition, Thread
@@ -11,10 +12,11 @@ from usb_motor_protocol import (
     default_port,
     encode_command,
     pop_state_frames,
+    require_ready,
 )
 
 
-DEFAULT_MAX_COMMAND_RATE_HZ = 1000.0
+DEFAULT_MAX_COMMAND_RATE_HZ = 2000.0
 
 
 @dataclass
@@ -86,6 +88,7 @@ class MotorUsbController:
         self._condition = Condition()
         self._rx_running = False
         self._rx_thread = None
+        self._error = None
 
     def __enter__(self):
         self.open()
@@ -103,13 +106,21 @@ class MotorUsbController:
 
     def close(self):
         if self._serial is not None:
-            self.zero_torque(block=False)
-            self._rx_running = False
-            if self._rx_thread is not None:
-                self._rx_thread.join(timeout=0.2)
-            self._serial.close()
-            self._serial = None
-            self._rx_thread = None
+            try:
+                # Cleanup must still work after a latched runtime error.
+                self.m0.set(kp=0.0, kd=0.0, iff=0.0, enabled=False)
+                self.m1.set(kp=0.0, kd=0.0, iff=0.0, enabled=False)
+                self._serial.write(encode_command(
+                    self.command_index, 0, 0,
+                    self.m0.packet_values(), self.m1.packet_values(),
+                ))
+            finally:
+                self._rx_running = False
+                if self._rx_thread is not None:
+                    self._rx_thread.join(timeout=0.2)
+                self._serial.close()
+                self._serial = None
+                self._rx_thread = None
 
     @property
     def ready_flags(self):
@@ -123,7 +134,12 @@ class MotorUsbController:
         self.m1.set(
             q=0.0, v=0.0, kp=0.0, kd=0.0, iff=0.0, enabled=bool(flags & M1_READY)
         )
-        return self.update(timeout_ms=0, block=True, timeout_s=timeout_s)
+        state = self.update(timeout_ms=0, block=True, timeout_s=timeout_s)
+        require_ready(state, flags)
+        return state
+
+    def check_ready(self, flags=BOTH_MOTORS):
+        require_ready(self.poll(), flags)
 
     def zero_torque(self, block=True):
         self.m0.set(kp=0.0, kd=0.0, iff=0.0, enabled=bool(self.ready_flags & M0_READY))
@@ -133,10 +149,14 @@ class MotorUsbController:
     def update(self, timeout_ms=None, block=False, wait_state=False, timeout_s=0.05):
         update_start = time.perf_counter()
         index = self.command_index
-        previous_sequence = self.poll().get("sequence")
+        flags = self._command_flags()
+        with self._condition:
+            self._record_state_error(self.state, flags)
+            self._raise_if_error()
+            previous_sequence = self.state.get("sequence")
         packet = encode_command(
             index,
-            self._command_flags(),
+            flags,
             self.timeout_ms if timeout_ms is None else timeout_ms,
             self.m0.packet_values(),
             self.m1.packet_values(),
@@ -144,6 +164,7 @@ class MotorUsbController:
         rate_sleep_s = self._limit_command_rate()
         sent_at = time.monotonic()
         with self._condition:
+            self._raise_if_error()
             self._send_times[index] = sent_at
             while len(self._send_times) > 512:
                 self._send_times.pop(next(iter(self._send_times)))
@@ -162,13 +183,26 @@ class MotorUsbController:
 
     def poll(self):
         with self._condition:
+            self._raise_if_error()
             return dict(self.state)
+
+    def _raise_if_error(self):
+        if self._error is not None:
+            raise RuntimeError(self._error)
+
+    def _record_state_error(self, state, flags):
+        if self._error is None and state:
+            try:
+                require_ready(state, flags)
+            except RuntimeError as error:
+                self._error = str(error)
+                print(f"Motor controller stopped: {error}", file=sys.stderr)
 
     def wait_for_echo(self, command_index, timeout_s=0.05):
         deadline = time.monotonic() + timeout_s
         with self._condition:
             while True:
-                state = dict(self.state)
+                state = self.poll()
                 if state.get("latest_command_index") == command_index:
                     return state
                 remaining = deadline - time.monotonic()
@@ -181,7 +215,7 @@ class MotorUsbController:
         deadline = time.monotonic() + timeout_s
         with self._condition:
             while True:
-                state = dict(self.state)
+                state = self.poll()
                 sequence = state.get("sequence")
                 if state and (previous_sequence is None or sequence != previous_sequence):
                     return state
@@ -205,6 +239,7 @@ class MotorUsbController:
                         ) & 0xFFFF
                     self._last_state_sequence = state["sequence"]
                     self.state = state
+                    self._record_state_error(state, self._command_flags())
                     self.m0.update_state(
                         state["m0_q"],
                         state["m0_v"],

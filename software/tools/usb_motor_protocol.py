@@ -12,6 +12,41 @@ PACKET_TYPE_STATE = 0x53
 M0_READY = 1 << 0
 M1_READY = 1 << 1
 BOTH_MOTORS = M0_READY | M1_READY
+CONTROL_FAULT = 1 << 2
+FAULT_CAUSES = {
+    0: "unspecified (older firmware)",
+    1: "driver nFAULT asserted",
+    2: "current feedback invalid or stale",
+    3: "ADC frame skipped",
+    4: "ADC frame observed outside the PWM control half-cycle",
+    5: "M0 encoder feedback stale",
+    6: "M1 encoder feedback stale",
+    7: "non-finite control result",
+    8: "PWM output deadline missed",
+    9: "E-stop pressed (GPIO 28)",
+}
+
+
+def require_ready(state, motors=BOTH_MOTORS):
+    flags = state.get("flags", 0)
+    if flags & CONTROL_FAULT:
+        cause = FAULT_CAUSES.get(flags >> 3, "unknown fault code")
+        recovery = (
+            "Release the button, then hold it again: recovery occurs at 3 seconds. Restart the controller to resume."
+            if flags >> 3 == 9 else "Correct the cause and reset the board."
+        )
+        raise RuntimeError(
+            f"Controller fault: {cause} (flags=0x{flags:02x}). "
+            f"{recovery}"
+        )
+    missing = motors & BOTH_MOTORS & ~flags
+    if missing:
+        names = ", ".join(name for mask, name in ((M0_READY, "M0"), (M1_READY, "M1")) if missing & mask)
+        raise RuntimeError(
+            f"Motors not ready: {names} (flags=0x{flags:02x}). "
+            "Check saved calibration and startup hardware checks."
+        )
+
 
 COMMAND_FRAME = struct.Struct("<BBBBBIBH10fB")
 STATE_FRAME = struct.Struct("<BBBBBHIIf10fBB")
