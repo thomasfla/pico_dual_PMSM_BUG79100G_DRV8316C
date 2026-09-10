@@ -21,4 +21,7 @@ with tempfile.TemporaryDirectory(prefix="pmsm-tests-") as tmp:
             *[str(root / source) for source in sources], "-o", str(binary),
         ], check=True)
         subprocess.run([str(binary)], check=True)
-subprocess.run([sys.executable, "-B", str(root / "test/usb_ready_test.py")], check=True)
+subprocess.run([
+    sys.executable, "-B", "-m", "unittest", "discover",
+    "-s", str(root / "test"), "-p", "usb_ready_test.py",
+], cwd=root.parent / "software", check=True)

@@ -3,9 +3,7 @@ import time
 from dataclasses import dataclass
 from threading import Condition, Thread
 
-import serial
-
-from usb_motor_protocol import (
+from .protocol import (
     BOTH_MOTORS,
     M0_READY,
     M1_READY,
@@ -98,6 +96,8 @@ class MotorUsbController:
         self.close()
 
     def open(self):
+        import serial
+
         self._serial = serial.Serial(self.port, self.baud, timeout=0.001)
         self._serial.reset_input_buffer()
         self._rx_running = True

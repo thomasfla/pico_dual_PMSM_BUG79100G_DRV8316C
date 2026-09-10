@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 import argparse
-from pathlib import Path
-import sys
 import time
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-
-from motor_usb_client import MotorUsbController
+from motor_usb import MotorUsbController
 
 
 def parse_args():

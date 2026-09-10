@@ -3,7 +3,7 @@ import argparse
 import statistics
 import time
 
-from motor_usb_client import MotorUsbController
+from motor_usb import MotorUsbController
 
 
 def stats(values):

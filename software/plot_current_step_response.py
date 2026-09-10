@@ -4,8 +4,8 @@ import time
 
 import matplotlib.pyplot as plt
 
-from motor_usb_client import MotorUsbController
-from usb_motor_protocol import STATE_VALUE_NAMES, default_port
+from motor_usb import MotorUsbController
+from motor_usb.protocol import STATE_VALUE_NAMES, default_port
 
 
 SERIES = STATE_VALUE_NAMES + (

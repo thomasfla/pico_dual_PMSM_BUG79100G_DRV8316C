@@ -153,8 +153,8 @@ Mechanical zero is stored as a signed single-turn sensor offset. Legacy offsets 
 3. Wait until `latest_command_index` in a state packet equals that command index.
 4. Check the required motor ready bits and ensure the fault bit is clear, then start the real command loop with a finite timeout, for example `timeout_ms = 20`.
 
-The included `../software/demo/sine_command_demo.py` checks ready/fault bits
-after the command-index handshake and during motion. It reports the fault
+The included `../software/demo_sine_position.py` relies on the library to check
+ready/fault bits during initialization and each update. It reports the fault
 cause instead of continuing silently with disabled motors.
 
 ## Boot Calibration Mode
@@ -167,7 +167,12 @@ Normal sketch upload keeps the EEPROM flash sector intact.
 
 ## Python Client
 
-`../software/tools/motor_usb_client.py` wraps the packet protocol and runs a background RX thread:
+`../software/motor_usb/client.py` wraps the packet protocol and runs a background RX thread.
+Scripts live directly in `software/` and import `MotorUsbController` from the
+local `motor_usb` package, with no project installation or `sys.path` changes.
+For example, from `firmware/`, run `python3 ../software/demo_sine_position.py`.
+
+Client behavior:
 
 - Runtime faults or loss of readiness on an enabled motor are detected automatically and printed to stderr. The error stays latched in the client: `update()`, `poll()` and state/echo waits raise `RuntimeError`, stopping the command loop. Create a new controller after firmware recovery to resume; an old loop cannot restart automatically. Closing still sends a disabled, zero-torque command.
 - `MotorUsbController.initialize()` sends a zero-gain, zero-timeout command, waits for core1 to echo its command index, and raises an error if the requested motors are not ready or a fault is latched.

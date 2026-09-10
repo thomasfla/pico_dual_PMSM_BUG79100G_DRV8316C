@@ -1,15 +1,12 @@
 """Host readiness checks, using real packet decoding and a fake command echo."""
-import pathlib
-import sys
 import unittest
 from unittest.mock import Mock
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "software/tools"))
-from usb_motor_protocol import (
+from motor_usb import MotorUsbController
+from motor_usb.protocol import (
     BOTH_MOTORS, M0_READY, CONTROL_FAULT, STATE_FRAME, checksum,
     decode_state, require_ready,
 )
-from motor_usb_client import MotorUsbController
 
 
 def state_packet(flags):

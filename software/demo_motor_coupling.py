@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-from pathlib import Path
-import sys
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-
-from motor_usb_client import MotorUsbController
+from motor_usb import MotorUsbController
 
 KP = 1.0
 KD = 0.03

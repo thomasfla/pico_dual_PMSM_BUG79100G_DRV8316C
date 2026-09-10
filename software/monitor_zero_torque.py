@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
-from pathlib import Path
 import sys
 import time
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-
-from motor_usb_client import MotorUsbController
+from motor_usb import MotorUsbController
 
 
 RATE_HZ = 50.0
