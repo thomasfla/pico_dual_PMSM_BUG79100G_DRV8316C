@@ -7,6 +7,8 @@ struct BU79100QuadSample {
   uint16_t raw[4] = {0, 0, 0, 0};
   uint32_t word0 = 0;
   uint32_t word1 = 0;
+  uint32_t sequence = 0;
+  bool valid = false;
 };
 
 class BU79100QuadReader {
@@ -20,7 +22,8 @@ class BU79100QuadReader {
   static constexpr uint32_t RING_WORDS = 64;
   static constexpr uint32_t RING_BYTES = RING_WORDS * sizeof(uint32_t);
 
-  static void appendNibble(uint32_t nibble, uint16_t raw[4]);
+  static void dmaInterrupt();
+  static BU79100QuadReader *activeReader_;
 
   PIO pio_;
   uint8_t pinSck_;
@@ -29,7 +32,8 @@ class BU79100QuadReader {
   uint8_t pinTrigger_;
   int sm_ = -1;
   int dmaA_ = -1;
-  int dmaB_ = -1;
+  volatile uint32_t completedFrames_ = 0;
+  volatile bool receivedBlock_ = false;
+  mutable BU79100QuadSample cached_;
   alignas(RING_BYTES) volatile uint32_t buffer_[RING_WORDS] = {};
-  alignas(4) volatile uint32_t reloadCount_ = RING_WORDS;
 };

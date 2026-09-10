@@ -1,4 +1,5 @@
-#pragma once
+#include "firmware.h"
+#include "emergency_stop.h"
 
 #include <float.h>
 
@@ -161,7 +162,7 @@ static bool boardTestDrvCommunication(
   printBoardTestResult(ok);
 
   if (!readbackOk) {
-    Serial.println("  Expected DRV readback: pwm_mode=2 (3PWM), csa_gain_raw=1.");
+    Serial.println("  Expected DRV readback: pwm_mode=2 (3PWM), csa_gain_raw=2 (0.6 V/A).");
   }
   if (!spiOk) {
     Serial.println("  DRV reports an SPI fault bit.");
@@ -401,6 +402,11 @@ static void boardTestOpenLoopVelocity(
   const uint32_t startMs = millis();
   uint32_t lastPrintMs = 0;
   while ((millis() - startMs) < durationMs) {
+    if (emergency_stop::active()) {
+      boardTestStopOpenLoopMotor(motor, driver);
+      serviceEmergencyStop();
+      return;
+    }
     while (Serial.available() > 0) {
       const int value = Serial.read();
       if (value == 'q' || value == 'Q') {
@@ -457,7 +463,7 @@ static void boardTestCurrentCommand(const MotorHardwareStatus &hardware) {
   boardTestCurrentNoise("M1", currentSense1, hardware.currentFeedback1Ok);
 }
 
-static void runBoardTestMode() {
+void runBoardTestMode() {
   clearSerialInput();
 
   Serial.println();

@@ -28,6 +28,10 @@
 #define GPIO_PICO_LED 25
 #define GPIO_VBUS_SENSE 26
 #define GPIO_ADC_SYNC_PWM 27
+#define GPIO_ESTOP 28
+
+static constexpr uint32_t ESTOP_RESET_HOLD_US = 3000000;
+static constexpr uint32_t ESTOP_RELEASE_DEBOUNCE_US = 20000;
 
 #ifndef CURRENT_CONTROL_BANDWIDTH_HZ
 #define CURRENT_CONTROL_BANDWIDTH_HZ 200.0f
@@ -140,7 +144,11 @@ static constexpr uint8_t ENCODER_HEALTH_READ_ATTEMPTS = 8;
 static constexpr uint16_t ENCODER_HEALTH_RETRY_US = 200;
 static constexpr uint16_t ENCODER_CPR = 16384;
 static constexpr uint16_t ENCODER_VELOCITY_WINDOW_US = 1000;
-static constexpr uint8_t ENCODER_VELOCITY_HISTORY_SAMPLES = 32;
+static constexpr uint32_t ENCODER_FEEDBACK_TIMEOUT_US = 500;
+static constexpr uint32_t CURRENT_FEEDBACK_TIMEOUT_US = 250;
+static constexpr uint32_t CURRENT_FEEDBACK_STARTUP_TIMEOUT_US = 2000;
+static constexpr float CURRENT_OFFSET_LIMIT_A = 0.35f;
+static constexpr uint16_t CURRENT_ADC_RAIL_MARGIN = 16;
 static constexpr uint16_t ENCODER_MAG_MIN = 1000;
 static constexpr uint16_t ENCODER_MAG_MAX = 14000;
 
@@ -157,7 +165,8 @@ static constexpr float DRV_CSA_GAIN_V_PER_A = 0.6f;
 static constexpr float ADC_COUNT_TO_PHASE_CURRENT_A =
     CURRENT_SENSE_VREF / ADC_FULL_SCALE_COUNTS / DRV_CSA_GAIN_V_PER_A;
 static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLES = 128;
-static constexpr uint16_t CURRENT_SENSE_CALIBRATION_SAMPLE_US = 50;
+static constexpr uint32_t CONTROL_PERIOD_US = 1000000UL / PWM_FREQUENCY;
+static constexpr uint32_t PWM_COMMIT_GUARD_US = 3;
 
 static constexpr uint8_t VBUS_ADC_BITS = 12;
 static constexpr float VBUS_ADC_MAX_COUNTS = (1u << VBUS_ADC_BITS) - 1u;
@@ -208,3 +217,5 @@ static constexpr uint8_t USB_PACKET_TYPE_COMMAND = 0x43;  // 'C'
 static constexpr uint8_t USB_PACKET_TYPE_STATE = 0x53;    // 'S'
 static constexpr uint8_t USB_STATE_FLAG_M0_READY = 1u << 0;
 static constexpr uint8_t USB_STATE_FLAG_M1_READY = 1u << 1;
+
+static constexpr uint8_t USB_STATE_FLAG_FAULT = 1u << 2;

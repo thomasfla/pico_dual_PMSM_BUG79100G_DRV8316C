@@ -3,6 +3,11 @@
 #include <math.h>
 
 #include "board_config.h"
+#include "board_pwm.h"
+#include "current_feedback.h"
+#include "control_math.h"
+#include "emergency_stop.h"
+#include "hardware/gpio.h"
 
 // SimpleFOC's BLDCMotor::characteriseMotor() applies a 1.5 correction factor
 // when estimating phase resistance. Here we report the direct D/Q model value:
@@ -102,6 +107,7 @@ static DQCurrent_s averageDqCurrent(
 ) {
   DQCurrent_s sum = {0.0f, 0.0f};
   for (uint16_t i = 0; i < samples; i++) {
+    if (emergency_stop::active()) return {NAN, NAN};
     const DQCurrent_s current = currentSense.getFOCCurrents(electricalAngle);
     sum.d += current.d;
     sum.q += current.q;
@@ -130,6 +136,7 @@ static void rampStaticDVoltage(
   }
 
   for (uint16_t i = 1; i <= steps; i++) {
+    if (emergency_stop::active()) return;
     const float u = voltage * (float)i / (float)steps;
     motor.setPhaseVoltage(0.0f, u, electricalAngle);
     delayMicroseconds(stepUs);
@@ -197,16 +204,40 @@ static bool measureAxisInductance(
   delay(20);
 
   for (uint16_t i = 0; i < config.inductanceSamples; i++) {
+    if (emergency_stop::active()) return false;
     const DQCurrent_s zero = averageDqCurrent(currentSense, axisElectricalAngle, 8, 20);
 
+    // Anchor the voltage latch to a known ADC frame and use PWM periods for
+    // elapsed time. Function-call timestamps do not describe either event.
+    current_feedback::refresh();
+    if (!current_feedback::waitNext(CURRENT_FEEDBACK_TIMEOUT_US) ||
+        !board_pwm::samplingWindow()) return false;
+    const uint32_t reference = current_feedback::sequence();
+    board_pwm::beginFrame();
     motor.setPhaseVoltage(0.0f, config.testVoltage, axisElectricalAngle);
-    const uint32_t t0 = micros();
-    delayMicroseconds(config.inductanceRiseUs);
+    if (!board_pwm::commitFrame()) {
+      stopMotorVoltage(motor);
+      return false;
+    }
+    const float periodUs = board_pwm::periodUs();
+    const float phaseUs = board_pwm::samplePhaseUs();
+    uint32_t previous = reference;
+    float elapsedUs = 0.0f;
+    do {
+      if (emergency_stop::active() || !current_feedback::waitNext(CURRENT_FEEDBACK_TIMEOUT_US) ||
+          current_feedback::sequence() - previous != 1u || !gpio_get(GPIO_DRV_Mx_nFAULT)) {
+        stopMotorVoltage(motor);
+        return false;
+      }
+      previous = current_feedback::sequence();
+      elapsedUs = control_math::stepSampleTimeUs(previous - reference, periodUs, phaseUs);
+    } while (elapsedUs < config.inductanceRiseUs);
+    current_feedback::freeze(true);
     const DQCurrent_s stepped = currentSense.getFOCCurrents(axisElectricalAngle);
-    const uint32_t t1 = micros();
+    current_feedback::freeze(false);
     stopMotorVoltage(motor);
 
-    const float dt = (float)(t1 - t0) * 1.0e-6f;
+    const float dt = elapsedUs * 1.0e-6f;
     const float idDelta = stepped.d - zero.d;
     const float remainingVoltage = config.testVoltage - phaseResistanceOhm * idDelta;
     if (dt > 0.0f &&
@@ -277,6 +308,7 @@ static bool runSpinDirection(
 ) {
   uint32_t startMs = millis();
   while ((millis() - startMs) < config.spinupMs) {
+    if (emergency_stop::active()) { stopMotorVoltage(motor); return false; }
     motor.loopFOC();
     motor.move(voltage);
     delayMicroseconds(config.spinLoopUs);
@@ -287,6 +319,7 @@ static bool runSpinDirection(
   uint32_t samples = 0;
   startMs = millis();
   while ((millis() - startMs) < config.spinMeasureMs) {
+    if (emergency_stop::active()) { stopMotorVoltage(motor); return false; }
     motor.loopFOC();
     motor.move(voltage);
     const DQCurrent_s current = currentSense.getFOCCurrents(motor.electrical_angle);
@@ -454,6 +487,15 @@ bool identifyMotorParameters(
   }
 
   const SavedMotorMode saved = saveMotorMode(motor);
+  auto aborted = [&]() {
+    if (!emergency_stop::active()) return false;
+    restoreMotorMode(motor, saved);
+    motor.disable();
+    result = {};
+    out.println("E-STOP: identification aborted.");
+    return true;
+  };
+  if (aborted()) return false;
   motor.enable();
 
   out.print(label);
@@ -461,12 +503,14 @@ bool identifyMotorParameters(
   out.print(config.testVoltage, 3);
   out.println(" V. Keep the rotor still.");
   const bool rOk = measureResistance(motor, currentSense, config, result);
+  if (aborted()) return false;
   out.print(label);
   out.print(": resistance ");
   printOk(out, rOk);
   out.println();
 
   const bool lOk = measureInductance(motor, currentSense, config, result);
+  if (aborted()) return false;
   out.print(label);
   out.print(": inductance ");
   printOk(out, lOk);
@@ -477,6 +521,7 @@ bool identifyMotorParameters(
   out.print(config.spinVoltage, 3);
   out.println(" V. Motor must be free to spin.");
   const bool bemfOk = measureBemf(motor, currentSense, config, result);
+  if (aborted()) return false;
   out.print(label);
   out.print(": back-EMF ");
   printOk(out, bemfOk);
