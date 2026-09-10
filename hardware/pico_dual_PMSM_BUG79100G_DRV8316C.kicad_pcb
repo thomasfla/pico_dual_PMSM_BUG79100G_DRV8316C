@@ -649,6 +649,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6f0c3183-67b9-4ad6-8d49-e0ce025be87e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "22b7819e-83e4-4bb0-b3e0-49155d45f316")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "25f06cb5-dc1b-43e4-977c-4a1647d73d83")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "30bc0b9c-4b86-415b-9559-0e613b7a71ff")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e7ffbdd1-190a-406b-876c-edd865fa62a0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "429bfba5-914f-4ead-9608-3159668bf45d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/3c6471f2-54cd-4bf0-b4b0-65a5357764b1")
 		(sheetname "/")
@@ -795,7 +873,7 @@
 				)
 			)
 		)
-		(property "mouser" "80-C0402C104M4RACLR"
+		(property "mouser" "81-GRM1555C1H101JA1J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -808,12 +886,64 @@
 				)
 			)
 		)
-		(property "MPN" "C0402C104M4RAC7411"
+		(property "MPN" "GRM1555C1H101JA01J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5f217595-df23-468e-806e-4f58042cc380")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dd4584b0-cdb8-4064-b88d-dcc645aba6f2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "81-GRM1555C1H101JA1J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e41f1f4d-0758-4b91-8255-d52cf7d66789")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Murata Electronics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b50ae3d7-783b-4192-a2ee-325bd1fb4099")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "GRM1555C1H101JA01J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a4cddfaf-90b0-4aa4-9f1c-4cbf2ecb603d")
 			(effects
 				(font
 					(size 1 1)
@@ -1026,6 +1156,32 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "3afb392f-5744-41b2-af67-9becd7a5069e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "755-BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "07924991-26d7-4593-9c99-d434540e87c2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d61b9513-8b6e-43de-bbb1-2526d5e9fedf")
 			(effects
 				(font
 					(size 1 1)
@@ -1312,12 +1468,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "80-C1206F105M5RAUTO"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "290f969a-941a-4acc-aba1-b298a928f8ee")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "1.8"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "21304ddb-9a87-4bb5-99c5-abaee82e9b39")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "80-C1206F105M5RAUTO"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f8d660d2-b8b3-4896-bc51-c98c0fc2edf7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "C1206F105M5RACAUTO"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f2df9eed-5e8f-4c69-9679-45a381b61f1f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "KEMET"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4ef095a3-6ba3-43f6-8e97-e72a143aa002")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "C1206F105M5RACAUTO"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "68487975-d2da-43e2-b7d3-29b86e312b07")
 			(effects
 				(font
 					(size 1 1)
@@ -1471,12 +1692,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "80-C1206F105M5RAUTO"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5efbe1e1-e6fc-4cf9-8318-525a39ec328e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "1.8"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1d434a43-8e71-46a6-bde7-8fc7dd28290f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "80-C1206F105M5RAUTO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "af365ebd-3d07-4d5a-8745-7a2b22e130a4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "C1206F105M5RACAUTO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "83f5a465-462f-444d-9b15-a99ce23cda1d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "KEMET"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5776ac94-1fbb-4eed-8e4b-66a1acdb1de3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "C1206F105M5RACAUTO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "03d724fc-4f8c-4dc8-8601-7d5ea26bc7e0")
 			(effects
 				(font
 					(size 1 1)
@@ -1630,12 +1916,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "931b4773-378a-4198-813d-c2b1e103723a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cadf2854-9b06-4bc5-8a8d-c8e5a52cd7c1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "01370929-97e7-4e1d-a501-dcee801080c5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "01037d15-8e2b-4de3-b2c6-67ce6e17afa9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1ee9e7e5-d1f8-4cf1-94f9-218d6f02da3f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5501dfeb-ea8f-4c25-b900-1a3399ba80aa")
 			(effects
 				(font
 					(size 1 1)
@@ -1786,6 +2137,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4d7d85cb-44e5-407e-9c94-3ab4f5df09da")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "11f040cd-4ab1-4275-8a8f-a9b2e84258c4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ae8b5b18-43ed-4364-8602-438da0778d31")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "64264984-7fe6-41cf-8f63-26a599d433c5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "967a3c66-abfc-4396-aca9-5027f46245dc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8bd0a9cf-6306-4851-b911-159f159c2997")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -1996,6 +2425,32 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "8924405a-65b9-4326-a92c-0d1c008cec50")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "755-BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "283c45d2-8e65-467a-8d7d-6a8360cb1da9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "01093e42-0369-4d86-b792-741c1b292f3d")
 			(effects
 				(font
 					(size 1 1)
@@ -2282,6 +2737,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "2.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "88962d7a-2202-4561-8752-b08edcab203a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "611-PTS810SJM250SMTR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "aecbd122-5669-4dab-a7e9-4a3ce4d5e65b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "611-PTS810SJM250SMTR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6da2ed3f-8cab-4b48-8a0d-59336b9afa60")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "PTS810SJM250SMTR LFS"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "47cb9ff2-3a10-4aed-9d35-0f0074004b8c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "C&K / Littelfuse"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "51e72d61-3fc4-4e14-90a4-9ee954d2365d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "PTS810SJM250SMTR LFS"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f2a846f5-0e55-4f09-b3a5-dce6c8f5698c")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -2607,6 +3140,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "1"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f91d447e-5811-4fba-a397-2dccd2eb87b7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "595-DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f30aac51-f497-437c-aaad-ef6a34d11aef")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "595-DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5e9bad49-1da3-4966-96c5-6a9b341529e0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "56d9e8dd-46cf-4f3f-81b2-6b3ee868b493")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Texas Instruments"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3d2b8d27-f0d7-40e4-90d4-e3186b136efd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8c9465da-7de9-4922-97d7-34171d61d30c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -5254,6 +5865,84 @@
 				)
 			)
 		)
+		(property "Height" "0.8"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0a108c72-e8e6-40e3-810f-22bcac4f4109")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "81-GRM188R72A104KA35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4c4734d6-78d0-4f8b-beaa-0a06065871c5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "81-GRM188R72A104KA35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "646833fb-9ac8-4c0d-b7a8-92d3af6eff8d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "GRM188R72A104KA35D"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9fb9dfd0-b15c-4665-acd0-1ce93ec9db51")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Murata Electronics"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "056544c3-0784-4767-9f3a-312567e8d96e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "GRM188R72A104KA35D"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b236ba68-075f-4a69-8629-4636643685ce")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/9ccf93ee-b026-4cc7-990e-253356cfb118")
 		(sheetname "/")
@@ -5397,6 +6086,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "1.4"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7f634ea4-d300-46cf-b5b7-cc417ad9c39e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "80-C0805C226M8P"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bfd6bd5f-7502-4dbe-b571-a70eb36e7baf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "80-C0805C226M8P"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "33c4739b-8c46-477e-af4e-268275ecccfa")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "C0805C226M8PACTU"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1392483b-a015-497e-aa13-e6b98651dfcd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "KEMET"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0135413b-8021-44f8-aef9-912b322ff890")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "C0805C226M8PACTU"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ca2a2087-b015-49d8-88f8-a825d58130d7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -5546,12 +6313,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "285a3801-1a08-4dcf-b316-3fd803f19370")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9cd117b5-e313-44fd-b818-b657bb3ac1df")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bffec751-9d82-4e57-88ab-140ebcb7b119")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3282a6b5-75b2-45cb-8c0a-8a589a9a1240")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "24055953-81f5-413c-8104-464e06bc0dd7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "96e16b4f-1408-4ed3-bc94-5c8ca2665c00")
 			(effects
 				(font
 					(size 1 1)
@@ -6122,6 +6954,71 @@
 				)
 			)
 		)
+		(property "mouser" "358-SC1631"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "40f827c9-66b0-431a-82ee-88789dd7507b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "358-SC1631"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "13e9eeec-5943-414c-9cc8-81eda1fda2b0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "SC1631"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "54e6d4f1-61f7-4c77-8fa9-fd1e229326ce")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Raspberry Pi"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5d3ab368-d479-4f56-9ba1-2b0f4cc199c1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "SC1631"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "eeb68afa-7ea1-41d9-86ca-1f9a4ecb7875")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "RaspberryPi?Pico?Common* RaspberryPi?Pico?SMD*")
 		(path "/18a5c495-d033-4507-bc7f-4c855f28cc0d")
 		(sheetname "/")
@@ -6135,7 +7032,7 @@
 				)
 			)
 		)
-		(attr through_hole exclude_from_bom)
+		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -10 25.61)
@@ -10143,6 +11040,84 @@
 				)
 			)
 		)
+		(property "Height" "1"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dbadc98a-60bc-4696-b812-e6489354c989")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "595-DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "edc85cd2-6d90-4b1c-b5df-79b9f824f27a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "595-DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "deb68756-9307-4ec3-b470-1cf6a2d23e8e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f73fe1c3-abb9-4226-8382-7c0d359a0b98")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Texas Instruments"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "80399b97-829c-4a5d-93e6-2fa957caf97f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "DRV8316CRRGFR"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "19530049-c737-4210-9967-7c4037186b85")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "VQFN40_RGF_TEX VQFN40_RGF_TEX-M VQFN40_RGF_TEX-L")
 		(path "/c53ad520-05b2-4cae-a05e-050028c967c8")
 		(sheetname "/")
@@ -12800,6 +13775,84 @@
 				)
 			)
 		)
+		(property "Height" "4.25"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a0d02d4d-ccda-4c4e-8f5d-bcda66a4cd12")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "306-6BSRSSTBLPP"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2088ee74-d3f3-47fc-a616-e0a460138346")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "306-6BSRSSTBLPP"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a0a7d5ed-5412-493b-b0bc-67876573aa86")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "BM06B-SRSS-TB(LF)(SN)"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c3b2ffdb-59ec-4b84-b8f5-959eef0ae901")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "JST"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6aa47306-c2be-46c8-b0af-223ce72a9494")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "BM06B-SRSS-TB(LF)(SN)"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "012b036e-3faf-4f17-9773-1eea43b5e079")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??-1MP*")
 		(path "/36c8671d-26d7-4790-ba48-a125f3978329")
 		(sheetname "/")
@@ -13378,6 +14431,32 @@
 				)
 			)
 		)
+		(property "mouser" "755-BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "38b6ee8b-cb5c-4aa5-ba24-2e7299261d63")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8d2c134e-4f24-4dff-85e3-e605ff868fdd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/77734e41-0b21-4e3b-abba-b189dabb6fd0")
 		(sheetname "/")
 		(sheetfile "pico_dual_PMSM_BUG79100G_DRV8316C.kicad_sch")
@@ -13657,12 +14736,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0710KL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "923eb8db-3488-41b7-9f40-ff927d6ebddf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "583fdf35-b6fd-4148-a37f-646c87dd5fe9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0710KL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a076cdf8-e371-4460-b48b-d13c2e5c46da")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0710KL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b1a83ce6-dcf4-4f8d-8c6d-c9e42a76ac9a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "56b63dcc-1be4-49fc-a01b-7dc06d8581c9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0710KL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cad30f7d-7d7b-49d8-be78-4d5c2d8abc04")
 			(effects
 				(font
 					(size 1 1)
@@ -13816,12 +14960,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-07330RL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "eb96b8eb-e12e-4489-843d-e08ee18578f1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1dddc010-9cf6-49e6-b570-a0bf5cac893b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1ba13f0e-cb83-4413-a0aa-e4f6eee98bf5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9e78f0e1-35ef-4e2c-813b-c73a575470f7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "584092d7-2508-4924-8b4c-c8871c88ab53")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d690bd23-0739-4035-9a0b-724e6ddedf31")
 			(effects
 				(font
 					(size 1 1)
@@ -13972,6 +15181,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.45"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "52ae3907-4872-4baf-a016-618de2574f47")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "603-RC0603FR-07120RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "75d3316f-a56f-4518-aef3-c0fcf366bdc4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0603FR-07120RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "57e72041-a47a-424f-899a-23ae9145ef6d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-07120RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d70e8d9c-ee7b-478f-9b01-518afccea5bb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "014477a7-c960-4c09-9dfc-46067424908c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0603FR-07120RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "508ec193-1876-4f7c-a98a-f30f2501480b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -14397,12 +15684,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-07100KL"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5b365850-6507-4185-b48b-60e4546b9169")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "646a6038-371f-405d-909b-f0ee41eaaa95")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-07100KL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d0871e59-8a4d-471c-a25d-4cb40b833190")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-07100KL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d8f2d801-c557-4ee4-9a0a-5545db348c4a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "edaab9fe-bdb6-42d2-94a7-5fcba3f1076b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-07100KL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9221dd4f-4664-4bdb-b9c3-b6a52a933ae7")
 			(effects
 				(font
 					(size 1 1)
@@ -14556,12 +15908,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-07330RL"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "252ed7e7-c071-44d9-a581-ad5534589991")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "146d6087-3399-4f38-a537-64950bb59167")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-07330RL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f48afabe-c6a7-47cd-8708-4b21641e31ac")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-07330RL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e39fdee8-cee7-46ff-96ce-8d3c365b5da1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d99af7d5-c43e-4ed0-9b00-641a399d64dc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-07330RL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3e19583e-a221-43cc-90ea-909946e3f3fb")
 			(effects
 				(font
 					(size 1 1)
@@ -14715,12 +16132,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-07330RL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "9c5d1cfc-5e9b-4aed-9563-e79449afd02e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bb06be75-5961-4ef0-9bc8-a073e26d53f4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b490701c-0cb7-4ea2-b6f2-df9cf4371380")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8ec1056a-418a-441c-a3a3-bc6dadbfc9b3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6ada8ee1-17ec-40b3-b76c-524a09857117")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2ba46587-3b8c-4d58-8548-973a55f5d4a7")
 			(effects
 				(font
 					(size 1 1)
@@ -14874,6 +16356,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.95"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6aae5572-7c20-46a8-bfe1-f623ee6118aa")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -15163,6 +16658,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6b9f16f9-12ca-4730-b9c0-c0779595b4f6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3199b88b-422d-4936-b83c-a9827c96d272")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cc5ca632-c11b-4383-b4c2-a98e2141a8d5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e79d87bd-e785-40ad-82eb-407e633d50e9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ea9b20fa-32c8-4d3f-9193-0419a18f1e6a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b0bdf2d1-4771-4045-91d9-041b27c413cd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/dbe26717-eb4f-4395-8b42-7e5988879a8c")
 		(sheetname "/")
@@ -15309,12 +16882,64 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "594-MAL219051101E3"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "87248bdf-8fa3-4e80-9da7-1247fced7fb3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "594-MAL219051101E3"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0f2077da-0fe1-41a5-a761-4268378e5188")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "MAL219051101E3"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d2dd9a64-5ff6-4a85-b8e7-baef211fbc1f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Vishay / BC Components"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "579bf0db-d00c-4e8f-b236-4bf7714ca1f1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "MAL219051101E3"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "56ea1dfe-be91-4e7e-a583-c8b9a68dcf84")
 			(effects
 				(font
 					(size 1 1)
@@ -17402,6 +19027,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e1a19a22-6893-43e3-b8a9-35136e2d21cc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e55604f3-ea0a-445e-86cf-6aa27b6bf43d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "65362de8-fba3-4cbd-918d-592c47380029")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6ebc8718-92e5-4981-8ed9-d44691c2eabb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a0c7d5f0-eb41-486e-ab09-646e506cfc02")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "334bbd59-5105-49ff-bc33-a6b3d42286f7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/99cb2fcf-e47e-441a-b49d-63887ca89666")
 		(sheetname "/")
@@ -17545,6 +19248,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "44e0ecc1-305c-4a19-a643-5acfb013da9d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b52174b5-0a46-43b2-b263-f0448ce55b57")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "08b7ea67-a960-4c4c-8065-a190e5838576")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0a76152f-b803-47b9-b736-02548f818d11")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ab50262d-c64d-457b-95eb-bccda13ce4f1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d66653c4-8c8e-409c-a668-67a5a2435f41")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -17694,12 +19475,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0710KL"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "6d48219d-0300-4757-9cc0-0f7a6a26ca8f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "53bb75d4-dca3-41ef-a735-86ffc2dd11a0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0710KL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6b587d94-e543-4d11-905b-2e100cef7918")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0710KL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "540c258a-3888-46ed-b9fa-31a2fe3382f3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "82edb7b1-fee0-457b-a3ba-536ce8431cd6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0710KL"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "01095212-1c8c-4e6c-b2c9-1cc79637c396")
 			(effects
 				(font
 					(size 1 1)
@@ -17853,6 +19699,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e41879a0-3bf5-48a9-b5b1-26b21936b577")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2fe72494-53b8-4946-93bd-ad20a2a73b0a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b1786378-1c6b-44da-823a-e14841063816")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "139fb81f-d517-41ed-ad0d-b396c6b3ec3c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d99206b3-3e5b-48cc-b19a-1f52a533fb12")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5a96e6bd-dc78-40f3-b3a1-d84310dfa0df")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/c706ac27-f6e8-4ea4-8b6e-fe3546c2065f")
 		(sheetname "/")
@@ -17996,6 +19920,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7776116c-0891-488e-8a4f-11c274944f0d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d538533d-86bc-4c12-973e-c8da517c4b3c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fa86be2a-647b-4ff7-a81d-6a5a1cf9da94")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b1e1f0e1-992f-4b83-89a2-b3224c0f3efb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c128f417-d3c9-4595-b471-1384e2d4de31")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1bcde231-3d6e-4e9e-bd2a-c9c94fa6639d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -18145,7 +20147,7 @@
 				)
 			)
 		)
-		(property "mouser" "80-C0402C104M4RACLR"
+		(property "mouser" "81-GRM1555C1H101JA1J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -18158,12 +20160,64 @@
 				)
 			)
 		)
-		(property "MPN" "C0402C104M4RAC7411"
+		(property "MPN" "GRM1555C1H101JA01J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "f12ae996-40bf-493e-b719-58e8b696d59b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fec4e31b-36c3-4d50-b854-31f4e92d3628")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "81-GRM1555C1H101JA1J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f907f345-4ae4-4f31-b82b-3e6c1d030c05")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Murata Electronics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9beb0c62-a6d6-498c-bdb0-c82377f90efc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "GRM1555C1H101JA01J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "750834cd-3443-4fb6-ae48-bb44157d4c32")
 			(effects
 				(font
 					(size 1 1)
@@ -18317,12 +20371,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "47089251-8f32-4076-bb75-01e5dec282d6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c83c8f83-8bb5-41e6-987c-d5637285ab0d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "81886dc1-2a8b-4e8e-b8f3-3ed44ed408ba")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "66c4eb45-c50e-4ae7-920b-a90deebf01ff")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d7f9f3f7-460d-4f73-8a16-c7562e1adf87")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f5afd4f1-90f0-44b8-b6e3-aae9cd09371f")
 			(effects
 				(font
 					(size 1 1)
@@ -18476,12 +20595,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "53f639de-5d57-4c9f-84f3-b45c4a63f90e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e45f3a7d-db79-4ada-9b7a-b07077978fa6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "91f0bc3d-5fcc-45ae-b5b0-6450ab94f20d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "928fd002-2b9a-45bd-80d4-416f0cbc608a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4be57e24-ea85-4570-9579-3e60486e1a72")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4f281e38-2861-42d1-b159-d9885c4908f1")
 			(effects
 				(font
 					(size 1 1)
@@ -18842,12 +21026,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "38a3e739-058b-45da-885c-7674967895d8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d7539bcd-b692-447f-a9e9-f6ac15c32049")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6c6ea5e4-56ca-423b-a5f5-08385d6b4857")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fd8ccfbb-ec74-4f53-b1b2-24c3cf230176")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bd6d8425-67d8-4061-ad85-71e6643cc94b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "08ad52d4-824e-4211-8e71-dccbc8a30091")
 			(effects
 				(font
 					(size 1 1)
@@ -19086,6 +21335,32 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "bdeb09c4-39a0-4193-b49d-a81f92698195")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "595-THVD2450DRBR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "22e139c3-259f-4816-aaf2-ed87d1ba2b32")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "THVD2450DRBR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b4ffbbed-aa44-498b-9bd7-5ad1311b5a22")
 			(effects
 				(font
 					(size 1 1)
@@ -19360,12 +21635,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "84ec5445-486a-4054-8747-204f68b95474")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "366b801b-c704-4491-8c61-e4709e372c88")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b49d7e27-1794-4d2f-b3f4-9352efedf9b5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "099b2a56-05d5-4cd8-846a-acd6124033c6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6456f773-e49d-4ce5-b9d3-f1119a02a59d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1e109833-9f8a-4b4f-a1e8-fdb6b1af358b")
 			(effects
 				(font
 					(size 1 1)
@@ -19519,12 +21859,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0bf81930-4883-4003-8709-b6efdd7d6d02")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d176aea9-3a65-41e1-93ba-036b90c87e6f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ab289d79-c3ba-42cb-9b78-8701b24429e2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "81e33c6f-3366-4cd0-ad8e-434b686b852f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1f95b328-96b4-4aed-9027-113bb37c1139")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "40d499ef-873f-4e9b-a6a5-f31710fdb615")
 			(effects
 				(font
 					(size 1 1)
@@ -19678,6 +22083,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c4e665c4-9785-429c-a77e-6f99b46f0442")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6b1dafe5-a63d-4091-8fbb-8f99329d1b8b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "49e3be05-2094-41b3-b539-539213aaeefa")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "768191ac-2644-4a7e-b918-b11259559c8e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "68740ebd-fcea-4d82-aedb-eb210aeb5103")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d82f4fb7-b434-4eb0-81d0-04836b2f9088")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/d40a462c-17e4-4217-92da-b9f85ebecf5d")
 		(sheetname "/")
@@ -19823,6 +22306,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "4.25"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "370cfd81-7b84-47b3-ba0f-b51636c9d11b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "306-6BSRSSTBLPP"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "06e615a3-2dec-4f46-8c77-2d0aad79c87c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "306-6BSRSSTBLPP"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "47c65762-2ee0-42ef-84b0-98b7eea447bb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "BM06B-SRSS-TB(LF)(SN)"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "80bc6a29-9422-4e3b-b60b-824f4a8dc685")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "JST"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e0573462-20d4-4a29-94ec-7adb3189cb81")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "BM06B-SRSS-TB(LF)(SN)"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "23694825-4b90-4e7d-b8cb-6e86c3127576")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -20338,12 +22899,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "1983344d-c6c0-43a4-91be-91b78e127d87")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5151f19f-6657-46e7-9e99-7c700a24bd77")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "38c82a66-e0e3-4da3-bd6f-47860e507e50")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1e73ced0-1cbe-4324-996a-846169fc88d5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f69155e6-fc86-49dd-9dbd-b08fccbd1c58")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9f19c876-ca14-42f2-ae13-f193bc2bc667")
 			(effects
 				(font
 					(size 1 1)
@@ -20494,6 +23120,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "59731d9e-dffa-4ef0-891c-f392459343f6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f40bb5e9-2c85-4758-b43b-12ab9e07b2eb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6f8c29f5-a34f-4a3c-9a84-89394bea6ef4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2244b1f0-0e92-4acb-beef-8cfd624cd113")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6b1beea9-9459-4694-92e1-878c8555a3f9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "edcb3127-5529-4f43-a98c-2a793485eea5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -21471,6 +24175,32 @@
 				)
 			)
 		)
+		(property "mouser" "755-BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ef94577b-c62e-402f-88e0-2de1c271c50f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "BU79100G-LATR"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f57d5f52-b7be-4448-9bb0-c14d87874c7a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/05fb52aa-843a-4878-bedc-e1ed5dc61e5b")
 		(sheetname "/")
 		(sheetfile "pico_dual_PMSM_BUG79100G_DRV8316C.kicad_sch")
@@ -21750,6 +24480,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5830aee8-8405-48e3-949e-9d3572e9746c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b78e8408-90fc-4e5a-be05-7a383e95078e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fb910605-5029-44cb-9adc-9a8120059470")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "650a6455-0c47-40be-9d02-4bd22718868a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3203927d-baa2-403d-b090-e3919215b75a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05A105KO5NNNC"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2cd6fff5-179d-4dd2-b835-0f8cb1987f0d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/5e7b2f5a-3105-4563-9be5-73c9732a7c24")
 		(sheetname "/")
@@ -21893,6 +24701,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "68ff2428-c3ab-48d0-b3c9-1b98006ca003")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "95edef69-153f-40a6-a648-b03d7a68ef30")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "aa99b14b-d9df-4c20-90a9-214ec9012f5c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "381d94d4-5375-4bc2-833d-d31629d930d3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c1c863be-3370-47e3-b8ca-e8a2c0320312")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dc6a0279-3cfa-4db4-a43b-810586250bd4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -22405,7 +25291,7 @@
 				)
 			)
 		)
-		(property "mouser" "80-C0402C104M4RACLR"
+		(property "mouser" "81-GRM1555C1H101JA1J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -22418,12 +25304,64 @@
 				)
 			)
 		)
-		(property "MPN" "C0402C104M4RAC7411"
+		(property "MPN" "GRM1555C1H101JA01J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "37c31617-03ff-4eb5-929e-9b5e6200f0c2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cec54e3b-714e-436d-b987-a88916de9143")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "81-GRM1555C1H101JA1J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "af174e39-01d7-4868-b8d9-40b092e71929")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Murata Electronics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "32f52e47-aa72-460d-9334-2fdb29e2f946")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "GRM1555C1H101JA01J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9300090e-7127-4b29-a29d-44178a70846e")
 			(effects
 				(font
 					(size 1 1)
@@ -22577,6 +25515,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a4d75bac-dabc-4141-afb6-d1221834fdbe")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "beb583c7-2990-4600-9684-2005ae9d9759")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5d4dac84-fd7c-42e9-b4b4-13c7b34bda75")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "00bf4eaa-9911-4cbd-bbae-279f64623249")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "69e86972-e948-4351-b2c4-2208f4455ec5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e918dc6f-5f07-49de-a386-d3d3c0db1b81")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/4b07f2c8-adbb-4172-9887-4ab64b90a26e")
 		(sheetname "/")
@@ -22723,12 +25739,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-07330RL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "7b656695-bbad-45ca-ad63-22f89e1a9862")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fb5f16a9-950f-4ecd-abf2-24f107adb209")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "23c07da1-682c-427b-b0cf-ca05e31eb566")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2189abc0-9acf-4334-abeb-3bdc64f51e3e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6ddf1d03-54ea-4a8b-b659-fb476586a8da")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ae0fc045-8486-4af0-9fa8-9ce32d43f984")
 			(effects
 				(font
 					(size 1 1)
@@ -22882,12 +25963,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4888c652-6f89-45e9-adff-7252b0770c13")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "18cd3e30-3c4c-4ecb-8166-2c2a1d8bc567")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "82e701a4-e7da-49dd-8096-ee1317f08768")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5223b00f-106b-46fa-86fc-3e961b1aff62")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7acd9a98-b9e2-4719-86e3-8580be6dace5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0c8c3024-a708-4247-947c-7272a26b76b9")
 			(effects
 				(font
 					(size 1 1)
@@ -23041,12 +26187,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "80-C1206F105M5RAUTO"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "1aa0d04d-45e4-4106-aead-2fe1b8232518")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "1.8"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2431abe9-aa1a-415c-b96b-6862860dd6dc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "80-C1206F105M5RAUTO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cc0f8349-9c42-49b1-8476-402ccb81959c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "C1206F105M5RACAUTO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a0b2f7be-7837-42b5-ab17-89df635b8896")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "KEMET"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "08057071-66e7-4294-9000-9a9fd624a7a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "C1206F105M5RACAUTO"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d09ea47d-08c5-4a3c-9e47-4fd9d99310d3")
 			(effects
 				(font
 					(size 1 1)
@@ -23200,12 +26411,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0710KL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "70ccee2a-6646-49b9-8b89-ace06c417ae8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4913301b-5a0f-41b9-8015-1568ac7869a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0710KL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "13783ab5-63d9-4f4c-b347-e96332c7db10")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0710KL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d85b0799-aa11-4c3d-add1-2c24f6986444")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8a37e5ca-8a8f-4c90-a427-0c196805bcc6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0710KL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "68b56b00-285e-495c-a348-cc9bd3cfe08c")
 			(effects
 				(font
 					(size 1 1)
@@ -23359,12 +26635,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-07330RL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "991c6b4a-189c-4f24-a8ab-d1a7606db6f0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "77f34fef-1d4f-4231-b11d-67291ec672db")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2585d200-8632-424d-8b83-35a3e767b804")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "84486c55-2d78-4fff-8e5a-93f5f20d1c39")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e89ec4d6-4f2e-415f-9c2b-0234dba9956a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-07330RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ff4a5be4-4b8a-4678-a171-5c8ca871b6b4")
 			(effects
 				(font
 					(size 1 1)
@@ -23515,6 +26856,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "1.4"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "50951271-669d-4862-bba1-26ac78848554")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "80-C0805C226M8P"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "339a3da1-04db-4fc5-9479-06d3b4a4c7cf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "80-C0805C226M8P"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "54ca489a-5602-4461-9551-87b7452b1227")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "C0805C226M8PACTU"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3bcb1577-5fb1-4944-8c70-b5be30ba56e2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "KEMET"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "22ae6244-d7df-40da-9d5f-137aff0787ec")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "C0805C226M8PACTU"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d9a5ee62-d069-4557-a81b-a3e49ccdb8c8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -24220,12 +27639,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0722RL"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "e61a176b-6c0d-4f31-b138-7cc0b274c7e1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e6483b88-2c5c-4214-a59f-1e1f4909ff44")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f27be7b8-8890-4d58-a0a9-a26e4f4bbd65")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8e891fd5-391b-4672-abb2-62a477f1e493")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6752dba2-d8ac-4b77-8222-9642d34b640a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0722RL"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "868ef477-d5b4-40db-a74e-4ec1904d6cec")
 			(effects
 				(font
 					(size 1 1)
@@ -24379,12 +27863,77 @@
 				)
 			)
 		)
-		(property "mouser" ""
+		(property "mouser" "603-RC0402FR-0710KL"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "c9faedbe-f0d2-4334-9cc6-d54bfaf4151d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.35"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a71ae709-2fd1-4f79-ba84-65d5f812258b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "603-RC0402FR-0710KL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "68c77f21-3b9e-4662-b17d-c48f45d3eaba")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-0710KL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e70bced7-bc27-4540-9392-2ab1ebb70b0c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "YAGEO"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "30579794-7357-4020-bd3c-e6398e42b496")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "RC0402FR-0710KL"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a00eccd1-7e3a-4b3e-b745-0683ad7a49a1")
 			(effects
 				(font
 					(size 1 1)
@@ -24538,7 +28087,7 @@
 				)
 			)
 		)
-		(property "mouser" "80-C0402C104M4RACLR"
+		(property "mouser" "81-GRM1555C1H101JA1J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -24551,12 +28100,64 @@
 				)
 			)
 		)
-		(property "MPN" "C0402C104M4RAC7411"
+		(property "MPN" "GRM1555C1H101JA01J"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "fb6b70c2-73f4-4c66-bf4d-ecb73e212447")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8c4815dd-0212-49fa-b2ac-c2264251745f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "81-GRM1555C1H101JA1J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8fccaa2b-dc23-42bb-92aa-2f4a0271dcf6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Murata Electronics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "58299e9f-c317-4f23-9161-c76fd497d0d5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "GRM1555C1H101JA01J"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c8c51aff-d369-4bfc-aabe-0f3ca529e988")
 			(effects
 				(font
 					(size 1 1)
@@ -24710,6 +28311,84 @@
 				)
 			)
 		)
+		(property "Height" "0.5"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "08f748a5-f422-456a-80fb-05dea9730a0b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a7b0fd7e-24d5-42e1-b513-be78cc3cdb35")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1a09467e-781b-42cd-876a-246c20874abf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1e0cc7f1-c785-42da-beb4-8777f5e58135")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "df079c4c-56d0-40c4-8f65-4327d4c91c06")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a66e1ae4-d155-4794-a3bc-31088fdb57e7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/f103b293-865d-43eb-aef1-9ccc3ee5edae")
 		(sheetname "/")
@@ -24853,6 +28532,84 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.5"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0f95bcd3-3f6b-4006-917b-3eb17e05a82b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "mouser" "187-CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "41ba2b87-ad6c-4d5d-872f-2f1baac46a05")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser Part Number" "187-CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d102872e-54a6-438d-ba27-9a61dbc7f399")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6a01542b-277d-4c16-8c57-288805125401")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Name" "Samsung Electro-Mechanics"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fdcf00ee-6cb5-4094-867a-9ed1dc2fe485")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer_Part_Number" "CL05B104KB5NNWC"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1b3be162-1db8-40bd-8e4d-fa0029c17060")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -27085,7 +30842,7 @@
 			(justify right bottom mirror)
 		)
 	)
-	(gr_text "SCK\nMISO\nMOSI\nCS\nVCC\nGND"
+	(gr_text "GND\nVCC\nCS\nMOSI\nMISO\nSCK"
 		(at 90.33 177.03 90)
 		(layer "B.SilkS" knockout)
 		(uuid "faebc6bf-5b87-4ee0-917c-e1263fe128f6")
